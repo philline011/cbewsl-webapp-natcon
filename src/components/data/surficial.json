@@ -1,0 +1,807 @@
+[
+  {
+    "marker_id": 90,
+    "marker_name": "A",
+    "name": "A",
+    "in_use": 1,
+    "marker_history": [
+      {
+        "ts": "2017-07-02 07:30:00",
+        "event": "add",
+        "history_id": 90,
+        "marker_name": {
+          "name_id": 90,
+          "marker_name": "A"
+        },
+        "remarks": null
+      }
+    ],
+    "data": [
+      {
+        "x": 1654556400000,
+        "y": 75.7,
+        "data_id": 278108,
+        "mo_id": 71714,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1654815600000,
+        "y": 75.7,
+        "data_id": 278206,
+        "mo_id": 71745,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1655161200000,
+        "y": 75.8,
+        "data_id": 278309,
+        "mo_id": 71773,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1655420400000,
+        "y": 75.7,
+        "data_id": 278404,
+        "mo_id": 71798,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1655766000000,
+        "y": 75.7,
+        "data_id": 278521,
+        "mo_id": 71828,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1656025200000,
+        "y": 75.7,
+        "data_id": 278651,
+        "mo_id": 71859,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1657839600000,
+        "y": 75.6,
+        "data_id": 281752,
+        "mo_id": 72069,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1658185200000,
+        "y": 75.7,
+        "data_id": 282243,
+        "mo_id": 72096,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1658444400000,
+        "y": 75.7,
+        "data_id": 282403,
+        "mo_id": 72142,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1658790000000,
+        "y": 75.7,
+        "data_id": 282489,
+        "mo_id": 72163,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1659049200000,
+        "y": 75.7,
+        "data_id": 283094,
+        "mo_id": 72216,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1659394800000,
+        "y": 75.8,
+        "data_id": 283529,
+        "mo_id": 72339,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1659654000000,
+        "y": 75.5,
+        "data_id": 284000,
+        "mo_id": 72368,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1659999600000,
+        "y": 75.4,
+        "data_id": 284137,
+        "mo_id": 72406,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1660258800000,
+        "y": 75.4,
+        "data_id": 284505,
+        "mo_id": 72449,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1660604400000,
+        "y": 75.5,
+        "data_id": 284972,
+        "mo_id": 72474,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1660863600000,
+        "y": 75.6,
+        "data_id": 285471,
+        "mo_id": 72511,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1661209200000,
+        "y": 75.4,
+        "data_id": 285739,
+        "mo_id": 72535,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1661468400000,
+        "y": 75.4,
+        "data_id": 286441,
+        "mo_id": 72635,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1661814000000,
+        "y": 75.4,
+        "data_id": 286986,
+        "mo_id": 72684,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1662073200000,
+        "y": 75.4,
+        "data_id": 287413,
+        "mo_id": 72694,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1662418800000,
+        "y": 75.4,
+        "data_id": 287937,
+        "mo_id": 72732,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      }
+    ]
+  },
+  {
+    "marker_id": 92,
+    "marker_name": "B",
+    "name": "B",
+    "in_use": 1,
+    "marker_history": [
+      {
+        "ts": "2017-07-02 07:30:00",
+        "event": "add",
+        "history_id": 92,
+        "marker_name": {
+          "name_id": 92,
+          "marker_name": "B"
+        },
+        "remarks": null
+      }
+    ],
+    "data": [
+      {
+        "x": 1654556400000,
+        "y": 90.6,
+        "data_id": 278110,
+        "mo_id": 71714,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1654815600000,
+        "y": 90.7,
+        "data_id": 278208,
+        "mo_id": 71745,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1655161200000,
+        "y": 90.7,
+        "data_id": 278311,
+        "mo_id": 71773,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1655420400000,
+        "y": 90.7,
+        "data_id": 278406,
+        "mo_id": 71798,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1655766000000,
+        "y": 90.7,
+        "data_id": 278523,
+        "mo_id": 71828,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1656025200000,
+        "y": 90.6,
+        "data_id": 278653,
+        "mo_id": 71859,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1657839600000,
+        "y": 90.6,
+        "data_id": 281754,
+        "mo_id": 72069,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1658185200000,
+        "y": 90.6,
+        "data_id": 282245,
+        "mo_id": 72096,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1658444400000,
+        "y": 90.7,
+        "data_id": 282405,
+        "mo_id": 72142,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1658790000000,
+        "y": 90.7,
+        "data_id": 282491,
+        "mo_id": 72163,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1659049200000,
+        "y": 90.7,
+        "data_id": 283096,
+        "mo_id": 72216,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1659394800000,
+        "y": 90.8,
+        "data_id": 283531,
+        "mo_id": 72339,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1659654000000,
+        "y": 90.6,
+        "data_id": 284002,
+        "mo_id": 72368,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1659999600000,
+        "y": 90.7,
+        "data_id": 284139,
+        "mo_id": 72406,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1660258800000,
+        "y": 90.7,
+        "data_id": 284507,
+        "mo_id": 72449,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1660604400000,
+        "y": 90.6,
+        "data_id": 284974,
+        "mo_id": 72474,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1660863600000,
+        "y": 90.8,
+        "data_id": 285473,
+        "mo_id": 72511,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1661209200000,
+        "y": 90.9,
+        "data_id": 285741,
+        "mo_id": 72535,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1661468400000,
+        "y": 90.9,
+        "data_id": 286443,
+        "mo_id": 72635,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1661814000000,
+        "y": 90.9,
+        "data_id": 286988,
+        "mo_id": 72684,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1662073200000,
+        "y": 90.7,
+        "data_id": 287415,
+        "mo_id": 72694,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1662418800000,
+        "y": 91.0,
+        "data_id": 287939,
+        "mo_id": 72732,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      }
+    ]
+  },
+  {
+    "marker_id": 91,
+    "marker_name": "C",
+    "name": "C",
+    "in_use": 1,
+    "marker_history": [
+      {
+        "ts": "2022-03-10 16:00:00",
+        "event": "reposition",
+        "history_id": 438,
+        "marker_name": null,
+        "remarks": "Repositioned by the field personnel (Johann & Edch) together with LEWC during their fieldwork"
+      },
+      {
+        "ts": "2019-03-20 11:00:00",
+        "event": "reposition",
+        "history_id": 298,
+        "marker_name": null,
+        "remarks": "Nawala yung bakal., Reported by: Kagawad Donna, (Dynaslope staff: Roy and Momay)"
+      },
+      {
+        "ts": "2017-07-02 07:30:00",
+        "event": "add",
+        "history_id": 91,
+        "marker_name": {
+          "name_id": 91,
+          "marker_name": "C"
+        },
+        "remarks": null
+      }
+    ],
+    "data": [
+      {
+        "x": 1654556400000,
+        "y": 58.1,
+        "data_id": 278109,
+        "mo_id": 71714,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1654815600000,
+        "y": 58.1,
+        "data_id": 278207,
+        "mo_id": 71745,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1655161200000,
+        "y": 58.2,
+        "data_id": 278310,
+        "mo_id": 71773,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1655420400000,
+        "y": 58.2,
+        "data_id": 278405,
+        "mo_id": 71798,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1655766000000,
+        "y": 58.0,
+        "data_id": 278522,
+        "mo_id": 71828,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1656025200000,
+        "y": 58.0,
+        "data_id": 278652,
+        "mo_id": 71859,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1657839600000,
+        "y": 57.8,
+        "data_id": 281753,
+        "mo_id": 72069,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1658185200000,
+        "y": 57.8,
+        "data_id": 282244,
+        "mo_id": 72096,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1658444400000,
+        "y": 57.8,
+        "data_id": 282404,
+        "mo_id": 72142,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1658790000000,
+        "y": 57.8,
+        "data_id": 282490,
+        "mo_id": 72163,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1659049200000,
+        "y": 57.8,
+        "data_id": 283095,
+        "mo_id": 72216,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1659394800000,
+        "y": 57.8,
+        "data_id": 283530,
+        "mo_id": 72339,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1659654000000,
+        "y": 57.8,
+        "data_id": 284001,
+        "mo_id": 72368,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1659999600000,
+        "y": 57.8,
+        "data_id": 284138,
+        "mo_id": 72406,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1660258800000,
+        "y": 57.8,
+        "data_id": 284506,
+        "mo_id": 72449,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1660604400000,
+        "y": 57.8,
+        "data_id": 284973,
+        "mo_id": 72474,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1660863600000,
+        "y": 57.6,
+        "data_id": 285472,
+        "mo_id": 72511,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1661209200000,
+        "y": 57.4,
+        "data_id": 285740,
+        "mo_id": 72535,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1661468400000,
+        "y": 57.4,
+        "data_id": 286442,
+        "mo_id": 72635,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1661814000000,
+        "y": 57.4,
+        "data_id": 286987,
+        "mo_id": 72684,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1662073200000,
+        "y": 57.5,
+        "data_id": 287414,
+        "mo_id": 72694,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1662418800000,
+        "y": 57.5,
+        "data_id": 287938,
+        "mo_id": 72732,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      }
+    ]
+  },
+  {
+    "marker_id": 93,
+    "marker_name": "D",
+    "name": "D",
+    "in_use": 1,
+    "marker_history": [
+      {
+        "ts": "2019-05-01 17:30:00",
+        "event": "reposition",
+        "history_id": 299,
+        "marker_name": null,
+        "remarks": "Nahugot raw ang marker. Ibabalik sa dating sukat, Reported by: Kagawad Donna, (Dynaslope staff: Cath and Momay)"
+      },
+      {
+        "ts": "2017-07-02 07:30:00",
+        "event": "add",
+        "history_id": 93,
+        "marker_name": {
+          "name_id": 93,
+          "marker_name": "D"
+        },
+        "remarks": null
+      }
+    ],
+    "data": [
+      {
+        "x": 1654556400000,
+        "y": 59.4,
+        "data_id": 278111,
+        "mo_id": 71714,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1654815600000,
+        "y": 59.4,
+        "data_id": 278209,
+        "mo_id": 71745,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1655161200000,
+        "y": 59.5,
+        "data_id": 278312,
+        "mo_id": 71773,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1655420400000,
+        "y": 59.5,
+        "data_id": 278407,
+        "mo_id": 71798,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1655766000000,
+        "y": 59.4,
+        "data_id": 278524,
+        "mo_id": 71828,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1656025200000,
+        "y": 59.4,
+        "data_id": 278654,
+        "mo_id": 71859,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1657839600000,
+        "y": 59.4,
+        "data_id": 281755,
+        "mo_id": 72069,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1658185200000,
+        "y": 59.4,
+        "data_id": 282246,
+        "mo_id": 72096,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1658444400000,
+        "y": 59.4,
+        "data_id": 282406,
+        "mo_id": 72142,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1658790000000,
+        "y": 59.4,
+        "data_id": 282492,
+        "mo_id": 72163,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1659049200000,
+        "y": 59.4,
+        "data_id": 283097,
+        "mo_id": 72216,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1659394800000,
+        "y": 59.4,
+        "data_id": 283532,
+        "mo_id": 72339,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1659654000000,
+        "y": 59.4,
+        "data_id": 284003,
+        "mo_id": 72368,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1659999600000,
+        "y": 59.4,
+        "data_id": 284140,
+        "mo_id": 72406,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1660258800000,
+        "y": 59.4,
+        "data_id": 284508,
+        "mo_id": 72449,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1660604400000,
+        "y": 59.3,
+        "data_id": 284975,
+        "mo_id": 72474,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1660863600000,
+        "y": 59.4,
+        "data_id": 285474,
+        "mo_id": 72511,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1661209200000,
+        "y": 59.4,
+        "data_id": 285742,
+        "mo_id": 72535,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1661468400000,
+        "y": 59.4,
+        "data_id": 286444,
+        "mo_id": 72635,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1661814000000,
+        "y": 59.4,
+        "data_id": 286989,
+        "mo_id": 72684,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      },
+      {
+        "x": 1662073200000,
+        "y": 59.5,
+        "data_id": 287416,
+        "mo_id": 72694,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA SHINYPEARLTALHA "
+      },
+      {
+        "x": 1662418800000,
+        "y": 59.4,
+        "data_id": 287940,
+        "mo_id": 72732,
+        "unreliable_data": {},
+        "observer_name": "GENERITACABAYA NERICAPIO "
+      }
+    ]
+  }
+]

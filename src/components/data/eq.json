@@ -1,0 +1,432 @@
+{
+    "eqEvents": [
+        {
+            "issuer": "JDG",
+            "longitude": "124.3648480000",
+            "processed": 0,
+            "depth": "2.0000000000",
+            "ts": "2021-11-19 13:42:00",
+            "province": "Biliran",
+            "latitude": "11.6373060000",
+            "critical_distance": null,
+            "eq_id": 3464369,
+            "magnitude": "2.2000000000",
+            "eq_alerts": []
+        },
+        {
+            "issuer": "PHIV",
+            "longitude": "124.4100000000",
+            "processed": 1,
+            "depth": "87.0000000000",
+            "ts": "2021-10-18 09:07:00",
+            "province": "Leyte",
+            "latitude": "11.3600000000",
+            "critical_distance": null,
+            "eq_id": 3459616,
+            "magnitude": "2.5000000000",
+            "eq_alerts": []
+        },
+        {
+            "issuer": "PHIV",
+            "longitude": "125.0900000000",
+            "processed": 1,
+            "depth": "1.0000000000",
+            "ts": "2021-10-17 23:50:00",
+            "province": "Southern Leyte",
+            "latitude": "10.3200000000",
+            "critical_distance": null,
+            "eq_id": 3454623,
+            "magnitude": "2.2000000000",
+            "eq_alerts": []
+        },
+        {
+            "issuer": "PHIV",
+            "longitude": "125.1900000000",
+            "processed": 1,
+            "depth": "1.0000000000",
+            "ts": "2021-10-17 07:20:00",
+            "province": "Southern Leyte",
+            "latitude": "10.2800000000",
+            "critical_distance": null,
+            "eq_id": 3449296,
+            "magnitude": "3.6000000000",
+            "eq_alerts": []
+        },
+        {
+            "issuer": "PHIV",
+            "longitude": "125.2000000000",
+            "processed": 1,
+            "depth": "1.0000000000",
+            "ts": "2021-10-17 07:20:00",
+            "province": "Southern Leyte",
+            "latitude": "10.3200000000",
+            "critical_distance": null,
+            "eq_id": 3448066,
+            "magnitude": "3.5000000000",
+            "eq_alerts": []
+        },
+        {
+            "issuer": "PHIV",
+            "longitude": "125.5000000000",
+            "processed": 1,
+            "depth": "47.0000000000",
+            "ts": "2021-10-16 19:37:00",
+            "province": "Eastern Samar",
+            "latitude": "11.5100000000",
+            "critical_distance": null,
+            "eq_id": 3443222,
+            "magnitude": "2.1000000000",
+            "eq_alerts": []
+        },
+        {
+            "issuer": "PHIV",
+            "longitude": "124.1500000000",
+            "processed": 1,
+            "depth": "1.0000000000",
+            "ts": "2021-10-16 18:44:00",
+            "province": "Masbate",
+            "latitude": "11.8800000000",
+            "critical_distance": null,
+            "eq_id": 3442920,
+            "magnitude": "2.7000000000",
+            "eq_alerts": []
+        },
+        {
+            "issuer": "PHIV",
+            "longitude": "124.2100000000",
+            "processed": 1,
+            "depth": "1.0000000000",
+            "ts": "2021-10-16 11:29:00",
+            "province": "Samar",
+            "latitude": "11.8300000000",
+            "critical_distance": null,
+            "eq_id": 3449298,
+            "magnitude": "2.5000000000",
+            "eq_alerts": []
+        },
+        {
+            "issuer": "PHIV",
+            "longitude": "123.9600000000",
+            "processed": 1,
+            "depth": "1.0000000000",
+            "ts": "2021-10-16 11:28:00",
+            "province": "Masbate",
+            "latitude": "11.9400000000",
+            "critical_distance": null,
+            "eq_id": 3439990,
+            "magnitude": "2.5000000000",
+            "eq_alerts": []
+        },
+        {
+            "issuer": "PHIV",
+            "longitude": "125.7600000000",
+            "processed": 1,
+            "depth": "14.0000000000",
+            "ts": "2021-10-16 11:25:00",
+            "province": "Eastern Samar",
+            "latitude": "11.1500000000",
+            "critical_distance": null,
+            "eq_id": 3449299,
+            "magnitude": "1.9000000000",
+            "eq_alerts": []
+        },
+        {
+            "issuer": "PHIV",
+            "longitude": "125.8000000000",
+            "processed": 1,
+            "depth": "17.0000000000",
+            "ts": "2021-10-16 11:25:00",
+            "province": "Eastern Samar",
+            "latitude": "11.1400000000",
+            "critical_distance": null,
+            "eq_id": 3439991,
+            "magnitude": "1.9000000000",
+            "eq_alerts": []
+        },
+        {
+            "issuer": "PHIV",
+            "longitude": "125.6000000000",
+            "processed": 1,
+            "depth": "13.0000000000",
+            "ts": "2021-10-15 22:31:00",
+            "province": "Eastern Samar",
+            "latitude": "11.0200000000",
+            "critical_distance": null,
+            "eq_id": 3434069,
+            "magnitude": "2.5000000000",
+            "eq_alerts": []
+        },
+        {
+            "issuer": "PHIV",
+            "longitude": "125.6000000000",
+            "processed": 1,
+            "depth": "15.0000000000",
+            "ts": "2021-10-15 22:31:00",
+            "province": "Eastern Samar",
+            "latitude": "11.0200000000",
+            "critical_distance": null,
+            "eq_id": 3444509,
+            "magnitude": "2.5000000000",
+            "eq_alerts": []
+        },
+        {
+            "issuer": "PHIV",
+            "longitude": "125.3400000000",
+            "processed": 1,
+            "depth": "31.0000000000",
+            "ts": "2021-10-15 20:26:00",
+            "province": "Southern Leyte",
+            "latitude": "10.0600000000",
+            "critical_distance": null,
+            "eq_id": 3433031,
+            "magnitude": "1.8000000000",
+            "eq_alerts": []
+        },
+        {
+            "issuer": "PHIV",
+            "longitude": "125.1600000000",
+            "processed": 1,
+            "depth": "1.0000000000",
+            "ts": "2021-10-15 19:04:00",
+            "province": "Southern Leyte",
+            "latitude": "10.1700000000",
+            "critical_distance": null,
+            "eq_id": 3432342,
+            "magnitude": "2.3000000000",
+            "eq_alerts": []
+        },
+        {
+            "issuer": "PHIV",
+            "longitude": "123.7600000000",
+            "processed": 1,
+            "depth": "27.0000000000",
+            "ts": "2021-10-15 03:08:00",
+            "province": "Masbate",
+            "latitude": "12.4000000000",
+            "critical_distance": null,
+            "eq_id": 3423927,
+            "magnitude": "3.6000000000",
+            "eq_alerts": []
+        },
+        {
+            "issuer": "PHIV",
+            "longitude": "123.8000000000",
+            "processed": 1,
+            "depth": "15.0000000000",
+            "ts": "2021-10-15 03:08:00",
+            "province": "Masbate",
+            "latitude": "12.3100000000",
+            "critical_distance": null,
+            "eq_id": 3436034,
+            "magnitude": "3.6000000000",
+            "eq_alerts": []
+        },
+        {
+            "issuer": "PHIV",
+            "longitude": "123.5400000000",
+            "processed": 1,
+            "depth": "7.0000000000",
+            "ts": "2021-10-15 01:55:00",
+            "province": "Masbate",
+            "latitude": "12.5000000000",
+            "critical_distance": null,
+            "eq_id": 3435651,
+            "magnitude": "2.4000000000",
+            "eq_alerts": []
+        },
+        {
+            "issuer": "PHIV",
+            "longitude": "123.5600000000",
+            "processed": 1,
+            "depth": "1.0000000000",
+            "ts": "2021-10-15 01:55:00",
+            "province": "Masbate",
+            "latitude": "12.4900000000",
+            "critical_distance": null,
+            "eq_id": 3423264,
+            "magnitude": "2.4000000000",
+            "eq_alerts": []
+        },
+        {
+            "issuer": "PHIV",
+            "longitude": "124.4600000000",
+            "processed": 1,
+            "depth": "1.0000000000",
+            "ts": "2021-10-14 23:57:00",
+            "province": "Leyte",
+            "latitude": "11.0900000000",
+            "critical_distance": null,
+            "eq_id": 3422523,
+            "magnitude": "2.0000000000",
+            "eq_alerts": []
+        },
+        {
+            "issuer": "PHIV",
+            "longitude": "125.1700000000",
+            "processed": 1,
+            "depth": "29.0000000000",
+            "ts": "2021-10-14 23:15:00",
+            "province": "Southern Leyte",
+            "latitude": "10.2200000000",
+            "critical_distance": null,
+            "eq_id": 3422252,
+            "magnitude": "2.0000000000",
+            "eq_alerts": []
+        },
+        {
+            "issuer": "PHIV",
+            "longitude": "125.1300000000",
+            "processed": 1,
+            "depth": "1.0000000000",
+            "ts": "2021-10-14 22:01:00",
+            "province": "Southern Leyte",
+            "latitude": "10.3000000000",
+            "critical_distance": null,
+            "eq_id": 3421926,
+            "magnitude": "2.7000000000",
+            "eq_alerts": []
+        }
+    ],
+    "eqAlerts": [
+        {
+            "issuer": "TOPSSOFTWAREINFRA",
+            "longitude": "123.9488000000",
+            "processed": 1,
+            "depth": "0.0000000000",
+            "ts": "2022-06-15 10:49:19",
+            "province": "Bohol",
+            "latitude": "9.8885590000",
+            "critical_distance": "1.5500000000",
+            "eq_id": 3464370,
+            "magnitude": "4.3000000000",
+            "eq_alerts": [
+                {
+                    "ea_id": 322,
+                    "site_id": 3,
+                    "distance": "0.0000000000",
+                    "site": {
+                        "sitio": "Pangas",
+                        "municipality": "Calape",
+                        "barangay": "Banlasan",
+                        "purok": "6",
+                        "province": "Bohol",
+                        "site_code": "ban"
+                    }
+                }
+            ]
+        },
+        {
+            "issuer": "TOPSSOFTWAREINFRA",
+            "longitude": "123.9488000000",
+            "processed": 1,
+            "depth": "0.0000000000",
+            "ts": "2021-11-19 14:20:35",
+            "province": "Bohol",
+            "latitude": "9.8885590000",
+            "critical_distance": "1.5500000000",
+            "eq_id": 3464368,
+            "magnitude": "4.3000000000",
+            "eq_alerts": [
+                {
+                    "ea_id": 321,
+                    "site_id": 3,
+                    "distance": "0.0000000000",
+                    "site": {
+                        "sitio": "Pangas",
+                        "municipality": "Calape",
+                        "barangay": "Banlasan",
+                        "purok": "6",
+                        "province": "Bohol",
+                        "site_code": "ban"
+                    }
+                }
+            ]
+        },
+        {
+            "issuer": "TOPSSOFTWAREINFRA",
+            "longitude": "122.8313000000",
+            "processed": 1,
+            "depth": "0.0000000000",
+            "ts": "2021-11-05 16:01:35",
+            "province": "Capiz",
+            "latitude": "11.2808200000",
+            "critical_distance": "1.5500000000",
+            "eq_id": 3464367,
+            "magnitude": "4.3000000000",
+            "eq_alerts": [
+                {
+                    "ea_id": 320,
+                    "site_id": 1,
+                    "distance": "0.0000000000",
+                    "site": {
+                        "sitio": null,
+                        "municipality": "Dumarao",
+                        "barangay": "Agbatuan",
+                        "purok": null,
+                        "province": "Capiz",
+                        "site_code": "agb"
+                    }
+                }
+            ]
+        },
+        {
+            "issuer": "PHIV",
+            "longitude": "126.1800000000",
+            "processed": 1,
+            "depth": "38.0000000000",
+            "ts": "2021-08-15 01:02:00",
+            "province": "Surigao Del Sur",
+            "latitude": "8.9900000000",
+            "critical_distance": "4.8420000000",
+            "eq_id": 3026063,
+            "magnitude": "4.0000000000",
+            "eq_alerts": [
+                {
+                    "ea_id": 319,
+                    "site_id": 13,
+                    "distance": "2.6170000000",
+                    "site": {
+                        "sitio": null,
+                        "municipality": "Tago",
+                        "barangay": "Gamut",
+                        "purok": null,
+                        "province": "Surigao del Sur",
+                        "site_code": "gam"
+                    }
+                }
+            ]
+        },
+        {
+            "issuer": "dyna",
+            "longitude": "126.4500000000",
+            "processed": 1,
+            "depth": "7.0000000000",
+            "ts": "2021-08-14 03:00:00",
+            "province": "Davao Oriental",
+            "latitude": "7.0900000000",
+            "critical_distance": "23.0320000000",
+            "eq_id": 3005481,
+            "magnitude": "5.2000000000",
+            "eq_alerts": [
+                {
+                    "ea_id": 318,
+                    "site_id": 11,
+                    "distance": "5.2620000000",
+                    "site": {
+                        "sitio": "Sagasa",
+                        "municipality": "Tarragona",
+                        "barangay": "Dadong",
+                        "purok": null,
+                        "province": "Davao Oriental",
+                        "site_code": "dad"
+                    }
+                }
+            ]
+        }
+    ],
+    "eqAlertsPagination": {
+        "limit": 5,
+        "offset": 0,
+        "count": 65
+    }
+}
