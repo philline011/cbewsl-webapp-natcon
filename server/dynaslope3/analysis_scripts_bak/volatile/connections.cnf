@@ -1,0 +1,38 @@
+[local]
+host = 127.0.0.1
+port = 3306
+user = david
+password = J0hnd@v!d1234
+schema = analysis_db
+
+
+[gsm_pi]
+host = 127.0.0.1
+port = 3306
+user = david
+password = J0hnd@v!d1234
+schema = comms_db
+
+
+[analysis]
+host = 127.0.0.1
+port = 3306
+user = david
+password = J0hnd@v!d1234
+schema = analysis_db
+
+
+[website]
+host = 127.0.0.1
+port = 3306
+user = david
+password = J0hnd@v!d1234
+schema = ewi_db
+
+
+[common]
+host = 127.0.0.1
+port = 3306
+user = david
+password = J0hnd@v!d1234
+schema = commons_db

@@ -1,0 +1,38 @@
+[local]
+host = 192.168.150.132
+port = 3306
+user = swatsrs
+password = dynaslope
+schema = analysis_db
+
+
+[gsm_pi]
+host = 192.168.150.132
+port = 3306
+user = swatsrs
+password = dynaslope
+schema = comms_db
+
+
+[analysis]
+host = 192.168.150.132
+port = 3306
+user = swatsrs
+password = dynaslope
+schema = analysis_db
+
+
+[website]
+host = 192.168.150.132
+port = 3306
+user = swatsrs
+password = dynaslope
+schema = ewi_db
+
+
+[common]
+host = 192.168.150.132
+port = 3306
+user = swatsrs
+password = dynaslope
+schema = commons_db

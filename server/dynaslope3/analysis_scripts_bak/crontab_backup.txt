@@ -1,0 +1,47 @@
+PYTHONPATH=/home/analysis-server/updews-pycodes/
+
+@reboot /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/volatile/init.py # new memcache setup script
+*/5 * * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/volatile/init.py # refresh memcache every 5 mins
+0 0 * * * cd ~/updews-pycodes/ && git pull # git pull every midnight
+
+* * * * * /home/analysis-server/miniconda3/bin/python  ~/updews-pycodes/gsm/smsparser.py -tloggers -l5000 -osms_data > ~/logs/smsparser_loggers.txt 2>&1
+* * * * * /home/analysis-server/miniconda3/bin/python  ~/updews-pycodes/gsm/smsparser.py -tusers -l10 -osms_data > ~/logs/smsparser_users.txt 2>&1
+* * * * * /home/analysis-server/miniconda3/bin/python  ~/updews-pycodes/gsm/alertgenexec.py > ~/logs/alertgenexec.txt 2>&1 # execute
+2-59/5 * * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/gsm/alertmessaging.py  -s > ~/logs/alertmessaging.txt 2>&1 # send alert messages
+
+0 0 1 * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/analysis/rainfall/rainfallgauges.py > ~/logs/rainfallgauges.txt 2>&1
+30 0 1 * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/analysis/rainfall/rainfallpriorities.py > ~/logs/rainfallpriorities.txt 2>&1
+10,40 * * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/analysis/rainfall/updaterainnoah.py > ~/logs/updaterainnoah.txt 2>&1
+#5,35 * * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/analysis/loggers/data_presence_loggers.py > ~/logs/datapresence.txt 2>&1
+*/5 * * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/analysis/earthquake/eqevents.py 1 > ~/logs/eqevents.txt 2>&1
+*/5 * * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/analysis/earthquake/phiv_eqevents.py > ~/logs/phiv_eqevents.txt 2>&1
+
+*/5 * * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/analysis/surficial/invalid_surficial_and_lt_handler.py > ~/logs/invalid_surficial_and_lt_handl                                    er.txt 2>&1
+*/5 * * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/analysis/surficial/recalcmarkeralerts.py > ~/logs/recalcsurf.txt 2>&1
+11,15,19,41,45,49 * * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/analysis/rainfall/rainfall.py > ~/logs/rainfall_analysis.txt 2>&1
+2-59/5 * * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/analysis/gsmalerts.py > ~/logs/gsmalerts.txt 2>&1
+*/10 * * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/analysis/earthquake/eqalert.py > ~/logs/eqalert.txt 2>&1
+
+30 7,19 * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/google/shiftsync.py 2>&1 # event monitoring schedule updating
+0 8,20 * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/google/shiftreminder.py 2>&1 # monitoring schedule reminder
+30 1,5,9,13,17,21 * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/ops/checksent/textnotif.py > ~/logs/checkqueued.txt 2>&1
+2 0,4,8,12,16,20 * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/ops/checksent/textnotif.py > ~/logs/checksent.txt 2>&1
+0 7,11,15,19 * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/ops/checksent/textnotif.py > ~/logs/checkgndmeas.txt 2>&1
+
+0 0 * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/google/olivia_receive_message.py #check chat commands > ~/logs/olivia_receive_message.txt 2>&1
+0,30 * * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/google/olivia_watchdog.py #check if olivia_receive_message is running
+*/2 * * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/google/olivia_hangouts.py #check alert to be validated > ~/logs/olivia_hangouts.txt 2>&1
+0 9,21 * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/google/olivia_hangouts.py eval
+0 8,20 * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/google/olivia_hangouts.py behavioral
+30 8,20 * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/google/olivia_hangouts.py start #send alert summary
+0 10 * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/google/olivia_hangouts.py healthdec
+0 */4 * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/google/olivia_hangouts.py plotcolpos
+2 0,4,8,12,16,20 * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/google/ops_olivia.py
+15 1,5,9,13,17,21 * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/google/ops_olivia.py
+
+0 * * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/analysis/outputcleanup.py
+25,45 * * * * /home/analysis-server/miniconda3/bin/python ~/updews-pycodes/analysis/uptime.py
+
+# Send PublicAlertRefDB.json to x.72 and x.80
+#*/2 * * * * scp -P 1080 ~/Documents/monitoringoutput/PublicAlertRefDB.json ubuntu@192.168.150.72:/var/www/html/temp/data/
+#*/2 * * * * scp -P 1088 ~/Documents/monitoringoutput/PublicAlertRefDB.json ubuntu@192.168.150.80:/var/www/html/temp/data/
