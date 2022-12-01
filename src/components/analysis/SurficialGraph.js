@@ -35,7 +35,7 @@ import {
 } from '@material-ui/pickers';
 import SurficialTrendingGraphs from '../utils/SurficialTrendingGraph';
 // import { SlideTransition, FadeTransition } from "../utils/TransitionList";
-import PromptModal from '../lipata/modals/PromptModal';
+import PromptModal from '../umingan/modals/PromptModal';
 
 // import { getSurficialPlotData, deleteSurficialData, updateSurficialData, saveChartSVG } from "../ajax";
 // import { computeForStartTs } from "../../../UtilityFunctions";
