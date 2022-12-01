@@ -1,5 +1,5 @@
-import React, { Fragment } from "react";
-import { Container, Grid, CardMedia, Typography } from "@material-ui/core";
+import React from "react";
+import { Container, Grid } from "@material-ui/core";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import phivolcs_seal from "../../assets/phivolcs_seal.png";

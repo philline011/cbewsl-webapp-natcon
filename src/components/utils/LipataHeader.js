@@ -12,13 +12,6 @@ import {
 } from '@mui/material';
 import DostSeal from '../../assets/phivolcs_seal.png';
 import DynaslopeSealMini from '../../assets/dynaslope_seal_mini.png';
-import dynaslope_seal from '../../assets/dynaslope_seal.png';
-// import SamarSeal from '../../assets/samar_seal.png';
-// import ParanasSeal from '../../assets/paranas_seal.png';
-// import PdrrmoSeal from '../../assets/pdrrmo_seal.png';
-// import MdrrmoSeal from '../../assets/mdrrmo_seal.png';
-// import BrgySeal from '../../assets/brgy_seal.png';
-// import LewcSeal from '../../assets/lewc_seal.png';
 
 import ilolo_province_seal from '../../assets/iloilo_province_seal.png';
 import leon_municipal_seal from '../../assets/leon_municipal_seal.png';
@@ -46,15 +39,11 @@ const LipataHeader = () => {
         break;
       case 1:
         event.preventDefault();
-        // navigate('/cra');
-        // Open menu
         break;
       case 2:
-        // navigate('/analysis');
         event.preventDefault();
         break;
       case 3:
-        // navigate('/ground_data');
         event.preventDefault();
         break;
       case 4:

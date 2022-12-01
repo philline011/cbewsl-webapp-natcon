@@ -33,14 +33,8 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDateTimePicker,
 } from '@material-ui/pickers';
-import SurficialTrendingGraphs from '../utils/SurficialTrendingGraph';
-// import { SlideTransition, FadeTransition } from "../utils/TransitionList";
-import PromptModal from '../umingan/modals/PromptModal';
+import PromptModal from '../marirong/modals/PromptModal';
 
-// import { getSurficialPlotData, deleteSurficialData, updateSurficialData, saveChartSVG } from "../ajax";
-// import { computeForStartTs } from "../../../UtilityFunctions";
-
-// init the module
 HC_exporting(Highcharts);
 
 const hideTrending = history => e => {
@@ -62,7 +56,6 @@ function UpdateDeleteModal(props) {
   const {is_open, ts, name, measurement, mo_id, data_id} = editModal;
   const {ts: chosen_ts, measurement: chosen_meas} = chosenPoint;
 
-  // const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [is_delete_clicked, setDeleteClick] = useState(false);
   const [delete_quantity, setDeleteQuantity] = useState('one');
   const changeRadioValueFn = x => setDeleteQuantity(x.target.value);
@@ -248,7 +241,6 @@ function UpdateDeleteModal(props) {
   );
 }
 
-// eslint-disable-next-line max-params
 function prepareOptions(
   input,
   data,

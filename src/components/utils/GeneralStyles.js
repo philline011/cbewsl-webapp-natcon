@@ -1,7 +1,5 @@
 const styles = theme => ({
     dynaslopeLogo: {
-        // width: 60,
-        // height: 47.28
         height: 60
     },
     phivolcsLogo: {
