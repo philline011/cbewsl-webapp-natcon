@@ -3,13 +3,11 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  // Link
 } from 'react-router-dom';
 import {SnackbarProvider} from 'notistack';
 
 import ChartRenderingContainer from './components/Chart_rendering/Container';
 import Signin from './components/authentication/Signin';
-import Dashboard from './components/umingan/Dashboard';
 import OpCen from './components/umingan/OpCen';
 import Events from './components/umingan/Events';
 import Communication from './components/umingan/Communication';

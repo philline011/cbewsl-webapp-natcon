@@ -5,7 +5,6 @@ import {useParams } from 'react-router-dom';
 import RainfallGraph from "../analysis/RainfallGraph";
 import SurficialGraph from "../analysis/SurficialGraph";
 import SubsurfaceGraph from "../analysis/SubsurfaceGraph";
-import PageTitle from "../utils/PageTitle";
 
 
 const Container = (props) => {
@@ -55,11 +54,6 @@ const Container = (props) => {
 
     return (
         <Fragment>
-            {/* <div>
-                <PageTitle
-                    title={`Chart Rendering LPA | ${type}`}
-                />
-            </div> */}
             <Typography variant='h6' sx={{ml: 8, mt: 8}}> Rendered {chart_type} for LPA</Typography>
             <Grid item xs={12} md={6} sx={{padding: 8}}>
                 { rainfall_comp }

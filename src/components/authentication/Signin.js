@@ -1,7 +1,5 @@
 import React, {Fragment} from 'react';
 import {Grid, TextField, Typography, Button} from '@mui/material';
-import DostSeal from '../../assets/phivolcs_seal.png';
-import DynaslopeSeal from '../../assets/dynaslope_seal.png';
 import {useNavigate} from 'react-router-dom';
 import {makeStyles} from '@material-ui/core/styles';
 import {Paper, Link, Box} from '@material-ui/core';
