@@ -1,2 +1,6 @@
 node_modules/
+__pycache__/
+*.pyc
+server/
+# *.cpython-37.pyc
 package-lock.json
