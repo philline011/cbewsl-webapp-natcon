@@ -8,7 +8,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 
 
 function PromptModal(props) {
-    const { isOpen, setOpenModal, notifMessage } = props;
+    const { isOpen, setOpenModal, notifMessage, error } = props;
 
     const closeModal = () => {
         setOpenModal(false);
@@ -25,7 +25,7 @@ function PromptModal(props) {
             <DialogTitle id="form-dialog-title">Alert</DialogTitle>
             <DialogContent>
                 <Fragment>
-                    <Alert severity="success">{notifMessage}</Alert>
+                    <Alert severity={(error != undefined && error == true) ? "error" : "success"}>{notifMessage}</Alert>
                 </Fragment>
 
             </DialogContent>

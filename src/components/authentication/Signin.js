@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {
   Dialog, DialogTitle, DialogContent, DialogContentText,
   DialogActions, Button, Typography, TextField, Divider,
@@ -13,6 +13,7 @@ import tile_3 from '../../assets/tile/tile_3.png';
 import tile_4 from '../../assets/tile/tile_4.png';
 import {SignInLogo} from '../../components/utils/SignInLogo';
 import UserProfileModal from '../marirong/modals/UserProfileModal';
+import PromptModal from '../marirong/modals/PromptModal';
 
 const imageDivider = makeStyles(theme => ({
   animated_divider: {
@@ -47,6 +48,24 @@ const Signin = () => {
   const [openModal, setOpenModal] = useState(false);
   const [inputOTPModal, setInputOTPModal] = useState(false)
   const [createAccountModal, setCreateAccountModal] = useState(false)
+  const [openPrompt, setOpenPrompt] = useState(false)
+  const [notifMessage, setNotifMessage] = useState("")
+
+  const [newPassword, setNewPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [passwordMatched, setPasswordMatched] = useState()
+
+  useEffect(() => {
+    checkMatch()
+  }, [newPassword, confirmPassword]);
+
+  const checkMatch = () => {
+    if(confirmPassword != ""){
+      if(newPassword == confirmPassword) setPasswordMatched(true)
+      else setPasswordMatched(false)
+    }
+    else setPasswordMatched(true)
+  }
 
   return (
     <Fragment>
@@ -95,6 +114,8 @@ const Signin = () => {
             <Button color="primary"
               onClick={e => {
                 setOpenModal(false)
+                setOpenPrompt(true)
+                setNotifMessage("OTP successfully sent!")
               }} 
             >
                 Request OTP
@@ -121,48 +142,41 @@ const Signin = () => {
         <DialogContent>
           <TextField
             id="filled-helperText"
+            label="OTP"
             placeholder="XXXX"
-            helperText={
-              <Typography
-                variant="caption"
-                display="block"
-                >
-                OTP
-              </Typography>
-            }
+            helperText="Ask developers for your OTP"
             variant="outlined"
             style={{width: '100%', paddingBottom: 10}}
           />
-
+          
           <TextField
-            id="filled-helperText"
+            // error={passwordMatched ? false : true}
+            // helperText={passwordMatched ? " " : "Password does not match"}
+            id="outlined-required"
             placeholder="XXXX"
-            helperText={
-              <Typography
-                variant="caption"
-                display="block"
-                >
-                New Password
-              </Typography>
-            }
+            type="password"
+            label = "New Password"
             variant="outlined"
             style={{width: '100%', paddingBottom: 10}}
+            onChange={e => {
+              setNewPassword(e.target.value)
+            }}
           />
 
           <TextField
-            id="filled-helperText"
+            error={passwordMatched ? false : true}
+            helperText={passwordMatched ? " " : "Password does not match"}
+            id="outlined-required"
             placeholder="XXXX"
-            helperText={
-              <Typography
-                variant="caption"
-                display="block"
-                >
-                Confirm Password
-              </Typography>
-            }
+            type="password"
+            label="Confirm Password"
             variant="outlined"
             style={{width: '100%'}}
+            onChange={e => {
+              setConfirmPassword(e.target.value)
+            }}
           />
+
         </DialogContent>
         <DialogActions>
           <Button color="primary"
@@ -185,14 +199,21 @@ const Signin = () => {
 
       <UserProfileModal
         isOpen={createAccountModal}
+        setIsOpen={setCreateAccountModal}
+      />
+
+      <PromptModal
+        isOpen={openPrompt}
+        setOpenModal={setOpenPrompt}
+        notifMessage={notifMessage}
       />
 
       <Grid container>
         <Grid
           className={imageDiv.animated_divider}
           item
-          xs={false}
-          sm={3}
+          xs={0}
+          sm={0}
           md={7}>
           <div>
             <img
@@ -312,7 +333,7 @@ const Signin = () => {
                   style={{fontStyle: 'italic', fontSize: 16}}
                   onClick={e => {setCreateAccountModal(true)}}
                 >
-                  No account yet? Register Here!
+                  No account yet? Register here!
                 </Link>
               </Grid>
             </Grid>
