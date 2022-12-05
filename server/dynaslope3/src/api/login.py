@@ -20,6 +20,8 @@ import uuid
 
 from sqlalchemy import func
 from src.utils.extra import var_checker
+import sys
+import traceback
 
 LOGIN_BLUEPRINT = Blueprint("login_blueprint", __name__)
 
@@ -74,8 +76,10 @@ def refresh_access_token():
         "access_token": create_access_token(identity=current_user)
     })
 
-@LOGIN_BLUEPRINT.route("/test_api", methods=["GET"])
+@LOGIN_BLUEPRINT.route("/test_api", methods=["POST"])
 def test_api():
+    user_id = get_jwt_identity()
+    print(user_id)
     return jsonify({
        "data": True
     })
@@ -165,15 +169,14 @@ def __signup_user():
             "password": data['password']
         }
     except Exception as err:
-        print("---------------------")
-        print(err)
         return_obj = {
             "status": False,
-            "message": "Check form data sent to the server",
+            "message": "Account duplicate. Pleae try again.",
             "title": "Error"
         }
         DB.session.rollback()
     finally:
+        DB.session.close()
         return jsonify(return_obj)
         
 @LOGIN_BLUEPRINT.route("/forgot_password", methods=["POST"])
@@ -239,7 +242,7 @@ def __forgot_password():
         #     message='This is a test',
         # )
     except Exception as err:
-        print(err)
+        DB.session.close()
         return_obj = {
             "status": False,
             "title": "Error",
@@ -295,7 +298,6 @@ def __verify_otp():
         else:
             return_obj = {"status": False, "message": "Invalid OTP Code. Please contact your system administrator.", "title": "Invalid OTP Code"}
     except Exception as err:
-        print(err)
         return_obj = {
             "ok": False,
             "title": "Error",
@@ -304,7 +306,7 @@ def __verify_otp():
 
     return jsonify(return_obj)
 
-@LOGIN_BLUEPRINT.route("/login", methods=["POST", "GET"])
+@LOGIN_BLUEPRINT.route("/signin", methods=["POST", "GET"])
 def __login_user():
     """/
     """
@@ -407,6 +409,30 @@ def validate_username():
                 "status": False,
                 "message": "Username already exists."
             }
+        else:
+            return_obj = {
+                "status": True
+            }
+    except:
+        return_obj = {
+            "status": False,
+            "message": "Invalid API Request. Please contact the developer."
+        }
+    finally:
+      return jsonify(return_obj)
+
+@LOGIN_BLUEPRINT.route("/validate_fullname", methods=["POST"])
+def validate_fullname():
+    try:
+        data = request.get_json()
+        full_name_exists = UserAccounts.query.filter(DB.and_(
+            UserAccounts.username == data['username'])).first()
+        if full_name_exists is not None:
+            return_obj = {
+                "status": False,
+                "message": "User already exists."
+            }
+            
         else:
             return_obj = {
                 "status": True
