@@ -14,7 +14,7 @@ import tile_4 from '../../assets/tile/tile_4.png';
 import {SignInLogo} from '../../components/utils/SignInLogo';
 import UserProfileModal from '../marirong/modals/UserProfileModal';
 import PromptModal from '../marirong/modals/PromptModal';
-import {signIn} from '../../apis/UserManagement'
+import {signIn, forgotPassword, verifyOTP} from '../../apis/UserManagement'
 
 const imageDivider = makeStyles(theme => ({
   animated_divider: {
@@ -51,6 +51,7 @@ const Signin = () => {
   const [createAccountModal, setCreateAccountModal] = useState(false)
   
   const [openPrompt, setOpenPrompt] = useState(false)
+  const [promptTitle, setPromptTitle] = useState("")
   const [notifMessage, setNotifMessage] = useState("")
   const [errorPrompt, setErrorPrompt] = useState(false)
 
@@ -60,6 +61,9 @@ const Signin = () => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const [indicator, setIndicator] = useState("")
+  const [otp, setOTP] = useState("")
 
   useEffect(() => {
     checkMatch()
@@ -81,6 +85,8 @@ const Signin = () => {
     signIn(submitData, (response) => {
       console.log(response)
       if(response.status == true){
+
+        localStorage.setItem('credentials', JSON.stringify(response.data))
         window.location = '/opcen';
       }
       else{
@@ -115,11 +121,14 @@ const Signin = () => {
                 display="block"
                 // style={{textAlign: 'center'}}
                 >
-                Username
+                Username or Mobile Number
               </Typography>
             }
             variant="outlined"
             style={{width: '100%'}}
+            onChange={e => {
+              setIndicator(e.target.value)
+            }}
           />
 
           <Link
@@ -137,9 +146,22 @@ const Signin = () => {
         <DialogActions>
             <Button color="primary"
               onClick={e => {
-                setOpenModal(false)
-                setOpenPrompt(true)
-                setNotifMessage("OTP successfully sent!")
+                forgotPassword({indicator: indicator}, (response) => {
+                  console.log(response)
+                  if(response.status == true){
+                    setOpenPrompt(true)
+                    setErrorPrompt(false)
+                    setPromptTitle(response.title)
+                    setNotifMessage(response.message)
+                    setOpenModal(false)
+                  }
+                  else{
+                    setOpenPrompt(true)
+                    setErrorPrompt(true)
+                    setPromptTitle(response.title)
+                    setNotifMessage(response.message)
+                  }
+                })
               }} 
             >
                 Request OTP
@@ -163,7 +185,7 @@ const Signin = () => {
 
       >
         <DialogTitle id="form-dialog-title">Create New Password</DialogTitle>
-        <DialogContent>
+        <DialogContent style={{paddingTop: 10}}>
           <TextField
             id="filled-helperText"
             label="OTP"
@@ -171,6 +193,9 @@ const Signin = () => {
             helperText="Ask developers for your OTP"
             variant="outlined"
             style={{width: '100%', paddingBottom: 10}}
+            onChange={e => {
+              setOTP(e.target.value)
+            }}
           />
           
           <TextField
@@ -204,8 +229,25 @@ const Signin = () => {
         </DialogContent>
         <DialogActions>
           <Button color="primary"
+            disabled={(passwordMatched && confirmPassword != "")? false : true}
             onClick={e => {
-              setInputOTPModal(false)
+              console.log("pinapasa",password)
+              verifyOTP({password: newPassword, otp: otp}, (response) => {
+                console.log(response)
+                if(response.status == true){
+                  setOpenPrompt(true)
+                  setErrorPrompt(false)
+                  setPromptTitle(response.title)
+                  setNotifMessage(response.message)
+                  setInputOTPModal(false)
+                }
+                else{
+                  setOpenPrompt(true)
+                  setErrorPrompt(true)
+                  setPromptTitle(response.title)
+                  setNotifMessage(response.message)
+                }
+              })
             }} 
           >
               Submit
@@ -231,6 +273,7 @@ const Signin = () => {
         error={errorPrompt}
         setOpenModal={setOpenPrompt}
         notifMessage={notifMessage}
+        title={promptTitle}
       />
 
       <Grid container>

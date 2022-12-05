@@ -13,7 +13,7 @@ import Events from './components/marirong/Events';
 import Communication from './components/marirong/Communication';
 import Analysis from './components/marirong/Analysis';
 import Assessment from './components/marirong/Assessment';
-import LipataHeader from './components/utils/LipataHeader';
+import MarirongHeader from './components/utils/MarirongHeader';
 import CRA from './components/marirong/CRA';
 import GroundData from './components/marirong/GroundData';
 import HazardMapping from './components/marirong/HazardMapping';
@@ -32,7 +32,7 @@ const App = props => {
   const Header = () => {
     let location = window.location.pathname;
     if (location !== '/signin' && location !== '/') {
-      return <LipataHeader />;
+      return <MarirongHeader />;
     }
   };
 
@@ -49,31 +49,11 @@ const App = props => {
           <Routes>
             <Route exact path="" element={<Signin />} />
             <Route exact path="/signin" element={<Signin />} />
+            <Route exact path="/feedback" element={<Feedback />} />
             <Route
               path="/lpa/:chart_type"
               element={<ChartRenderingContainer />}
             />
-            <Route exact path="/opcen" element={<OpCen />} />
-            <Route exact path="/events" element={<Events />} />
-            <Route exact path="/communication" element={<Communication />} />
-            <Route exact path="/analysis" element={<Analysis />} />
-            <Route exact path="/assessment" element={<Assessment />} />
-            <Route exact path="/cra" element={<CRA />} />
-            <Route exact path="/ground_data" element={<GroundData />} />
-            <Route exact path="/hazard_mapping" element={<HazardMapping />} />
-            <Route exact path="/cav" element={<CaV />} />
-            <Route exact path="/rainfall" element={<Rainfall />} />
-            <Route exact path="/subsurface" element={<Subsurface />} />
-            <Route exact path="/surficial" element={<Surficial />} />
-            <Route exact path="/earthquake" element={<Earthquake />} />
-            <Route exact path="/resources" element={<Resources />} />
-            <Route exact path="/feedback" element={<Feedback />} />
-            <Route
-              exact
-              path="/surficial_markers"
-              element={<SurficialMarkers />}
-            />
-            <Route exact path="/moms" element={<Moms />} />
             <Route
               path="*"
               element={
@@ -83,6 +63,35 @@ const App = props => {
               }
             />
           </Routes>
+
+          {(localStorage.getItem('credentials') != null) ? 
+            <Routes>
+              <Route exact path="/opcen" element={<OpCen />} /> 
+              <Route exact path="/events" element={<Events />} />
+              <Route exact path="/communication" element={<Communication />} />
+              <Route exact path="/analysis" element={<Analysis />} />
+              <Route exact path="/assessment" element={<Assessment />} />
+              <Route exact path="/cra" element={<CRA />} />
+              <Route exact path="/ground_data" element={<GroundData />} />
+              <Route exact path="/hazard_mapping" element={<HazardMapping />} />
+              <Route exact path="/cav" element={<CaV />} />
+              <Route exact path="/rainfall" element={<Rainfall />} />
+              <Route exact path="/subsurface" element={<Subsurface />} />
+              <Route exact path="/surficial" element={<Surficial />} />
+              <Route exact path="/earthquake" element={<Earthquake />} />
+              <Route exact path="/resources" element={<Resources />} />
+              <Route
+                exact
+                path="/surficial_markers"
+                element={<SurficialMarkers />}
+              />
+              <Route exact path="/moms" element={<Moms />} />
+            </Routes>
+            : 
+            (window.location.pathname != "/" && window.location.pathname != "/signin" && window.location.pathname != "/feedback") &&
+              (window.location = "/")
+            }
+            
         </Router>
       </SnackbarProvider>
     </Fragment>
