@@ -14,6 +14,7 @@ import tile_4 from '../../assets/tile/tile_4.png';
 import {SignInLogo} from '../../components/utils/SignInLogo';
 import UserProfileModal from '../marirong/modals/UserProfileModal';
 import PromptModal from '../marirong/modals/PromptModal';
+import {signIn} from '../../apis/UserManagement'
 
 const imageDivider = makeStyles(theme => ({
   animated_divider: {
@@ -48,12 +49,17 @@ const Signin = () => {
   const [openModal, setOpenModal] = useState(false);
   const [inputOTPModal, setInputOTPModal] = useState(false)
   const [createAccountModal, setCreateAccountModal] = useState(false)
+  
   const [openPrompt, setOpenPrompt] = useState(false)
   const [notifMessage, setNotifMessage] = useState("")
+  const [errorPrompt, setErrorPrompt] = useState(false)
 
   const [newPassword, setNewPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [passwordMatched, setPasswordMatched] = useState()
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     checkMatch()
@@ -65,6 +71,24 @@ const Signin = () => {
       else setPasswordMatched(false)
     }
     else setPasswordMatched(true)
+  }
+
+  const handleLogin = () => {
+    let submitData = {
+      username: username,
+      password: password
+    }
+    signIn(submitData, (response) => {
+      console.log(response)
+      if(response.status == true){
+        window.location = '/opcen';
+      }
+      else{
+        setOpenPrompt(true)
+        setErrorPrompt(true)
+        setNotifMessage(response.message)
+      }
+    })
   }
 
   return (
@@ -204,6 +228,7 @@ const Signin = () => {
 
       <PromptModal
         isOpen={openPrompt}
+        error={errorPrompt}
         setOpenModal={setOpenPrompt}
         notifMessage={notifMessage}
       />
@@ -288,6 +313,9 @@ const Signin = () => {
                 }
                 variant="standard"
                 style={{width: '80%'}}
+                onChange={e => {
+                  setUsername(e.target.value)
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={12}>
@@ -306,13 +334,16 @@ const Signin = () => {
                 }
                 variant="standard"
                 style={{width: '80%'}}
+                onChange={e => {
+                  setPassword(e.target.value)
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={12}>
               <Button
                 variant="contained"
                 onClick={() => {
-                  window.location = '/opcen';
+                  handleLogin();
                 }}>
                 Sign in
               </Button>

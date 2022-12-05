@@ -8,3 +8,11 @@ export const signUp = (data, callback) => {
     
     });
 }
+
+export const signIn = (data, callback) => {
+    axios.post(`${API_URL}/api/signin`, data).then((response) => {
+        callback(response.data)
+    }).catch((error) => {
+    
+    });
+}
