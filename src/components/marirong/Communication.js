@@ -1,6 +1,6 @@
 import React, {Fragment, useEffect, useState} from 'react';
 import {Grid, Button, InputAdornment, TextField} from '@mui/material';
-import LipataHeader from '../utils/LipataHeader';
+import MarirongHeader from '../utils/MarirongHeader';
 import {Box} from '@mui/system';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';

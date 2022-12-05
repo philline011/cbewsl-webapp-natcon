@@ -26,7 +26,7 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import {useNavigate} from 'react-router-dom';
 import moment from 'moment';
 
-const LipataHeader = () => {
+const MarirongHeader = () => {
   let navigate = useNavigate();
   const [value, setValue] = useState(0);
   const [server_time, setServerTime] = useState('');
@@ -253,7 +253,11 @@ const LipataHeader = () => {
                 }}>
                 Feedback
               </MenuItem>
-              <MenuItem onClick={() => (window.location = '/')}>
+              <MenuItem 
+                onClick={() => {
+                  localStorage.removeItem('credentials')
+                  (window.location = '/')
+                }}>
                 Logout
               </MenuItem>
             </Menu>
@@ -435,4 +439,4 @@ const LipataHeader = () => {
   );
 };
 
-export default LipataHeader;
+export default MarirongHeader;

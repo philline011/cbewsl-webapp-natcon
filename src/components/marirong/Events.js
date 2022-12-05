@@ -18,7 +18,7 @@ import {
   TextareaAutosize,
 } from '@mui/material';
 import CircleIcon from '@mui/icons-material/Circle';
-import LipataHeader from '../utils/LipataHeader';
+import MarirongHeader from '../utils/MarirongHeader';
 import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 import AddCircleOutlined from '@mui/icons-material/AddCircleOutlined';
 import EditIcon from '@mui/icons-material/Edit';
