@@ -13,7 +13,7 @@ in initializing Flask App instance
 
 # local
 
-ROOT_HOST = "swatsrs:dynaslope@192.168.150.132"
+ROOT_HOST = "softwareinfra:dynaslope2020@192.168.150.195"
 
 # ASTI Cloud
 # ROOT_HOST = "cbewsl:cb3wsls3rv3r@dynaslope.phivolcs.dost.gov.ph"

@@ -65,8 +65,7 @@ def get_msqldb_connect(dbc):
     except TypeError:
         print ('Error Connection Value')
         return False
-    except MySQLdb.OperationalError:
-        print ('6.',)
+    except MySQLdb.OperationalError as e:
         time.sleep(2)
         return False
     except (MySQLdb.Error, MySQLdb.Warning) as e:
@@ -248,6 +247,7 @@ def read(query='', identifier='', host='local',
     """ 
     ret_val = None
     caller_func = str(inspect.stack()[1][3])
+    print(host)
     db, cur = connect(host=host, connection=connection, 
         resource=resource)
 
