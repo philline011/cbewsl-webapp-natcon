@@ -195,6 +195,9 @@ def create_app(config_name, skip_memcache=False, enable_webdriver=False):
 
     from src.api.usability_testing import USABILITY_TESTING_BLUEPRINT
     app.register_blueprint(USABILITY_TESTING_BLUEPRINT, url_prefix="/api")
+
+    from src.api.household_data import HOUSEHOLD_DATA_BLUEPRINT
+    app.register_blueprint(HOUSEHOLD_DATA_BLUEPRINT, url_prefix="/api")
     
     # from src.api.communications_analytics import COMMUNICATIONS_ANALYTICS_BLUEPRINT
     # app.register_blueprint(
