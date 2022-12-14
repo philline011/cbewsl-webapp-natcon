@@ -52,12 +52,13 @@ def get_pregnant():
         pregnant = DB.engine.execute(preg_query)
         for row in pregnant:
             data.append({
-                "members": row[7],
-                "disability": row[5],
-                "comorbidity": row[6],
+                "members": row[8],
+                "disability": row[6],
+                "comorbidity": row[7],
                 "household_id": row[1],
+                "birthdate": row[4],
                 "gender": row[3],
-                "pregnant": row[4],
+                "pregnant": row[5],
                 "household_head": row[2],
                 "id": row[0]
             })
@@ -82,12 +83,13 @@ def get_comorbidity():
         comorbidity = DB.engine.execute(comorbidity_query)
         for row in comorbidity:
             data.append({
-                "members": row[7],
-                "disability": row[5],
-                "comorbidity": row[6],
+                "members": row[8],
+                "disability": row[6],
+                "comorbidity": row[7],
                 "household_id": row[1],
+                "birthdate": row[4],
                 "gender": row[3],
-                "pregnant": row[4],
+                "pregnant": row[5],
                 "household_head": row[2],
                 "id": row[0]
             })
@@ -112,12 +114,13 @@ def get_disability():
         disability = DB.engine.execute(disability_query)
         for row in disability:
             data.append({
-                "members": row[7],
-                "disability": row[5],
-                "comorbidity": row[6],
+                "members": row[8],
+                "disability": row[6],
+                "comorbidity": row[7],
                 "household_id": row[1],
+                "birthdate": row[4],
                 "gender": row[3],
-                "pregnant": row[4],
+                "pregnant": row[5],
                 "household_head": row[2],
                 "id": row[0]
             })
@@ -180,6 +183,7 @@ def add_household_data():
             household_id=data['household_id'],
             household_head=data['household_head'],
             gender=data['gender'],
+            birthdate=data['birthdate'],
             pregnant=data['pregnant'],
             disability=data['disability'],
             comorbidity=data['comorbidity'],
@@ -190,6 +194,7 @@ def add_household_data():
         return_value = {"status": True, "message": "Successfully added new household!"}
     except Exception as err:
         DB.session.rollback()
+        print(err)
         return_value = {"status": False, "message": "Failed to add household! Household head / id already exist."}
     finally:
         DB.session.close()
@@ -203,6 +208,7 @@ def update_household_data():
         household.household_id = data['household_id']
         household.household_head = data['household_head']
         household.gender = data['gender']
+        household.birthdate = data['birthdate']
         household.pregnant = data['pregnant']
         household.disability = data['disability']
         household.comorbidity = data['comorbidity']

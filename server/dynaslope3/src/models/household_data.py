@@ -11,6 +11,7 @@ class HouseholdData(DB.Model):
     household_id = DB.Column(DB.String(65))
     household_head = DB.Column(DB.String(65))
     gender = DB.Column(DB.String(2))
+    birthdate = DB.Column(DB.Date)
     pregnant = DB.Column(DB.Boolean, default=0)
     disability = DB.Column(DB.String(55))
     comorbidity = DB.Column(DB.String(55))
