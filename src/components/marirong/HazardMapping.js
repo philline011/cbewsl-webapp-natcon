@@ -10,9 +10,13 @@ const HazardMapping = () => {
     const {enqueueSnackbar, closeSnackbar} = useSnackbar();
     
     
-    const handleClick = () => {
+    const handleDownload = () => {
         enqueueSnackbar('Succesfully Downloaded');
     };
+
+    const handleUpload = () => {
+        const formData = new FormData()
+    }
 
     return(
         <Container>
@@ -32,14 +36,26 @@ const HazardMapping = () => {
                 </Grid>
                 <Grid container sx={{mt: 2, mb: 6, padding: '2%'}}>
                     <Grid item xs={12} sm={12} md={12} lg={7}>
-                        <Button variant="contained" sx={{float: 'right', mx: 1}}>
-                            Upload
-                        </Button>
+                        <input
+                            accept="image/*"
+                            style={{ display: 'none' }}
+                            id="raised-button-file"
+                            multiple
+                            type="file"
+                            onChange={e => {
+                                console.log("chosen",e.target.value)
+                            }}
+                        />
+                        <label htmlFor="raised-button-file">
+                            <Button variant="contained" component="span" sx={{float: 'right', mx: 1}}>
+                                Upload
+                            </Button>
+                        </label> 
                         <Button
                             variant="contained"
                             sx={{float: 'right', mx: 1}}
                             onClick={e => {
-                                handleClick()
+                                handleDownload()
                             }}>
                             Download
                         </Button>

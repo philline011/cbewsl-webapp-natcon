@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
-import {Grid, Container, Button, Typography, Modal, Divider, Stack, TextField, InputLabel} from '@mui/material';
+import React, {useState, useEffect} from 'react';
+import {Grid, Container, Button, Typography, Modal, Divider, Stack, TextField, InputLabel,
+  Select, MenuItem, FormControl, Box, Checkbox
+} from '@mui/material';
 import FabMuiTable from '../utils/MuiTable';
-import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -11,9 +12,140 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import moment from 'moment';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import {getAllHouseholds, 
+  getSummary, addHousehold, 
+  editHousehold, deleteHousehold,
+  getPregnant, getComorbid, getDisabled} from '../../apis/CapacityAndVulnerability'
+import PromptModal from './modals/PromptModal';
 
 const CaV = () => {
+
+  const [householdData, setHouseholdData] = useState([])
+  const [vulnerableCount, setVulnerableCount] = useState({
+    pregnant: 0,
+    disabled: 0,
+    comorbid: 0
+  })
+  const [pregnantList, setPregnantList] = useState([])
+  const [disabledList, setDisabledList] = useState([])
+  const [comorbidList, setComorbidList] = useState([])
+  const [listDisplay, setListDisplay] = useState()
+
+  useEffect(() => {
+    fetchAll()
+
+  }, []);
+
+  const fetchAll = () => {
+    let households = []
+    let tempVulnerableCount = {
+      pregnant: 0,
+      disabled: 0,
+      comorbid: 0
+    }
+    let tempPregnantList = []
+    let tempDisabledList = []
+    let tempComorbidList = []
+    
+    getAllHouseholds((response)=>{
+      if(response.status){
+        response.data.map((household) => {
+          households.push({
+            house_hold_no: household.household_id,
+            head: household.household_head,
+            count: household.members.length,
+            birthday: household.birthdate,
+            gender: household.gender,
+            pregnant: household.pregnant,
+            disability: household.disability,
+            comorbidity: household.comorbidity,
+            members: household.members,
+            id: household.id
+          })
+        })
+        setHouseholdData(households)
+      }
+    })
+
+    getSummary((response)=>{
+      if(response.status){
+        tempVulnerableCount.pregnant = response.pregnant_count
+        tempVulnerableCount.disabled = response.disability_count
+        tempVulnerableCount.comorbid = response.comorbidity_count
+        setVulnerableCount(tempVulnerableCount)
+      }
+    })
+
+    getPregnant((response)=>{
+      if(response.status){
+        response.data.map((household) => {
+          let members = JSON.parse(household.members)
+          tempPregnantList.push({
+            house_hold_no: household.household_id,
+            head: household.household_head,
+            count: members.length,
+            birthday: household.birthdate,
+            gender: household.gender,
+            pregnant: household.pregnant,
+            disability: household.disability,
+            comorbidity: household.comorbidity,
+            members: members,
+            id: household.id
+          })
+        })
+        setPregnantList(tempPregnantList)
+      }
+    })
+
+    getDisabled((response)=>{
+      if(response.status){
+        response.data.map((household) => {
+          let members = JSON.parse(household.members)
+          tempDisabledList.push({
+            house_hold_no: household.household_id,
+            head: household.household_head,
+            count: members.length,
+            birthday: household.birthdate,
+            gender: household.gender,
+            pregnant: household.pregnant,
+            disability: household.disability,
+            comorbidity: household.comorbidity,
+            members: members,
+            id: household.id
+          })
+        })
+        setDisabledList(tempDisabledList)
+      }
+    })
+
+    getComorbid((response)=>{
+      if(response.status){
+        response.data.map((household) => {
+          let members = JSON.parse(household.members)
+          tempComorbidList.push({
+            house_hold_no: household.household_id,
+            head: household.household_head,
+            count: members.length,
+            birthday: household.birthdate,
+            gender: household.gender,
+            pregnant: household.pregnant,
+            disability: household.disability,
+            comorbidity: household.comorbidity,
+            members: members,
+            id: household.id
+          })
+        })
+        setComorbidList(tempComorbidList)
+      }
+    })
+
+  }
+
   const columns = [
     {name: 'house_hold_no', label: 'Household #'},
     {name: 'head', label: 'Household Head'},
@@ -32,13 +164,7 @@ const CaV = () => {
       // handleMuiTableBatchDelete(idsToDelete.sort());
     },
   };
-  const dummyData = [
-    {house_hold_no: 1, head: 'Zargon Aleleng', count: 5},
-    {house_hold_no: 2, head: 'Benhur Camacho', count: 3},
-    {house_hold_no: 3, head: 'Mary Jane Tujoyns', count: 5},
-    {house_hold_no: 4, head: 'Ben Taught', count: 6},
-    {house_hold_no: 5, head: 'Gretchen Bubule', count: 8},
-  ];
+
 
   //Dummy dialog and data
   const [open, setOpen] = useState(false);
@@ -47,12 +173,12 @@ const CaV = () => {
   const [openModal, setOpenModal] = useState(false);
   const closeModal = () => setOpenModal(false);
 
-  const [hhNum, setHHNum] = useState();
-  const [hhHead, setHHHead] = useState();
-  const [hhHeadBday, setHHHeadBday] = useState();
-  const [hhHeadGender, setHHHeadGender] = useState();
-  const [hhMembers, setHHMembers] = useState();
-
+  const [openPrompt, setOpenPrompt] = useState(false)
+  const [promptTitle, setPromptTitle] = useState("")
+  const [notifMessage, setNotifMessage] = useState("")
+  const [errorPrompt, setErrorPrompt] = useState(false)
+  const [confirmation, setConfirmation] = useState(false)
+  
   const dummyDialogData = [
     {
       house_hold_no: 1,
@@ -63,8 +189,214 @@ const CaV = () => {
     {house_hold_no: 5, head: 'Gretchen Bubule', count: 1, actions: 'N/A'},
   ];
 
+  const [householdHead, setHouseholdHead] = useState({
+    id: "",
+    name:"",
+    birthday: new Date(),
+    gender: "",
+    pregnant: false,
+    disability: null,
+    comorbidity: null,
+    disabled: false,
+    comorbid: false
+  })
+  const [householdMembers, setHouseholdMembers] = useState([])
+
+  const initialize = () => {
+    setHouseholdHead({
+      id: "",
+      name:"",
+      birthday: new Date(),
+      gender: "",
+      pregnant: false,
+      disability: null,
+      comorbidity: null,
+      disabled: false,
+      comorbid: false
+    })
+    setHouseholdMembers([])
+    setConfirmation(false)
+  }
+
+  const handleAddMember = () => {
+    let tempHouseholdMembers = [...householdMembers]
+    tempHouseholdMembers.push({
+      household_member: "",
+      birthday: new Date(),
+      gender: "",
+      pregnant: false,
+      disability: null,
+      comorbidity: null,
+      disabled: false,
+      comorbid: false
+    })
+    setHouseholdMembers(tempHouseholdMembers)
+  }
+
+  const handleSubmit = () => {
+    let tempMembers = []
+    householdMembers.map((item) => {
+      tempMembers.push({
+        household_member: item.household_member,
+        birthdate: moment(item.birthday).format("YYYY-MM-DD"),
+        gender: item.gender,
+        pregnant: item.pregnant,
+        disability: (item.disabled == true) ? item.disability : null,
+        comorbidity: (item.comorbid == true) ? item.comorbid : null
+      })
+    })
+
+    let submitData = {
+      id: householdHead.primaryID,
+      household_id: householdHead.id,
+      household_head: householdHead.name,
+      birthdate: moment(householdHead.birthday).format("YYYY-MM-DD"),
+      gender: householdHead.gender,
+      pregnant: householdHead.pregnant,
+      disability: (householdHead.disabled == true) ? householdHead.disability : null,
+      comorbidity: (householdHead.comorbid == true) ? householdHead.comorbidity : null,
+      members: tempMembers
+    }
+
+    console.log(submitData)
+
+    if(action=="add"){
+      addHousehold(submitData, (response) => {
+        if(response.status == true){
+          initialize()
+          setOpenModal(false)
+          setOpenPrompt(true)
+          setErrorPrompt(false)
+          setPromptTitle("Success")
+          setNotifMessage(response.message)
+          fetchAll()
+        }
+        else{
+          setOpenPrompt(true)
+          setErrorPrompt(true)
+          setPromptTitle("Fail")
+          setNotifMessage(response.message)
+        }
+      })
+    }
+    else if(action=="edit"){
+      editHousehold(submitData, (response) => {
+        if(response.status == true){
+          initialize()
+          setOpenModal(false)
+          setOpenPrompt(true)
+          setErrorPrompt(false)
+          setPromptTitle("Success")
+          setNotifMessage(response.message)
+          fetchAll()
+        }
+        else{
+          setOpenPrompt(true)
+          setErrorPrompt(true)
+          setPromptTitle("Fail")
+          setNotifMessage(response.message)
+        }
+      })
+    }
+
+  }
+
+  const [action, setAction] = useState('')
+
+  const handleEdit = (response) => {
+    console.log("edit")
+    console.log(response)
+    setAction('edit')
+
+    setHouseholdHead({
+      id: response.house_hold_no,
+      name: response.head,
+      birthday: response.birthday,
+      gender: response.gender,
+      pregnant: response.pregnant,
+      disability: response.disability,
+      comorbidity: response.comorbidity,
+      disabled: response.disability != null ? true : false,
+      comorbid: response.comorbidity != null ? true : false,
+      primaryID: response.id
+    })
+
+    let tempMembers = []
+    response.members.map((item) => {
+      tempMembers.push({
+        household_member: item.household_member,
+        birthdate: moment(item.birthday).format("YYYY-MM-DD"),
+        gender: item.gender,
+        pregnant: item.pregnant,
+        disability: item.disability,
+        comorbidity: item.comorbidity,
+        disabled: item.disability != null ? true : false,
+        comorbid: item.comorbidity != null ? true : false,
+      })
+    })
+    setHouseholdMembers(tempMembers)
+
+    setOpenModal(true)
+  }
+
+  const [deleteID,setDeleteID] = useState(null)
+
+  const confirmDelete = (response) => {
+    setAction("delete")
+    console.log("Confirm",response)
+    setOpenPrompt(true)
+    setErrorPrompt(false)
+    setPromptTitle("Are you sure you want to delete this household?")
+    setNotifMessage("This household information will be deleted immediately.")
+    setConfirmation(true)
+    setDeleteID(response)
+  }
+
+  const handleDelete = () => {
+    console.log(deleteID.id)
+
+    deleteHousehold({id: deleteID.id}, (response) => {
+      if(response.status == true){
+        initialize()
+        setOpenModal(false)
+        setOpenPrompt(true)
+        setErrorPrompt(false)
+        setPromptTitle("Success")
+        setNotifMessage(response.message)
+        fetchAll()
+      }
+      else{
+        setOpenPrompt(true)
+        setErrorPrompt(true)
+        setPromptTitle("Fail")
+        setNotifMessage(response.message)
+        initialize()
+      }
+      console.log(response)
+    })
+  }
+
   return (
     <Container>
+      <PromptModal
+        isOpen={openPrompt}
+        error={errorPrompt}
+        title={promptTitle}
+        setOpenModal={setOpenPrompt}
+        notifMessage={notifMessage}
+        confirmation={confirmation}
+        callback={ (response) => {
+          if(response == true) {
+            if(action=="delete"){
+              handleDelete()
+            }
+          }
+          else if(response == false){
+            // setDeleteID(null)
+          }
+          
+        }}
+      />
       <Grid container spacing={4} sx={{mt: 2, mb: 6, padding: '2%'}}>
         <Grid item xs={12}>
           <Grid container spacing={2}>
@@ -75,9 +407,12 @@ const CaV = () => {
               <FabMuiTable
                 data={{
                   columns: columns,
-                  rows: dummyData,
+                  rows: householdData,
                 }}
-                options={options}
+                onEdit={handleEdit}
+                onDelete={confirmDelete}
+                buttons="update-delete"
+                // options={options}
               />
             </Grid>
           </Grid>
@@ -89,8 +424,9 @@ const CaV = () => {
                   variant="contained"
                   sx={{float: 'right', mx: 1}}
                   onClick={e => {
+
+                      setAction("add")
                       setOpenModal(true);
-                      console.log("hello");
                   }}>
                   Add Household
               </Button>
@@ -114,11 +450,15 @@ const CaV = () => {
                   </Typography>
                   <Typography variant="h5" component="div"></Typography>
                   <Typography variant="body2">
-                    No. of households with pregnant women:
+                    No. of pregnant women: {vulnerableCount.pregnant}
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small" onClick={handleOpen}>
+                  <Button size="small" 
+                    onClick={()=>{
+                      setListDisplay("pregnant")
+                      handleOpen()
+                    }}>
                     View details
                   </Button>
                 </CardActions>
@@ -135,11 +475,15 @@ const CaV = () => {
                   </Typography>
                   <Typography variant="h5" component="div"></Typography>
                   <Typography variant="body2">
-                    No. of households with PWD:
+                    No. of PWDs: {vulnerableCount.disabled}
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small" onClick={handleOpen}>
+                <Button size="small" 
+                    onClick={()=>{
+                      setListDisplay("disabled")
+                      handleOpen()
+                    }}>
                     View details
                   </Button>
                 </CardActions>
@@ -156,11 +500,15 @@ const CaV = () => {
                   </Typography>
                   <Typography variant="h5" component="div"></Typography>
                   <Typography variant="body2">
-                    No. of households with people with comorbidities:
+                    No. of people with comorbidities: {vulnerableCount.comorbid}
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small" onClick={handleOpen}>
+                <Button size="small" 
+                    onClick={()=>{
+                      setListDisplay("comorbid")
+                      handleOpen()
+                    }}>
                     View details
                   </Button>
                 </CardActions>
@@ -179,13 +527,24 @@ const CaV = () => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            List of households with pregnant/PWD/with comorbidities
+
+            List of households with {(listDisplay=="pregnant") ? "pregnant woman" 
+              : (listDisplay=="disabled") ? "PWD/s "
+              : (listDisplay=="comorbid") ? "person/s with comorbidity"
+              : ""}
           </DialogContentText>
           <FabMuiTable
             data={{
-              columns: columns,
-              rows: dummyDialogData,
+              columns: columns,            
+              rows: 
+              (listDisplay=="pregnant") ? pregnantList 
+              : (listDisplay=="disabled") ? disabledList 
+              : (listDisplay=="comorbid") ? comorbidList
+              : [],
             }}
+            onEdit={handleEdit}
+            onDelete={confirmDelete}
+            buttons="update-delete"
           />
         </DialogContent>
         <DialogActions>
@@ -194,81 +553,303 @@ const CaV = () => {
           </Button>
         </DialogActions>
       </Dialog>
-
+      
       <Dialog
-        open={openModal}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description">
-        <DialogContent>
-            <div style={{width:"500px"}}>
-              <Typography
-                id="title"
-                variant="h5"
-                component="h4"
-                marginBottom={2}>
-                Add New Household
-              </Typography>
-              <Divider />
-              <Stack spacing={1} paddingTop={2}>
+          fullWidth
+          fullScreen={false}
+          maxWidth='xs'
+          open={openModal}
+          aria-labelledby="form-dialog-title"
+
+      >
+        <DialogTitle id="form-dialog-title">Add New Household</DialogTitle>
+        <DialogContent style={{paddingTop: 10}}>
+          <TextField
+            id="filled-helperText"
+            label="Household ID"
+            placeholder="####"
+            variant="outlined"
+            style={{width: '100%', paddingBottom: 10}}
+            value={householdHead.id}
+            onChange={e => {
+              let temp = {...householdHead}
+              temp.id = e.target.value
+              setHouseholdHead(temp)
+            }}
+          />
+          <TextField
+            id="filled-helperText"
+            label="Household Head Name"
+            placeholder="Ex. Juan Dela Cruz"
+            variant="outlined"
+            style={{width: '100%', paddingBottom: 10}}
+            value={householdHead.name}
+            onChange={e => {
+              let temp = {...householdHead}
+              temp.name = e.target.value
+              setHouseholdHead(temp)
+            }}
+          />
+          <Box flexDirection={'row'}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Birthday"
+                value={householdHead.birthday}
+                onChange={(e) => {
+                  let temp = {...householdHead}
+                  temp.birthday = moment(new Date(e)).format("YYYY-MM-DD")
+                  setHouseholdHead(temp)
+                }}
+                renderInput={(params) => <TextField style={{width: '49.2%', paddingBottom: 10, marginRight: '1.6%'}} {...params} />}
+              />
+            </LocalizationProvider>
+
+            <FormControl fullWidth style={{width: '49.2%', paddingBottom: 10}}>
+              <InputLabel id="demo-simple-select-label">Gender</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Gender"
+                value={householdHead.gender}
+                onChange={e => {
+                  let temp = {...householdHead}
+                  temp.gender = e.target.value
+                  setHouseholdHead(temp)
+                }}
+              >
+                <MenuItem value={"F"}>Female</MenuItem>
+                <MenuItem value={"M"}>Male</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+          <FormControlLabel
+            control={<Checkbox 
+              checked={householdHead.pregnant}
+              onChange={e => {
+                let temp = {...householdHead}
+                temp.pregnant = e.target.checked
+                setHouseholdHead(temp)
+              }}
+            />} 
+            label="Pregnant"
+            style={{width:'100%'}}
+          />
+          <FormControlLabel
+            control={<Checkbox
+              checked={householdHead.disabled}
+              onChange={e => {
+                let temp = {...householdHead}
+                temp.disabled = e.target.checked
+                setHouseholdHead(temp)
+              }}    
+            />} 
+            label="Disabled"
+            style={{width:'100%'}}
+          />
+          {householdHead.disabled &&
+          <TextField
+            id="filled-helperText"
+            label="Disability"
+            helperText="Specify the disability"
+            placeholder="Disability"
+            variant="outlined"
+            style={{width: '100%', paddingBottom: 10}}
+            value={householdHead.disability}
+            onChange={e => {
+              let temp = {...householdHead}
+              temp.disability = e.target.value
+              setHouseholdHead(temp)
+            }}
+          />}
+          <FormControlLabel
+            control={<Checkbox 
+              checked={householdHead.comorbid}
+              onChange={e => {
+                let temp = {...householdHead}
+                temp.comorbid = e.target.checked
+                setHouseholdHead(temp)
+              }}    
+            />} 
+            label="With Comorbidity"
+            style={{width:'100%'}}
+          />
+          {householdHead.comorbid &&
+          <TextField
+            id="filled-helperText"
+            label="Comorbidity"
+            helperText="Specify the comorbidity"
+            placeholder="Comorbidity"
+            variant="outlined"
+            style={{width: '100%', paddingBottom: 10}}
+            value={householdHead.comorbidity}
+            onChange={e => {
+              let temp = {...householdHead}
+              temp.comorbidity = e.target.value
+              setHouseholdHead(temp)
+            }}
+          />}
+
+          {householdMembers.length>0 &&
+            householdMembers.map((item, index) => (
+              <Container style={{paddingTop: 20}}>
+                <Button variant="contained" color="error"
+                  onClick={e => {
+                    let temp = [...householdMembers]
+                    temp.splice(index,1)
+                    setHouseholdMembers(temp)
+                  }} 
+                >
+                  Remove
+                </Button>
+                <Typography>Household Member #{index+1}</Typography>
                 <TextField
-                  label="Household Number"
+                  id="filled-helperText"
+                  label="Household Member Name"
+                  placeholder="Ex. Juan Dela Cruz"
                   variant="outlined"
-                  value={hhNum}
-                  onChange={e => setHHNum(e.target.value)}
-                  fullWidth
+                  style={{width: '100%', paddingBottom: 10}}
+                  value={householdMembers[index].household_member}
+                  onChange={e => {
+                    let temp = [...householdMembers]
+                    temp[index].household_member = e.target.value
+                    setHouseholdMembers(temp)
+                  }}
                 />
+                <Box flexDirection={'row'}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      label="Birthday"
+                      value={householdMembers[index].birthday}
+                      onChange={(e) => {
+                        let temp = [...householdMembers]
+                        temp[index].birthday = moment(new Date(e)).format("YYYY-MM-DD")
+                        setHouseholdMembers(temp)
+                      }}
+                      renderInput={(params) => <TextField style={{width: '49.2%', paddingBottom: 10, marginRight: '1.6%'}} {...params} />}
+                    />
+                  </LocalizationProvider>
+
+                  <FormControl fullWidth style={{width: '49.2%', paddingBottom: 10}}>
+                    <InputLabel id="demo-simple-select-label">Gender</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      label="Gender"
+                      value={householdMembers[index].gender}
+                      onChange={e => {
+                        let temp = [...householdMembers]
+                        temp[index].gender = e.target.value
+                        setHouseholdMembers(temp)
+                      }}
+                    >
+                      <MenuItem value={"F"}>Female</MenuItem>
+                      <MenuItem value={"M"}>Male</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
+                <FormControlLabel
+                  control={<Checkbox
+                    checked={householdMembers[index].pregnant}
+                    onChange={e => {
+                      let temp = [...householdMembers]
+                      temp[index].pregnant = e.target.checked
+                      setHouseholdMembers(temp)
+                    }}    
+                  />} 
+                  label="Pregnant" 
+                  style={{width:'100%'}}
+                />
+                <FormControlLabel
+                  control={<Checkbox
+                    checked={householdMembers[index].disabled}
+                    onChange={e => {
+                      let temp = [...householdMembers]
+                      temp[index].disabled = e.target.checked
+                      setHouseholdMembers(temp)
+                    }}    
+                  />} 
+                  label="Disabled" 
+                  style={{width:'100%'}}
+                />
+                {householdMembers[index].disabled &&
                 <TextField
-                  label="Household Head"
+                  id="filled-helperText"
+                  label="Disability"
+                  helperText="Specify the disability"
+                  placeholder="Disability"
                   variant="outlined"
-                  value={hhHead}
-                  onChange={e => setHHHead(e.target.value)}
-                  fullWidth
+                  style={{width: '100%', paddingBottom: 10}}
+                  value={householdMembers[index].disability}
+                  onChange={e => {
+                    let temp = [...householdMembers]
+                    temp[index].disability = e.target.value
+                    setHouseholdMembers(temp)
+                  }}
+                />}
+                <FormControlLabel
+                  control={<Checkbox
+                    checked={householdMembers[index].comorbid}
+                    onChange={e => {
+                      let temp = [...householdMembers]
+                      temp[index].comorbid = e.target.checked
+                      setHouseholdMembers(temp)
+                    }}    
+                  />} 
+                  label="With Comorbidity" 
+                  style={{width:'100%'}}
                 />
+                {householdMembers[index].comorbid &&
                 <TextField
-                  label="Gender"
+                  id="filled-helperText"
+                  label="Comorbidity"
+                  helperText="Specify the comorbidity"
+                  placeholder="Comorbidity"
                   variant="outlined"
-                  value={hhHeadGender}
-                  onChange={e => setHHHeadGender(e.target.value)}
-                  fullWidth
-                />
-                {/* <InputLabel>Birthday</InputLabel> */}
-                <TextField
-                  label="Birthday"
-                  variant="outlined"
-                  type="date"
-                  value={hhHeadBday}
-                  onChange={e => setHHHeadBday(e.target.value)}
-                  fullWidth
-                />
-                <TextField
-                  label="Household Members"
-                  variant="outlined"
-                  value={hhMembers}
-                  onChange={e => setHHMembers(e.target.value)}
-                  multiline
-                  fullWidth
-                />
-              </Stack>
-            </div>
+                  style={{width: '100%', paddingBottom: 10}}
+                  value={householdMembers[index].comorbidity}
+                  onChange={e => {
+                    let temp = [...householdMembers]
+                    temp[index].comorbidity = e.target.value
+                    setHouseholdMembers(temp)
+                  }}
+                />}
+              </Container>
+            ))
+            
+          }
+          <Button variant="contained"
+            onClick={e => {
+              handleAddMember()
+            }} 
+          >
+            Add Member
+          </Button>
+
+          
+
         </DialogContent>
         <DialogActions>
-          <Button
-            autofocus
+          <Button 
             variant="text"
             color="error"
-            onClick={closeModal}
-            >
-            Cancel
-          </Button>
-          <Button
-            autofocus
-            variant="contained"
+            onClick={e => {
+              initialize()
+              setOpenModal(false)
+            }} 
           >
-            Add Household
+              Cancel
+          </Button>
+          <Button variant="contained"
+            onClick={e => {
+              handleSubmit()
+            }} 
+          >
+            {action=="add" ? "Add Household" : "Edit Household"}
           </Button>
         </DialogActions>
       </Dialog>
+
+     
     </Container>
   );
 };

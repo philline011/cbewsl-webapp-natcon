@@ -78,11 +78,13 @@ const Signin = () => {
   }
 
   const handleLogin = () => {
+    
     let submitData = {
       username: username,
       password: password
     }
     signIn(submitData, (response) => {
+      console.log("huh?")
       console.log(response)
       if(response.status == true){
 
