@@ -90,32 +90,35 @@ function appendActions(cmd, data) {
 
 const MuiTable = props => {
   // cmd: cud, cu, c, cd
-  const {data, options} = props;
+  const {data, options, onView, onEdit, onDelete, buttons} = props;
   const {columns, rows} = data;
   let temp = [];
 
-  console.log(columns);
-  console.log(rows);
   rows.forEach(element => {
     temp.push({...element, actions: [
       <div>
           <IconButton onClick={()=> {
+            onEdit(element)
           }} arial-label="edit" component="span">
             <EditIcon />
           </IconButton>
           <IconButton onClick={()=> {
+            onDelete(element)
           }} arial-label="delete" component="span">
             <DeleteIcon />
           </IconButton>
-          <IconButton onClick={()=> {
-          }} arial-label="delete" component="span">
-            <ViewModuleIcon />
-          </IconButton>
+
+          {(buttons!=undefined && buttons!="update-delete") && 
+            <IconButton onClick={()=> {
+              onView(element)
+            }} arial-label="view" component="span">
+              <ViewModuleIcon />
+            </IconButton>
+          }
       </div>
     ]})
   });
 
-  console.log(temp);
   return (
     <MUIDataTable title={''} data={temp} columns={columns} options={options} />
   );

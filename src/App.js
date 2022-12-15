@@ -54,14 +54,14 @@ const App = props => {
               path="/lpa/:chart_type"
               element={<ChartRenderingContainer />}
             />
-            <Route
+            {/* <Route
               path="*"
               element={
                 <main style={{padding: '1rem'}}>
-                  <h2>Webpage not found</h2>
+                  <h2>Webpage notafefe found</h2>
                 </main>
               }
-            />
+            /> */}
           </Routes>
 
           {(localStorage.getItem('credentials') != null) ? 
