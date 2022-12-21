@@ -110,7 +110,7 @@ def get_disability():
     try:
         data = list()
         disab = "'%\"disability\": null%'"
-        disability_query = text(f"SELECT * FROM commons_db.household_data WHERE disability IS NOT NULL or members not like {disab};")
+        disability_query = text(f"SELECT * FROM commons_db.household_data WHERE disability IS NOT NULL or members not like {disab} and members not like '%[]%';")
         disability = DB.engine.execute(disability_query)
         for row in disability:
             data.append({
@@ -150,13 +150,13 @@ def get_summary():
             preg_count = row['COUNT(*)']
 
         comor = "'%\"comorbidity\": null%'"
-        comorbidity_query = text(f"SELECT COUNT(*) FROM commons_db.household_data WHERE comorbidity IS NOT NULL or members not like {comor};")
+        comorbidity_query = text(f"SELECT COUNT(*) FROM commons_db.household_data WHERE comorbidity IS NOT NULL or members not like {comor} and members not like '%[]%';")
         comorbidity = DB.engine.execute(comorbidity_query)
         for row in comorbidity:
             com_count = row['COUNT(*)']
 
         disab = "'%\"disability\": null%'"
-        disability_query = text(f"SELECT COUNT(*) FROM commons_db.household_data WHERE disability IS NOT NULL or members not like {disab};")
+        disability_query = text(f"SELECT COUNT(*) FROM commons_db.household_data WHERE disability IS NOT NULL or members not like {disab} and members not like '%[]%';")
         disability = DB.engine.execute(disability_query)
         for row in disability:
             dis_count = row['COUNT(*)']
@@ -238,6 +238,7 @@ def delete_household_data():
             "message": "Successfully deleted Household data!"
         }
     except Exception as err:
+        print(err)
         return_obj = {
             "status": False,
             "message": "Failed to update household data. Please check your network connection."

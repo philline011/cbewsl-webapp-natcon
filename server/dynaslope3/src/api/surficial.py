@@ -490,7 +490,7 @@ def get_marker_history_tags():
 def insert_surficial_marker_measurements():
     try:
         data = request.get_json()
-        smsinbox = f"{data['type']} LPA {data['date']}"
+        smsinbox = f"{data['type']} MAR {data['date']}"
         for marker in list(data['marker']):
             smsinbox = f"{smsinbox} {marker} {data['marker'][marker]}CM"
         smsinbox = f"{smsinbox} {data['panahon']} {data['reporter']}"
@@ -503,15 +503,13 @@ def insert_surficial_marker_measurements():
         )
         DB.session.add(inbox)
         DB.session.commit()
-
-        SMSMAIN()
-        markeralerts.generate_surficial_alert(site_id=24, ts=data['date'])
+        # markeralerts.generate_surficial_alert(site_id=29, ts=data['date'])
 
         feedback = {
             "status": True
         }
-
     except Exception as err:
+        print(err)
         feedback = {
             "status": False
         }
