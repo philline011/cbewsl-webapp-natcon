@@ -1,4 +1,4 @@
-import React, {useMemo, div, useState} from 'react';
+import React, {useMemo, div, useState, useEffect} from 'react';
 import {Calendar, momentLocalizer, Views} from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -24,10 +24,36 @@ import AddCircleOutlined from '@mui/icons-material/AddCircleOutlined';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FabMuiTable from '../utils/MuiTable';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import AddActivity from './AddActivity';
+import PromptModal from './modals/PromptModal';
+import { getEvents, deleteEvent } from '../../apis/EventsManagement'
 
 const localizer = momentLocalizer(moment);
 
-const Events = () => {
+const Events = (props) => {
+
+  const [activity, setActivity] = useState([]);
+
+  useEffect(() => {
+    getAllEvents()
+  },[])
+
+  const getAllEvents = () => {
+    getEvents((response) => {
+      console.log(response)
+      if(response.status){
+        setActivity(response.data)
+      }
+    })
+  }
+
   const columns = [
     {name: 'title', label: 'Activity name'},
     {name: 'desc', label: 'Activity details'},
@@ -48,36 +74,44 @@ const Events = () => {
     },
   };
 
-  const eventsData = [
-    {
-      id: 1,
-      start: '2022-09-08 08:05',
-      end: '2022-09-08 15:45',
-      title: 'LEWC training',
-      desc: 'Datalogger system maintenance training',
-      action: 'click',
-    },
-    {
-      id: 2,
-      start: '2022-09-15 09:10',
-      end: '2022-09-15 15:30',
-      title: 'Community Risk Assessment',
-      desc: 'CRA with the Brgy. Marirong Community',
-      action: 'click',
-    },
-    {
-      id: 3,
-      start: '2022-09-20 09:30',
-      end: '2022-09-20 12:00',
-      title: 'Stakeholder meeting',
-      desc: 'Landslide preparedness drill',
-      action: 'click',
-    },
-  ];
+  // const eventsData = [
+  //   {
+  //     // id: 1,
+  //     start: '2023-01-08 08:05',
+  //     end: '2023-01-08 15:45',
+  //     title: 'LEWC training',
+  //     desc: 'Datalogger system maintenance training',
+  //     // action: 'click',
+  //   },
+  //   {
+  //     // id: 2,
+  //     start: '2023-01-15 09:10',
+  //     end: '2023-01-17 15:30',
+  //     title: 'Community Risk Assessment',
+  //     desc: 'CRA with the Brgy. Marirong Community',
+  //     action: 'click',
+  //   },
+  //   {
+  //     // id: 3,
+  //     start: '2023-01-20 09:30',
+  //     end: '2023-01-20 12:00',
+  //     title: 'Stakeholder meeting',
+  //     desc: 'Landslide preparedness drill',
+  //     action: 'click',
+  //   },
+  // ];
 
   const [calendarEvent, setCalendarEvent] = useState([]);
   const [slotInfo, setSlotInfo] = useState([]);
-  const [activity, setActivity] = useState(eventsData);
+  const [openAddActivityModal, setOpenAddActivityModal] = useState(false)
+  const [activityAction, setActivityAction] = useState("")
+
+  const [openPrompt, setOpenPrompt] = useState(false)
+  const [promptTitle, setPromptTitle] = useState("")
+  const [notifMessage, setNotifMessage] = useState("")
+  const [errorPrompt, setErrorPrompt] = useState(false)
+  const [confirmation, setConfirmation] = useState(false)
+
 
   const {views} = useMemo(
     () => ({
@@ -88,129 +122,39 @@ const Events = () => {
     [],
   );
 
-  const AddActivity = () => {
-    const [openModal, setOpenModal] = useState(false);
-    const [timePicker, setTimePicker] = useState(null);
-    const [activityName, setActivityName] = useState('');
-    const [activityDesc, setActivityDesc] = useState('');
-    const [isConfirm, setIsConfirm] = useState(false);
+  const [deleteID,setDeleteID] = useState(null)
 
-    const handleOpen = () => {
-      setOpenModal(true);
-      setIsConfirm(false);
-    };
+  const confirmDelete = (response) => {
+    setActivityAction("delete")
+    console.log("Confirm",response)
+    setOpenPrompt(true)
+    setErrorPrompt(false)
+    setPromptTitle("Are you sure you want to delete this event?")
+    setNotifMessage("This event will be deleted immediately.")
+    setConfirmation(true)
+    setDeleteID(response)
+  }
 
-    const handleClose = () => {
-      setOpenModal(false);
-    };
-
-    const handleSubmit = () => {
-      setIsConfirm(!isConfirm);
-    };
-
-    const handleActivity = () => {
-      let activity_length = activity.length;
-      setOpenModal(false);
-      let temp = [...activity];
-      temp.push({
-        id: activity_length + 1,
-        start: moment(slotInfo.start).format('YYYY-MM-DD HH:mm:ss'),
-        end: moment(slotInfo.end).format('YYYY-MM-DD HH:mm:ss'),
-        title: activityName,
-        desc: activityDesc,
-        action: 'click',
-      });
-      setActivity(temp);
-    };
-
-    return (
-      <Card sx={{mb: 1}}>
-        <CardContent sx={{alignItems: 'center', mt: 1}}>
-          <Button variant="outlined" sx={{}} onClick={handleOpen}>
-            Add Activity for {moment(slotInfo.start).format('LL')}
-          </Button>
-          <Modal
-            open={openModal}
-            onClose={handleClose}
-            aria-labelledby="title"
-            aria-describedby="description">
-            {!isConfirm ? (
-              <div>
-                <Box sx={modalStyle}>
-                  <Typography
-                    id="title"
-                    variant="h5"
-                    component="h4"
-                    marginBottom={2}>
-                    Activity for {moment(slotInfo.start).format('LL')}
-                  </Typography>
-                  <Divider />
-                  <Stack spacing={1} paddingTop={2}>
-                    <TextField
-                      label="Name of activity"
-                      variant="outlined"
-                      value={activityName}
-                      onChange={e => setActivityName(e.target.value)}
-                      fullWidth
-                    />
-                    <TextField
-                      label="Description of activity"
-                      variant="standard"
-                      value={activityDesc}
-                      onChange={e => setActivityDesc(e.target.value)}
-                      multiline
-                      fullWidth
-                    />
-                  </Stack>
-                  <Stack
-                    direction="row"
-                    spacing={2}
-                    justifyContent="flex-end"
-                    paddingTop={5}>
-                    <Button
-                      variant="text"
-                      color="error"
-                      startIcon={<DoNotDisturbIcon />}
-                      onClick={handleClose}>
-                      Cancel
-                    </Button>
-                    <Button
-                      variant="contained"
-                      endIcon={<AddCircleOutlined />}
-                      onClick={handleSubmit}>
-                      Add activity
-                    </Button>
-                  </Stack>
-                </Box>
-              </div>
-            ) : (
-              <div style={{overflowWrap: 'anywhere'}}>
-                <Box sx={modalStyle}>
-                  <h1>Are you sure?</h1>
-                  <Divider />
-                  <h3>Activity Name: </h3>
-                  {activityName}
-                  <h3>Activity Description:</h3>
-                  <Typography variant="body1" gutterBottom>
-                    {activityDesc}
-                  </Typography>
-                  <Divider />
-                  <Stack
-                    direction="row"
-                    spacing={2}
-                    justifyContent="flex-end"
-                    paddingTop={2}>
-                    <Button onClick={handleActivity}>Yes</Button>
-                    <Button onClick={handleSubmit}>No</Button>
-                  </Stack>
-                </Box>
-              </div>
-            )}
-          </Modal>
-        </CardContent>
-      </Card>
-    );
-  };
+  const handleDelete = () => {
+    deleteEvent({activity_id: calendarEvent.id}, (response) => {
+      if(response.status == true){
+        setOpenPrompt(true)
+        setErrorPrompt(false)
+        setPromptTitle("Success")
+        setNotifMessage(response.message)
+        setConfirmation(false)
+        getAllEvents()
+      }
+      else{
+        setOpenPrompt(true)
+        setErrorPrompt(true)
+        setPromptTitle("Fail")
+        setNotifMessage(response.message)
+        setConfirmation(false)
+      }
+      console.log(response)
+    })
+  }
 
   const ActivityCard = () => {
     const [editModal, setEditModal] = useState(false);
@@ -253,7 +197,8 @@ const Events = () => {
                 {moment(calendarEvent.start).format('LLL')} -{' '}
                 {moment(calendarEvent.end).format('LLL')}
               </Typography>
-              <Typography variant="body1">{calendarEvent.desc}</Typography>
+              <Typography variant="body1">{calendarEvent.place}</Typography>
+              <Typography variant="body1">{calendarEvent.note}</Typography>
               <Stack
                 direction="row"
                 spacing={2}
@@ -262,51 +207,20 @@ const Events = () => {
                 <Button
                   startIcon={<DeleteIcon />}
                   color="error"
-                  onClick={deleteCard}>
+                  onClick={() => {
+                    confirmDelete()
+                  }}>
                   Delete
                 </Button>
-                <Button startIcon={<EditIcon />} onClick={editCard}>
+                <Button startIcon={<EditIcon />} 
+                  onClick={() => {
+                    setOpenAddActivityModal(true)
+                    setActivityAction("edit")
+                  }}
+                >
                   Edit
                 </Button>
               </Stack>
-              <Modal
-                open={editModal}
-                onClose={closeEditModal}
-                aria-labelledby="title">
-                <div>
-                  <Box sx={modalStyle}>
-                    <Typography
-                      id="title"
-                      variant="h5"
-                      component="h4"
-                      marginBottom={2}>
-                      Edit activity details for{' '}
-                      {moment(calendarEvent.start).format('LL')}
-                    </Typography>
-                    <h4>Activity name:</h4>
-                    <TextField
-                      defaultValue={calendarEvent.title}
-                      onChange={e => editActivity('title', e.target.value)}
-                    />
-                    <h4>Activity description:</h4>
-                    <TextField
-                      defaultValue={calendarEvent.desc}
-                      onChange={e => editActivity('desc', e.target.value)}
-                      multiline
-                    />
-                    <Stack
-                      direction="row"
-                      spacing={2}
-                      justifyContent="flex-end"
-                      paddingTop={2}>
-                      <Button onClick={() => setEditModal(false)} color="error">
-                        Cancel
-                      </Button>
-                      <Button onClick={closeEditModal}>Accept edit</Button>
-                    </Stack>
-                  </Box>
-                </div>
-              </Modal>
             </Grid>
           </Grid>
         </CardContent>
@@ -316,6 +230,33 @@ const Events = () => {
 
   return (
     <Grid container>
+      <AddActivity 
+        slotInfo={slotInfo} 
+        openModal={openAddActivityModal} 
+        setOpenModal={setOpenAddActivityModal} 
+        calendarEvent={calendarEvent}
+        action={activityAction}
+        getAllEvents={getAllEvents}
+      />
+      <PromptModal
+        isOpen={openPrompt}
+        error={errorPrompt}
+        title={promptTitle}
+        setOpenModal={setOpenPrompt}
+        notifMessage={notifMessage}
+        confirmation={confirmation}
+        callback={ (response) => {
+          if(response == true) {
+            if(activityAction=="delete"){
+              handleDelete()
+            }
+          }
+          else if(response == false){
+            // setDeleteID(null)
+          }
+          
+        }}
+      />
       <Grid item xs={9} sm={9} md={9} lg={9} sx={{padding: 4}}>
         <Calendar
           selectable={true}
@@ -329,7 +270,9 @@ const Events = () => {
           views={views}
           selected
           onSelectEvent={setCalendarEvent}
-          onSelectSlot={setSlotInfo}
+          onSelectSlot={e => {
+            setSlotInfo(e)
+          }}
         />
       </Grid>
       <Grid item xs={3} sm={3} md={3} lg={3} sx={{padding: 2}}>
@@ -356,7 +299,18 @@ const Events = () => {
           </Typography>
           <Divider />
           <Box>
-            <AddActivity />
+            <Card sx={{mb: 1}}>
+              <CardContent sx={{alignItems: 'center', mt: 1}}>
+                  <Button variant="outlined" sx={{}} 
+                    onClick={() => {
+                      setOpenAddActivityModal(true)
+                      setActivityAction("add")
+                    }}
+                  >
+                    Add Activity for {moment(slotInfo.start).format('LL')}
+                  </Button>
+              </CardContent>
+            </Card>
             <ActivityCard />
           </Box>
         </Box>
