@@ -118,88 +118,132 @@ def wrap_write_moms_for_validation(internal_json=None):
 
 @MOMS_BLUEPRINT.route("/manifestations_of_movement/get_temp_moms", methods=["GET"])
 def wrap_get_temp_moms():
-    query = MonitoringMomsTemp().query.filter(MonitoringMomsTemp.is_updated == 0).order_by(MonitoringMomsTemp.id.desc()).all()
-    result = MonitoringMomsTempSchema(many=True).dump(query)
-    all_data = []
-    for row in result:
-        to_object = json.loads(row["moms_data"])
-        moms_list = to_object["moms_list"]
-        updated_moms_list = []
-        for moms in moms_list:
-            reporter_id = moms["reporter_id"]
-            reporter = Users.query.filter(Users.user_id == reporter_id).first()
-            validator_id = moms["validator_id"]
-            validator = Users.query.filter(Users.user_id == validator_id).first()
-            moms_data = {
-                **moms,
-                "reporter": f"{reporter.first_name} {reporter.last_name}",
-                "validator": f"{validator.first_name} {validator.last_name}"
+    try:
+        query = MonitoringMomsTemp().query.filter(MonitoringMomsTemp.is_updated == 0).order_by(MonitoringMomsTemp.id.desc()).all()
+        result = MonitoringMomsTempSchema(many=True).dump(query)
+        all_data = []
+        for row in result:
+            to_object = json.loads(row["moms_data"])
+            moms_list = to_object["moms_list"]
+            updated_moms_list = []
+            for moms in moms_list:
+                reporter_id = moms["reporter_id"]
+                reporter = Users.query.filter(Users.user_id == reporter_id).first()
+                validator_id = moms["validator_id"]
+                validator = Users.query.filter(Users.user_id == validator_id).first()
+                moms_data = {
+                    **moms,
+                    "reporter": f"{reporter.first_name} {reporter.last_name}",
+                    "validator": f"{reporter.first_name} {reporter.last_name}"
+                }
+                updated_moms_list.append(moms_data)
+            data = {
+                "temp_moms_id": row["id"],
+                "uploads": to_object["uploads"],
+                "site_code": to_object["site_code"],
+                "moms_list": updated_moms_list
             }
-            updated_moms_list.append(moms_data)
-        data = {
-            "temp_moms_id": row["id"],
-            "uploads": to_object["uploads"],
-            "site_code": to_object["site_code"],
-            "moms_list": updated_moms_list
+            all_data.append(data)
+        ret_val = {
+            'status': True,
+            'data': all_data
         }
-        all_data.append(data)
+    except Exception as err:
+        ret_val = {
+            'status': False,
+            'message': "Failed to get unvalidated MoMs. Please check your network connection."
+        }
+    finally:
+        return jsonify(ret_val)
 
-        
-    return jsonify(all_data)
+@MOMS_BLUEPRINT.route("/manifestations_of_movement/get_latest_alerts/<site_code>", methods=["GET"])
+def get_latest_alerts(site_code=None):
+    try:
+        if site_code == None:
+            raise Exception("No site_code")
+        mm = MonitoringMoms
+        mi = MomsInstances
 
-@MOMS_BLUEPRINT.route("/manifestations_of_movement/get_latest_alerts", methods=["GET"])
-def get_latest_alerts():
-    mm = MonitoringMoms
-    mi = MomsInstances
+        subquery = DB.session.query(DB.func.max(mi.site_id).label("site_id"), mi.instance_id, DB.func.max(
+            mm.observance_ts).label("max_ts")).join(mm).group_by(mi.instance_id).subquery("t2")
 
-    subquery = DB.session.query(DB.func.max(mi.site_id).label("site_id"), mi.instance_id, DB.func.max(
-        mm.observance_ts).label("max_ts")).join(mm).group_by(mi.instance_id).subquery("t2")
+        max_alerts = DB.session.query(DB.func.max(mm.op_trigger), subquery.c.site_id).join(mi).join(subquery, DB.and_(
+            mm.observance_ts == subquery.c.max_ts, mi.instance_id == subquery.c.instance_id)).group_by(subquery.c.site_id).all()
 
-    max_alerts = DB.session.query(DB.func.max(mm.op_trigger), subquery.c.site_id).join(mi).join(subquery, DB.and_(
-        mm.observance_ts == subquery.c.max_ts, mi.instance_id == subquery.c.instance_id)).group_by(subquery.c.site_id).all()
+        sites = get_sites_data(raise_load=True)
+        sites_data = SitesSchema(many=True).dump(sites)
 
-    sites = get_sites_data(raise_load=True)
-    sites_data = SitesSchema(many=True).dump(sites)
+        for site in sites_data:
+            if site['site_code'] == site_code:
+                site_data = {
+                    **site,
+                    "site_id": site["site_id"],
+                    "moms_alert": next((x[0] for x in max_alerts if x[1] == site["site_id"]), 0),
+                }
 
-    for site in sites_data:
-        site_id = site["site_id"]
-        alert = next((x[0] for x in max_alerts if x[1] == site_id), 0)
-        site["moms_alert"] = alert
-
-    sites_data.sort(key=lambda x: x["moms_alert"], reverse=True)
-
-    return jsonify(sites_data)
+        return_value = {
+            "status": True,
+            "data": site_data
+        }
+    except Exception as err:
+        return_value = {
+            "status": False,
+            "message": "Failed to get MoMs. Please check your network connection."
+        }
+    finally:
+        return jsonify(return_value)
 
 
 @MOMS_BLUEPRINT.route("/manifestations_of_movement/get_moms_instances/<site_code>", methods=["GET"])
 def get_moms_instances(site_code):
-    mi = MomsInstances
-    query = mi.query.join(Sites).filter(Sites.site_code == site_code).all()
-    # NOTE EXCLUDE:  exclude=("moms.moms_releases", )
-    result = MomsInstancesSchema(many=True).dump(query)
-
-    return jsonify(result)
+    try:
+        mi = MomsInstances
+        query = mi.query.join(Sites).filter(Sites.site_code == site_code).all()
+        # NOTE EXCLUDE:  exclude=("moms.moms_releases", )
+        result = MomsInstancesSchema(many=True).dump(query)
+        return_value = {
+            "status": True,
+            "data": result
+        }
+    except Exception as err:
+        return_value = {
+            "status": False,
+            'message': "Failed to get unvalidated MoMs. Please check your network connection."
+        }
+    finally:
+        return jsonify(return_value)
 
 
 @MOMS_BLUEPRINT.route("/manifestations_of_movement/get_moms_features", methods=["GET"])
 @MOMS_BLUEPRINT.route("/manifestations_of_movement/get_moms_features/<site_code>", methods=["GET"])
 def get_moms_features(site_code=None):
-    features = MomsFeatures.query.all()
+    try:
+        features = MomsFeatures.query.all()
 
-    result = MomsFeaturesSchema(
-        many=True, exclude=("instances.site", )).dump(features)
+        result = MomsFeaturesSchema(
+            many=True, exclude=("instances.site", )).dump(features)
 
-    if site_code:
-        sites_data = get_sites_data(site_code=site_code)
-        site_id = sites_data.site_id
+        if site_code:
+            sites_data = get_sites_data(site_code=site_code)
+            site_id = sites_data.site_id
 
-        for feature in result:
-            instances = feature["instances"]
-            filtered = [d for d in instances if d["site_id"] == site_id]
+            for feature in result:
+                instances = feature["instances"]
+                filtered = [d for d in instances if d["site_id"] == site_id]
 
-            feature["instances"] = filtered
-
-    return jsonify(result)
+                feature["instances"] = filtered
+        
+        return_value = {
+            "status": True,
+            "data": result
+        }
+    except Exception as err:
+        return_value = {
+            "status": False,
+            "message": "Failed to get unvalidated MoMs. Please check your network connection."
+        }
+    finally:
+        return jsonify(return_value)
 
 
 @MOMS_BLUEPRINT.route("/moms/get_test_data", methods=["GET"])
