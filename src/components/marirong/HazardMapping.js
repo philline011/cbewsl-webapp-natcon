@@ -2,14 +2,11 @@ import React from 'react';
 import {Grid, Container, Button} from '@mui/material';
 import MARHazardMap from '../../assets/hazard_map_01.jpg'
 import { useSnackbar } from "notistack";
+import useEmblaCarousel from 'embla-carousel-react'
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+
 const HazardMapping = () => {
-
-
-    console.log("useSnackbar:", useSnackbar())
-
     const {enqueueSnackbar, closeSnackbar} = useSnackbar();
-    
-    
     const handleDownload = () => {
         enqueueSnackbar('Succesfully Downloaded');
     };
@@ -17,6 +14,8 @@ const HazardMapping = () => {
     const handleUpload = () => {
         const formData = new FormData()
     }
+
+    const [emblaRef] = useEmblaCarousel()
 
     return(
         <Container>
@@ -28,11 +27,22 @@ const HazardMapping = () => {
                     md={12}
                     lg={12}
                     sx={{marginTop: 2, textAlign: 'center'}}>
-                    <img
-                        src={MARHazardMap}
-                        alt="lipata-hazard-map-png"
-                        style={{objectFit: 'contain', height: '100%', width: '95%'}}
-                    />
+                    <div className="embla" ref={emblaRef}>
+                        <div className="embla__container">
+                            <div className="embla__slide">
+                                <TransformWrapper>
+                                    <TransformComponent>
+                                        <img
+                                            src={MARHazardMap}
+                                            alt="lipata-hazard-map-png"
+                                            style={{objectFit: 'contain', height: '100%', width: '95%'}}
+                                        />
+                                    </TransformComponent>
+                                </TransformWrapper>
+                            </div>
+                        </div>
+                    </div>
+                  
                 </Grid>
                 <Grid container sx={{mt: 2, mb: 6, padding: '2%'}}>
                     <Grid item xs={12} sm={12} md={12} lg={7}>

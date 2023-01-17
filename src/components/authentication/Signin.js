@@ -83,21 +83,27 @@ const Signin = () => {
       username: username,
       password: password
     }
-    signIn(submitData, (response) => {
-      console.log("huh?")
-      console.log(response)
-      if(response.status == true){
 
-        localStorage.setItem('credentials', JSON.stringify(response.data))
-        window.location = '/opcen';
-      }
-      else{
-        setOpenPrompt(true)
-        setErrorPrompt(true)
-        setNotifMessage(response.message)
-      }
-    })
-  }
+    if (username != "" && password != "") {
+      signIn(submitData, (response) => {
+        if(response.status == true){
+          localStorage.setItem('credentials', JSON.stringify(response.data))
+          window.location = '/opcen';
+        }
+        else{
+          setOpenPrompt(true)
+          setErrorPrompt(true)
+          setNotifMessage(response.message)
+        }
+      });
+    } else {
+      setOpenPrompt(true);
+      setErrorPrompt(true);
+      setNotifMessage("Username / Password not found.")
+    }
+  };
+
+
 
   return (
     <Fragment>
@@ -340,8 +346,6 @@ const Signin = () => {
             style={{paddingBottom: '5%', textAlign: 'center'}}>
             Information for Landslides
           </Typography>
-
-          {/* DI PA FINAL DI PA SAME SA MARIRONG */}
           <Grid container spacing={4} textAlign="center">
             <Grid item xs={12} sm={12} md={12}>
               <TextField
@@ -360,6 +364,11 @@ const Signin = () => {
                 style={{width: '80%'}}
                 onChange={e => {
                   setUsername(e.target.value)
+                }}
+                onKeyPress={(event)=> {
+                  if (event.code === "Enter") {
+                    handleLogin();
+                  }
                 }}
               />
             </Grid>
@@ -381,6 +390,13 @@ const Signin = () => {
                 style={{width: '80%'}}
                 onChange={e => {
                   setPassword(e.target.value)
+                }}
+                onKeyPress={(event)=> {
+                  if (event.code === "Enter") {
+                    if (event.code === "Enter") {
+                      handleLogin();
+                    }
+                  }
                 }}
               />
             </Grid>

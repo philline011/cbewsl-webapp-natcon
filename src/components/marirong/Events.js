@@ -307,7 +307,9 @@ const Events = (props) => {
                       setActivityAction("add")
                     }}
                   >
-                    Add Activity for {moment(slotInfo.start).format('LL')}
+                    <Typography style={{fontWeight: 'bold'}}>
+                      Add Activity for {moment(slotInfo.start).format('LL')}
+                    </Typography>
                   </Button>
               </CardContent>
             </Card>

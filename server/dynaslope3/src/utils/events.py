@@ -19,8 +19,8 @@ def save_activity(data, file):
     Function that save activity
     """
     activity_id = data["activity_id"]
-    start_date = data["start"]
-    end_date = data["end"]
+    start_date = data["start_date"]
+    end_date = data["end_date"]
     activity_name = data["activity_name"]
     activity_place = data["activity_place"]
     activity_note = data["activity_note"]
@@ -115,7 +115,10 @@ def get_all_activity():
         }
         all_activity.append(data)
 
-    return all_activity
+    return {
+            "status": True,
+            "data": all_activity
+        }
 
 
 def delete_activity(data):
