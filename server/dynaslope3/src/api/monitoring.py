@@ -1761,11 +1761,9 @@ def get_candidate_alerts():
     Get candidate alerts
     """
     # run public alert generator first to get the update triggers and public alert
-    # public_alert_generator(save_generated_alert_to_db=True, site_code="lpa")
-    generated_alerts = public_alert_generator(save_generated_alert_to_db=True, site_code="lpa")
+    generated_alerts = public_alert_generator(save_generated_alert_to_db=True, site_code="mar")
     alerts_from_db = wrap_get_ongoing_extended_overdue_events()
     gsm_alerts()
-    # candidate_alert = candidate_alerts(generated_alerts_list=generated_alerts, db_alerts_dict=alerts_from_db)
     data = {
         "on_going": alerts_from_db,
         "candidate_alerts": candidate_alerts(generated_alerts_list=generated_alerts, db_alerts_dict=alerts_from_db),

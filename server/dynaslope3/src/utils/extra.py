@@ -193,7 +193,7 @@ def var_checker(var_name, var, have_spaces=False):
         printer.pprint(var)
 
 
-def round_to_nearest_release_time(data_ts, alert_level=None, interval=4):
+def round_to_nearest_release_time(data_ts, interval=4):
     """
     Round time to nearest 4/8/12 AM/PM (default)
     Or any other interval
@@ -205,24 +205,17 @@ def round_to_nearest_release_time(data_ts, alert_level=None, interval=4):
     Returns datetime
     """
     hour = data_ts.hour
-    print("DATA_TS", data_ts)
-    quotient = int(hour / interval)
-    hour_of_release = (quotient + 1) * interval - 1
-    release_hours = [3, 7, 11, 15, 19, 23]
 
-    if hour_of_release < 23:
+    quotient = int(hour / interval)
+    hour_of_release = (quotient + 1) * interval
+
+    if hour_of_release < 24:
         date_time = datetime.combine(
             data_ts.date(), time((quotient + 1) * interval, 0))
-        
-        if (data_ts.hour in release_hours):
-            date_time = date_time + timedelta(hours=4)
     else:
         date_time = datetime.combine(data_ts.date() + timedelta(1), time(0, 0))
-        hour = data_ts.hour
-        if (hour == 23):
-            date_time = datetime.combine(data_ts.date() + timedelta(1), time(4, 0))
-    nearest_release_time = date_time - timedelta(hours=1)
-    return nearest_release_time
+
+    return date_time
 
 
 def format_timestamp_to_string(ts, time_only=False, date_only=False):
