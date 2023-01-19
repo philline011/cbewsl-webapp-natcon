@@ -97,11 +97,39 @@ const MarirongHeader = () => {
     setAnchorElGroundData(null);
   };
 
+  const handleCurrentTab = () => {
+    const path_name = window.location.pathname;
+    if (path_name === '/opcen') {
+      setValue(0);
+    } else if (
+      path_name === '/hazard_mapping' ||
+      path_name === '/cav'
+    ) {
+      setValue(1);
+    } else if (
+      path_name === '/analysis' ||
+      path_name === '/rainfall' ||
+      path_name === '/surficial' ||
+      path_name === '/subsurface' ||
+      path_name === '/earthquake'
+    ) {
+      setValue(2);
+    } else if (
+      path_name === '/surficial_markers' ||
+      path_name === '/moms'
+    ) {
+      setValue(3);
+    } else if (path_name === '/events') {
+      setValue(4);
+    }
+  };
+
   useEffect(() => {
     setInterval(() => {
       let dt = moment().format('ddd DD-MMM-YYYY HH:mm:ss');
       setServerTime(dt);
     }, 1000);
+    handleCurrentTab()
   }, []);
 
   return (
