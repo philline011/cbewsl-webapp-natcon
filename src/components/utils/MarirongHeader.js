@@ -61,6 +61,7 @@ const MarirongHeader = () => {
       'aria-controls': `simple-tabpanel-${index}`,
     };
   };
+  const [anchorElSettings, setAnchorElSettings] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [anchorElCRA, setAnchorElCRA] = React.useState(null);
   const [anchorElAnalysis, setAnchorElAnalysis] = React.useState(null);
@@ -69,6 +70,7 @@ const MarirongHeader = () => {
   const openCRA = Boolean(anchorElCRA);
   const openAnalysis = Boolean(anchorElAnalysis);
   const openGroundData = Boolean(anchorElGroundData);
+  const openSettings = Boolean(anchorElSettings);
 
   const preventDefault = event => {
     event.preventDefault();
@@ -95,6 +97,7 @@ const MarirongHeader = () => {
     setAnchorElCRA(null);
     setAnchorElAnalysis(null);
     setAnchorElGroundData(null);
+    setAnchorElSettings(null);
   };
 
   useEffect(() => {
@@ -218,10 +221,35 @@ const MarirongHeader = () => {
               </IconButton>
             </Tooltip>
             <Tooltip title="Open settings">
-              <IconButton onClick={() => {}} sx={{p: 2, mt: 4}}>
+              <IconButton onClick={(e) => { setAnchorElSettings(e.currentTarget) }} sx={{p: 2, mt: 4}}>
                 <Avatar alt="Profile photo" />
               </IconButton>
             </Tooltip>
+
+            <Menu
+              id="menu-settings"
+              anchorEl={anchorElSettings}
+              open={openSettings}
+              onClose={handleClose}
+              MenuListProps={{
+                'aria-labelledby': 'button',
+              }}>
+              <MenuItem
+                onClick={() => {
+                  navigate('/profile-settings');
+                  handleClose();
+                }}>
+                Profile Settings
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  navigate('/change-password');
+                  handleClose();
+                }}>
+                Change Password
+              </MenuItem>
+            </Menu>
+
             <IconButton
               id="button"
               aria-controls={open ? 'menu' : undefined}

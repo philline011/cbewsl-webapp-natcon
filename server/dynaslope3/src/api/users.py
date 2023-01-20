@@ -3,8 +3,9 @@ Users Functions Controller File
 """
 
 from flask import Blueprint, jsonify, request
+import hashlib
 from connection import DB
-from src.models.users import Users, UsersSchema
+from src.models.users import Users, UsersSchema, UserAccounts, UserAccountsSchema
 from src.models.organizations import Organizations, OrganizationsSchema
 from src.utils.users import (
     get_dynaslope_users, get_community_users,
@@ -49,7 +50,6 @@ def wrap_get_community_orgs_by_site(site_code):
             temp[key].append(user_data)
 
     return jsonify(temp)
-
 
 @USERS_BLUEPRINT.route("/users/get_community_users_by_site/<site_code>", methods=["GET"])
 def wrap_get_community_users_by_site(site_code):
@@ -293,3 +293,52 @@ def wrap_get_user_by_nickname(nickname):
         temp = UsersSchema().dump(row)
 
     return temp
+
+@USERS_BLUEPRINT.route("/users/verify_old_password", methods=["POST"])
+def verify_old_password():
+    json_data = request.get_json()
+
+    raw = str.encode(json_data['old_pass'])
+    hash_object = hashlib.sha512(raw)
+    hex_digest_password = hash_object.hexdigest()
+    _password = str(hex_digest_password)
+
+    user = UserAccounts.query.filter(UserAccounts.user_fk_id == json_data['user_id']).first()
+
+    combined_password = str.encode(f"{_password}{user.salt}")
+    hash_object = hashlib.sha512(combined_password)
+    hex_digest_password = hash_object.hexdigest()
+    password = str(hex_digest_password)
+
+    if user.password == password:
+        return jsonify({
+        "status": True
+    })
+    else:
+        return jsonify({
+        "status": False,
+        "message": "Old password does not match."
+    })
+
+@USERS_BLUEPRINT.route("/users/change_password", methods=["POST"])
+def change_password():
+    json_data = request.get_json()
+
+    raw = str.encode(json_data['new_pass'])
+    hash_object = hashlib.sha512(raw)
+    hex_digest_password = hash_object.hexdigest()
+    _password = str(hex_digest_password)
+
+    user = UserAccounts.query.filter(UserAccounts.user_fk_id == json_data['user_id']).first()
+
+    combined_password = str.encode(f"{_password}{user.salt}")
+    hash_object = hashlib.sha512(combined_password)
+    hex_digest_password = hash_object.hexdigest()
+    password = str(hex_digest_password)
+
+    user.password = password
+    DB.session.commit()
+    
+    return jsonify({
+        "status": True
+    })
