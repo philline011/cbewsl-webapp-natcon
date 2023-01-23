@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import React, {Fragment, useState, useEffect} from 'react';
 import { generateAlert } from "../../../apis/AlertGeneration";
+import moment from 'moment';
 
 function AlertReleaseFormModal(props) {
   const {
@@ -35,7 +36,26 @@ function AlertReleaseFormModal(props) {
     setMonitoringReleases(temp);
     let current_triggers = triggers.filter(e => e.id !== current_trigger.id);
     setTriggers(current_triggers);
-    generateAlert(candidateList[0]);
+    let temp_alert = candidateList[0];
+    temp_alert.is_event_valid = true;
+    temp_alert.is_manually_lowered = false;
+
+    if (temp_alert.public_alert_level !== 0) {
+      temp_alert.release_details.release_time = moment().format('HH:mm');
+      temp_alert.release_details.with_retrigger_validation = false;
+      temp_alert.release_details.comments = '';
+    } else {
+      try {
+        temp_alert.release_details.release_time = moment().format('HH:mm');
+        temp_alert.release_details.with_retrigger_validation = false;
+        temp_alert.release_details.comments = '';
+      } catch (e) {
+        console.log(e);
+        temp_alert.release_time = moment().format('HH:mm');
+        temp_alert.with_retrigger_validation = false;
+      }
+    }
+    generateAlert(temp_alert);
   };
 
 
