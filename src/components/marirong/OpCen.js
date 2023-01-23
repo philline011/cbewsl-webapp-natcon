@@ -168,6 +168,7 @@ const OpCen = () => {
 
   useEffect(()=> {
     if (latestCandidatesAndAlerts != null) {
+      console.log("LATEST:", latestCandidatesAndAlerts);
       setCandidateList(JSON.parse(latestCandidatesAndAlerts['candidate_alerts']))
       ProcessCandidate(JSON.parse(latestCandidatesAndAlerts['candidate_alerts']));
     }
@@ -460,6 +461,8 @@ const OpCen = () => {
         monitoringReleases={monitoring_releases}
         candidateList={candidateList}
         setMonitoringReleases={setMonitoringReleases}
+        getLatestCandidatesAndAlerts={getLatestCandidatesAndAlerts}
+        setLatestCandidatesAndAlerts={setLatestCandidatesAndAlerts}
       />
       <NewAlertsModal
         isOpen={is_open_new_alert_modal}
