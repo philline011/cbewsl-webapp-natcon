@@ -168,10 +168,11 @@ def wrap_generate_rainfall_alert():
             alert_data = request.form
 
         ts = pd.to_datetime(alert_data["ts"])
+        print(alert_data)
         alert_data = {
-            "rain_alert": 'a',#1-day cumulative
-            "rain_id": 24,
-            "site_id": 24,
+            "rain_alert": alert_data['type_data'][0]['rain_alert'],#1-day cumulative
+            "rain_id": alert_data['type_data'][0]['rain_id'],
+            "site_id": alert_data['type_data'][0]['site_id'],
             "ts": ts
         }
         data = [{
