@@ -32,3 +32,19 @@ export const verifyOTP = (data, callback) => {
     
     });
 }
+
+export const VerifyOldPassword = (password, user_id, callback) => {
+    axios.post(`${API_URL}/api/users/verify_old_password`, {old_pass: password, user_id}).then((response) => {
+        callback(response.data)
+    }).catch((error) => {
+    
+    });
+}
+
+export const UpdatePassword = (user_id, new_pass, callback) => {
+    axios.post(`${API_URL}/api/users/change_password`, {new_pass, user_id}).then((response) => {
+        callback(response.data)
+    }).catch((error) => {
+    
+    });
+}

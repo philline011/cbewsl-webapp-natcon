@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 import {Grid, Container, Button, Typography, Modal, Divider, Stack, TextField, InputLabel,
   Select, MenuItem, FormControl, Box, Checkbox
 } from '@mui/material';
@@ -567,6 +567,7 @@ const CaV = () => {
           <TextField
             id="filled-helperText"
             label="Household ID"
+            required
             placeholder="####"
             variant="outlined"
             style={{width: '100%', paddingBottom: 10}}
@@ -581,6 +582,7 @@ const CaV = () => {
             id="filled-helperText"
             label="Household Head Name"
             placeholder="Ex. Juan Dela Cruz"
+            required
             variant="outlined"
             style={{width: '100%', paddingBottom: 10}}
             value={householdHead.name}
@@ -674,24 +676,24 @@ const CaV = () => {
             style={{width:'100%'}}
           />
           {householdHead.comorbid &&
-          <TextField
-            id="filled-helperText"
-            label="Comorbidity"
-            helperText="Specify the comorbidity"
-            placeholder="Comorbidity"
-            variant="outlined"
-            style={{width: '100%', paddingBottom: 10}}
-            value={householdHead.comorbidity}
-            onChange={e => {
-              let temp = {...householdHead}
-              temp.comorbidity = e.target.value
-              setHouseholdHead(temp)
-            }}
-          />}
+            <TextField
+              id="filled-helperText"
+              label="Comorbidity"
+              helperText="Specify the comorbidity"
+              placeholder="Comorbidity"
+              variant="outlined"
+              style={{width: '100%', paddingBottom: 10}}
+              value={householdHead.comorbidity}
+              onChange={e => {
+                let temp = {...householdHead}
+                temp.comorbidity = e.target.value
+                setHouseholdHead(temp)
+              }}
+            />}
 
           {householdMembers.length>0 &&
             householdMembers.map((item, index) => (
-              <Container style={{paddingTop: 20}}>
+              <div style={{paddingTop: 20, paddingBottom: 20}}>
                 <Button variant="contained" color="error"
                   onClick={e => {
                     let temp = [...householdMembers]
@@ -701,7 +703,7 @@ const CaV = () => {
                 >
                   Remove
                 </Button>
-                <Typography>Household Member #{index+1}</Typography>
+                <Typography variant='subtitle1' style={{fontWeight: 'bold', paddingTop: 10}}>Household Member # {index+1}</Typography>
                 <TextField
                   id="filled-helperText"
                   label="Household Member Name"
@@ -813,7 +815,7 @@ const CaV = () => {
                     setHouseholdMembers(temp)
                   }}
                 />}
-              </Container>
+              </div>
             ))
             
           }

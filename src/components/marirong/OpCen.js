@@ -15,11 +15,15 @@ import PromptModal from './modals/PromptModal';
 import AlertReleaseFormModal from './modals/AlertReleaseModal';
 import DisseminateModal from './modals/DisseminateModal';
 import NotificationSoundFolder from '../../audio/notif_sound.mp3';
+import AccordionActions from '@mui/material/AccordionActions';
+import { getLatestCandidatesAndAlerts } from '../../apis/AlertGeneration';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 const OpCen = () => {
+  const [latestCandidatesAndAlerts, setLatestCandidatesAndAlerts] = useState(null);
+  const [candidateList, setCandidateList] = useState([]);
   const [alertLevel, setAlertLevel] = useState('3');
   const [alertTs, setAlertTs] = useState(moment().format('LLLL'));
   const [expanded, setExpanded] = React.useState(false);
@@ -34,6 +38,7 @@ const OpCen = () => {
   const [notif_message, setNotifMessage] = useState('');
   const [triggers, setTriggers] = useState([]);
   const [monitoring_releases, setMonitoringReleases] = useState([]);
+
   const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
@@ -129,49 +134,44 @@ const OpCen = () => {
     ];
     setTriggers(initial_triggers);
     setMonitoringReleases([]);
-    console.log(initial_triggers);
   };
 
-  useEffect(() => {
-    if (!is_generated) {
-      const initial_triggers = [
-        // {
-        //   // trigger: 'Routine',
-        //   trigger: 'Rainfall',
-        //   // alert_level: 0,
-        //   alert_level: 1,
-        //   // tech_info: 'Routine monitoring',
-        //   tech_info:
-        //     'MARG (on-site raingauge) 1-day cumulative rainfall value (53mm) exceeded threshold (52.5mm)',
-        //   date_time: 'September 06, 2022, 12:30 PM',
-        //   site: 'Brgy. Marirong, Leon, Iloilo',
-        //   validity_status: 0,
-        //   id: 1,
-        //   community_response: '',
-        //   barangay_response: '',
-        //   waray_tech_info: '',
-        //   source: 'Leon MDRRMO',
-        // },
-        {
-          trigger: 'Subsurface',
-          alert_level: 3,
-          tech_info:
-            'MARTA (Node 9, 10, 11, 12) has critical subsurface movement and exceeded velocity threshold',
-          date_time: 'September 6, 2022, 10:30 AM',
+  const ProcessCandidate = (candidate) => {
+    let temp = [];
+    candidate.forEach(element => {
+      element['trigger_list_arr'].forEach(el => {
+        temp.push({
+          trigger: el.trigger_type.toUpperCase(),
+          alert_level: el.alert_level,
+          tech_info: el.tech_info,
+          date_time: el.ts_updated,
           site: 'Brgy. Marirong, Leon, Iloilo',
-          validity_status: 0,
-          id: 3,
+          validity_status: el.validating_status,
+          id: el.trigger_id,
           community_response: '',
           barangay_response: '',
           waray_tech_info: '',
-          source: 'Leon MDRRMO',
-        },
-      ];
-      setTriggers(initial_triggers);
-      setIsOpenNewAlertModal(true);
+          source: element.site_code === 'mar' ? 'Leon, MDRRMO' : element.site_code,
+        })
+      });
+    });
+    setTriggers(temp);
+    if (temp.length != 0) {
+      // setIsOpenNewAlertModal(true);
       setIsGenerated(true);
     }
-  }, [is_generated]);
+  }
+
+  useEffect(()=> {
+    getLatestCandidatesAndAlerts(setLatestCandidatesAndAlerts);
+  }, []);
+
+  useEffect(()=> {
+    if (latestCandidatesAndAlerts != null) {
+      setCandidateList(JSON.parse(latestCandidatesAndAlerts['candidate_alerts']))
+      ProcessCandidate(JSON.parse(latestCandidatesAndAlerts['candidate_alerts']));
+    }
+  }, [latestCandidatesAndAlerts]);
 
   const [audio] = useState(new Audio(NotificationSoundFolder));
 
@@ -310,7 +310,7 @@ const OpCen = () => {
                     direction="row"
                     justifyContent="flex-end"
                     style={{marginTop: 20}}>
-                    {validity_status === 0 && (
+                    {(validity_status === 0 || validity_status === null) && (
                       <Button size="small" onClick={() => handleValidate(row)}>
                         Validate
                       </Button>
@@ -444,6 +444,8 @@ const OpCen = () => {
         trigger={alert_trigger}
         triggers={triggers}
         setTriggers={setTriggers}
+        getLatestCandidatesAndAlerts={getLatestCandidatesAndAlerts}
+        setLatestCandidatesAndAlerts={setLatestCandidatesAndAlerts}
         handleValidation={handleValidation}
         setNotifMessage={setNotifMessage}
       />
@@ -456,6 +458,7 @@ const OpCen = () => {
         handleSubmitRelease={handleSubmitRelease}
         setNotifMessage={setNotifMessage}
         monitoringReleases={monitoring_releases}
+        candidateList={candidateList}
         setMonitoringReleases={setMonitoringReleases}
       />
       <NewAlertsModal

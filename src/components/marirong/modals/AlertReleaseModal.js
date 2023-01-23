@@ -10,6 +10,7 @@ import {
   Grid,
 } from '@mui/material';
 import React, {Fragment, useState, useEffect} from 'react';
+import { generateAlert } from "../../../apis/AlertGeneration";
 
 function AlertReleaseFormModal(props) {
   const {
@@ -19,6 +20,7 @@ function AlertReleaseFormModal(props) {
     handleSubmitRelease,
     monitoringReleases,
     setMonitoringReleases,
+    candidateList,
     setTriggers,
     triggers,
   } = props;
@@ -27,16 +29,16 @@ function AlertReleaseFormModal(props) {
     setOpenModal(false);
     handleSubmitRelease('Alert generation success!');
     let temp = monitoringReleases;
-    console.log(temp);
     let current_trigger = {...trigger};
-    console.log(current_trigger);
     current_trigger.release_id = current_trigger.id;
     temp.push(current_trigger);
     setMonitoringReleases(temp);
     let current_triggers = triggers.filter(e => e.id !== current_trigger.id);
     setTriggers(current_triggers);
-    console.log(current_triggers);
+    generateAlert(candidateList[0]);
   };
+
+
   return (
     <Dialog
       fullWidth
