@@ -1,7 +1,7 @@
 import {API_URL} from '../config'
 import axios from 'axios'
 
-export function saveFeedback(input, callback) {
+export const saveFeedback = (input, callback) => {
     const api_link = `${API_URL}/api/feedback/save_feedback`;
     axios
       .post(api_link, input)
@@ -14,3 +14,17 @@ export function saveFeedback(input, callback) {
         console.error(error);
       });
   }
+
+export const getFilesFromFolder = (folder, callback) => {
+    const api_link = `${API_URL}/api/misc/get_files/${folder}`;
+    axios
+      .get(api_link)
+      .then(response => {
+        if (response.data.status === true) {
+            callback(response.data.data);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+}
