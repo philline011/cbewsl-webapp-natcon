@@ -18,6 +18,15 @@ from src.utils.contacts import (
     save_user_contact_numbers, save_user_email,
     save_user_information
 )
+
+from werkzeug.utils import secure_filename
+import os
+from config import APP_CONFIG
+
+UPLOAD_DIRECTORY = APP_CONFIG["storage"]
+MAX_CONTENT_LENGTH = 16 * 1024 * 1024 #16MB
+ALLOWED_EXTENSIONS = [".jpg", ".jpeg", ".png", ".gif"]
+
 USERS_BLUEPRINT = Blueprint("users_blueprint", __name__)
 
 
@@ -159,14 +168,24 @@ def update_user_account():
 
     return result
 
-@USERS_BLUEPRINT.route("/users/update_profile", methods=["POST"])
+@USERS_BLUEPRINT.route("/users/update_profile", methods=["POST","GET"])
 def update_profile():
     """
     """
 
-    data = request.get_json()
     try:
-        print(str(data["designation_id"]))
+        profile_pic = request.files['file'] 
+    except Exception as err:
+        profile_pic = ""
+
+    data = request.get_json()
+
+
+
+    try:
+        if data is None:
+            data = request.form
+
         user_id = str(data["id"])
         firstname = str(data["firstname"])
         lastname = str(data["lastname"])
@@ -178,10 +197,26 @@ def update_profile():
         designation = str(data["designation_id"])
         address = str(data["address"])
         mobile_number = str(data["mobile_number"])
-        if data["profile_picture"] != None:
-            pic_path = str(data["profile_picture"])
-        else:
-            pic_path = ""
+        
+        try:
+            
+            file_name = None
+            if profile_pic != "":
+                extension = os.path.splitext(profile_pic.filename)[1]
+            if profile_pic != "" and extension not in ALLOWED_EXTENSIONS:
+                feedback = 'File is not an Image'
+                status = False
+            else:
+                file_name = None
+                if profile_pic:
+                    file_name = secure_filename(profile_pic.filename)
+                    profile_pic.save(os.path.join(
+                        UPLOAD_DIRECTORY,
+                        file_name
+                    ))
+        except Exception as err:
+            print(err)
+
     except Exception as err:
         return_obj = {
             "status": False,
@@ -202,7 +237,7 @@ def update_profile():
         profile = UserProfile.query.filter(UserProfile.user_id == user_id).first()
         profile.address = address
         profile.designation_id = designation
-        profile.pic_path = pic_path
+        profile.pic_path = profile.pic_path if profile_pic == "" else profile_pic.filename
         DB.session.commit()
 
         return_obj = {
