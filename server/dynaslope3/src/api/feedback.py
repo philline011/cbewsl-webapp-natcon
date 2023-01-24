@@ -23,6 +23,7 @@ def save_feedback_file():
     uploaded_file = None
     try:
         uploaded_file = request.files['file'] 
+        print(uploaded_file)
     except Exception:
         pass
 
