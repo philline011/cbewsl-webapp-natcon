@@ -25,11 +25,14 @@ import MenuItem from '@mui/material/MenuItem';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import {useNavigate} from 'react-router-dom';
 import moment from 'moment';
+import { STORAGE_URL } from '../../config';
 
 const MarirongHeader = () => {
   let navigate = useNavigate();
   const [value, setValue] = useState(0);
   const [server_time, setServerTime] = useState('');
+  const [profilePicture, setProfilePicture] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -54,6 +57,20 @@ const MarirongHeader = () => {
         break;
     }
   };
+
+  useEffect(() => {
+    const data = localStorage.getItem('credentials');
+    const parse_data = JSON.parse(data);
+    const profile_picture = parse_data.profile.pic_path !== "" ? `${STORAGE_URL}/${parse_data.profile.pic_path}` : "";
+    setImageUrl(profile_picture)
+  }, []);
+
+  useEffect(() => {
+    if (profilePicture) {
+      const file = URL.createObjectURL(profilePicture);
+      setImageUrl(file);
+    }
+  }, [profilePicture]);
 
   const a11yProps = index => {
     return {
@@ -250,7 +267,7 @@ const MarirongHeader = () => {
             </Tooltip>
             <Tooltip title="Open settings">
               <IconButton onClick={(e) => { setAnchorElSettings(e.currentTarget) }} sx={{p: 2, mt: 4}}>
-                <Avatar alt="Profile photo" />
+                <Avatar src={imageUrl} alt="Profile photo" />
               </IconButton>
             </Tooltip>
 
