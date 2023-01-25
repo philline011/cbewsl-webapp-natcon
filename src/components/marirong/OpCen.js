@@ -587,7 +587,7 @@ const OpCen = () => {
                 }}>
                 <Card
                   style={{
-                    backgroundColor: 'red',
+                    backgroundColor: alert_level_colors.find(e => e.alert_level === alertLevel).color ,
                     width: 500,
                   }}>
                   <Typography variant="h3">ALERT LEVEL {alertLevel}</Typography>
