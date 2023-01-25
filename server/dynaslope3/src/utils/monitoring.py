@@ -649,7 +649,6 @@ def get_ongoing_extended_overdue_events(run_ts=None):
         highest_event_alert_level = max(
             map(lambda x: x.public_alert_symbol.alert_level, event.event_alerts))
         event_alert_data["highest_event_alert_level"] = highest_event_alert_level
-
         if event.status == 3:
             invalids.append(event_alert_data)
         elif run_ts <= validity:
@@ -1452,7 +1451,7 @@ def get_active_monitoring_events(run_ts=None):
     ).order_by(DB.desc(mea.event_alert_id)) \
         .filter(
             DB.or_(
-                DB.and_(me.status == 2, me.site_id == 24, mea.ts_end == None), 
+                DB.and_(me.status == 2, me.site_id == 29, mea.ts_end == None), 
                 DB.and_(
                     me.status == 3,
                     me.event_start <= run_ts,
