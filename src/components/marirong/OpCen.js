@@ -380,7 +380,7 @@ const OpCen = () => {
   const [alert_trigger, setAlertTrigger] = useState('');
   const [notif_message, setNotifMessage] = useState('');
   const [triggers, setTriggers] = useState([]);
-  const [monitoring_releases, setMonitoringReleases] = useState([]);
+  const [monitoring_releases, setMonitoringReleases] = useState({});
 
   const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -687,7 +687,7 @@ const OpCen = () => {
         style={{ width: '95%', marginLeft: 50, padding: 10, marginTop: 30 }}>
         <Typography variant="h4">Event Monitoring</Typography>
       </Grid>
-      {monitoring_releases.length != 0 && monitoring_releases.latest.length > 0 ? (
+      {monitoring_releases != undefined && monitoring_releases.hasOwnProperty('latest') ? (
         monitoring_releases.latest.map((row, index) => {
           return (
             <LatestAccordionPanel
@@ -708,9 +708,9 @@ const OpCen = () => {
           </Typography>
         </div>
       )}
+{/* 
 
-
-      {monitoring_releases.length != 0 && monitoring_releases.routine.released_sites.length > 0 && (
+      {monitoring_releases != undefined && monitoring_releases.hasOwnProperty('routine') && monitoring_releases.routine.released_sites.length > 0 && (
         <Grid
           item
           xs={12}
@@ -719,7 +719,7 @@ const OpCen = () => {
         </Grid>
       )}
 
-      {monitoring_releases.length != 0 && monitoring_releases.routine.released_sites.length > 0 &&
+      {monitoring_releases != undefined && monitoring_releases.hasOwnProperty('routine') && monitoring_releases.routine.released_sites.length > 0 &&
         monitoring_releases.routine.released_sites.map((row, index) => {
           return (
             <LatestAccordionPanel
@@ -733,7 +733,7 @@ const OpCen = () => {
           );
         })}
 
-      {monitoring_releases.length != 0 && monitoring_releases.extended.length > 0 && (
+      {monitoring_releases != undefined && monitoring_releases.hasOwnProperty('extended') && monitoring_releases.extended.length > 0 && (
         <Grid
           item
           xs={12}
@@ -742,7 +742,7 @@ const OpCen = () => {
         </Grid>
       )}
 
-      {monitoring_releases.length != 0 && monitoring_releases.extended.length > 0 &&
+      {monitoring_releases != undefined && monitoring_releases.hasOwnProperty('extended') && monitoring_releases.extended.length > 0 &&
         monitoring_releases.extended.map((row, index) => {
           return (
             <ExtendedAccordionPanel
@@ -753,7 +753,7 @@ const OpCen = () => {
               expanded={expanded}
             />
           );
-        })}
+        })} */}
 
 
       <ValidationModal
