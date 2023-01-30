@@ -367,7 +367,8 @@ const OpCen = () => {
   const [latestCandidatesAndAlerts, setLatestCandidatesAndAlerts] = useState(null);
   const [currentAlert, setCurrentAlert] = useState(null);
   const [candidateList, setCandidateList] = useState([]);
-  const [alertLevel, setAlertLevel] = useState('3');
+  const [alertLevel, setAlertLevel] = useState(0);
+  const [validityLabel, setValidityLabel] = useState(null);
   const [alertTs, setAlertTs] = useState(moment().format('LLLL'));
   const [expanded, setExpanded] = React.useState(false);
   const [is_generated, setIsGenerated] = useState(false);
@@ -375,12 +376,16 @@ const OpCen = () => {
   const [is_open_new_alert_modal, setIsOpenNewAlertModal] = useState(false);
   const [is_open_prompt_modal, setIsOpenPromptModal] = useState(false);
   const [is_open_release_modal, setIsOpenReleaseModal] = useState(false);
-  const [is_open_disseminate_modal, setIsOpenDisseminateModal] =
-    useState(false);
+  const [is_open_disseminate_modal, setIsOpenDisseminateModal] = useState(false);
   const [alert_trigger, setAlertTrigger] = useState('');
   const [notif_message, setNotifMessage] = useState('');
   const [triggers, setTriggers] = useState([]);
-  const [monitoring_releases, setMonitoringReleases] = useState({});
+  const [monitoring_releases, setMonitoringReleases] = useState(null);
+
+  const [ewiTemplate, setTemplate] = useState([]);
+  const [mdrrmoResponse, setMdrrmoResponse] = useState(null);
+  const [lewcResponse, setLewcResponse] = useState(null);
+  const [komunidadResponse, setKomunidadResponse] = useState(null);
 
   const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -406,6 +411,7 @@ const OpCen = () => {
   const handleValidation = messsage => {
     setIsOpenValidationModal(!is_open_validation_modal);
     setNotifMessage(messsage);
+
     setIsOpenPromptModal(true);
   };
 
@@ -516,8 +522,32 @@ const OpCen = () => {
       setCandidateList(JSON.parse(latestCandidatesAndAlerts['candidate_alerts']));
       setMonitoringReleases(JSON.parse(latestCandidatesAndAlerts['on_going']));
       ProcessCandidate(JSON.parse(latestCandidatesAndAlerts['candidate_alerts']));
+      setTemplate(latestCandidatesAndAlerts['ewi_templates'])
     }
   }, [latestCandidatesAndAlerts]);
+
+  useEffect(()=> {
+    if (monitoring_releases) {
+      getCurrentAlert(monitoring_releases);
+    }
+  }, [monitoring_releases]);
+
+  const getCurrentAlert = () => {
+    console.log("monitoring_releases:", monitoring_releases);
+    if (monitoring_releases.latest.length != 0 ) {
+
+    } else {
+      setAlertLevel(monitoring_releases.overdue[0].highest_event_alert_level);
+      setValidityLabel(moment(monitoring_releases.overdue[0].event.validity).format("LLL"));
+      console.log("ewiTemplate:", ewiTemplate);
+      let template = ewiTemplate.find(x => x.alert_level == monitoring_releases.overdue[0].highest_event_alert_level);
+      if (template != -1) {
+        // setMdrrmoResponse(template.);
+        setLewcResponse(template.barangay_response);
+        setKomunidadResponse(template.commmunity_response);
+      }
+    }
+  }
 
   const [audio] = useState(new Audio(NotificationSoundFolder));
 
@@ -557,18 +587,21 @@ const OpCen = () => {
                 }}>
                 <Card
                   style={{
-                    backgroundColor: 'red',
+                    backgroundColor: alert_level_colors.find(e => e.alert_level === alertLevel).color ,
                     width: 500,
                   }}>
                   <Typography variant="h3">ALERT LEVEL {alertLevel}</Typography>
                 </Card>
               </div>
               <Typography variant="h5">
-                valid until September 08, 2022, 12:00 NN
+                {
+                  validityLabel ? `valid until ${validityLabel}` : ""
+                }
+                
               </Typography>
-              <h3>Response (MDRRMO): N/A</h3>
-              <h3>Response (LEWC at Barangay): N/A</h3>
-              <h3>Response (Komunidad): N/A</h3>
+              <h3>Response (MDRRMO): {mdrrmoResponse}</h3>
+              <h3>Response (LEWC at Barangay): {lewcResponse}</h3>
+              <h3>Response (Komunidad): {komunidadResponse}</h3>
               <Divider variant="middle" style={{ paddingBottom: 10 }} />
             </Grid>
           </Grid>
@@ -688,17 +721,26 @@ const OpCen = () => {
         <Typography variant="h4">Event Monitoring</Typography>
       </Grid>
       {monitoring_releases != undefined && monitoring_releases.hasOwnProperty('latest') ? (
-        monitoring_releases.latest.map((row, index) => {
-          return (
-            <LatestAccordionPanel
-              data={row}
-              key={index}
-              handleChange={handleChange}
-              handleDisseminate={handleDisseminate}
-              expanded={expanded}
-            />
-          );
-        })
+        monitoring_releases.latest.length != 0 ?
+          monitoring_releases.latest.map((row, index) => {
+              return (
+                <LatestAccordionPanel
+                  data={row}
+                  key={index}
+                  handleChange={handleChange}
+                  handleDisseminate={handleDisseminate}
+                  expanded={expanded}
+                />
+              );
+            })
+          :
+          <div>
+            <Typography
+              variant="body1"
+              style={{ textAlign: 'center', marginBottom: 30 }}>
+              No event monitoring
+            </Typography>
+          </div>
       ) : (
         <div>
           <Typography
