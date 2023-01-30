@@ -217,11 +217,10 @@ def compute_event_validity(data_ts, alert_level):
     duration = retrieve_data_from_memcache(
         "public_alert_symbols", {"alert_level": alert_level}, retrieve_attr="duration")
 
-    rounded_data_ts = round_to_nearest_release_time(data_ts, alert_level)
-    print("duration", duration)
-    print("rounded_data_ts", rounded_data_ts)
+    rounded_data_ts = round_to_nearest_release_time(data_ts)
+
     validity = rounded_data_ts + timedelta(hours=int(duration))
-    print("validity", validity)
+
     return validity
 
 
