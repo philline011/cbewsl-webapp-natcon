@@ -383,9 +383,9 @@ const OpCen = () => {
   const [monitoring_releases, setMonitoringReleases] = useState(null);
 
   const [ewiTemplate, setTemplate] = useState([]);
-  const [mdrrmoResponse, setMdrrmoResponse] = useState(null);
-  const [lewcResponse, setLewcResponse] = useState(null);
-  const [komunidadResponse, setKomunidadResponse] = useState(null);
+  const [mdrrmoResponse, setMdrrmoResponse] = useState("N/A");
+  const [lewcResponse, setLewcResponse] = useState("N/A");
+  const [komunidadResponse, setKomunidadResponse] = useState("N/A");
 
   const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -528,7 +528,9 @@ const OpCen = () => {
 
   useEffect(()=> {
     if (monitoring_releases) {
-      getCurrentAlert(monitoring_releases);
+      if (monitoring_releases.latest.length != 0 || monitoring_releases.overdue.length !=0) {
+        getCurrentAlert(monitoring_releases);
+      }
     }
   }, [monitoring_releases]);
 

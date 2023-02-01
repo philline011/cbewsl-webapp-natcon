@@ -1754,7 +1754,13 @@ def save_earthquake_intensity():
         "message": message
     })
 
+@MONITORING_BLUEPRINT.route("/monitoring/public_alert_generator", methods=["GET"])
+def wrap_execute_public_alert_generator():
+    public_alert_generator(save_generated_alert_to_db=True, site_code="lpa")
+    gsm_alerts()
 
+    return jsonify(True)
+    
 @MONITORING_BLUEPRINT.route("/monitoring/candidate_alerts", methods=["GET"])
 def get_candidate_alerts():
     """

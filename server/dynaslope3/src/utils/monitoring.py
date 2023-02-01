@@ -330,6 +330,9 @@ def update_alert_status(as_details):
 
     return_data = None
     try:
+        print("----------------------------------")
+        print(as_details)
+        print("----------------------------------")
         trigger_id = as_details["trigger_id"]
         alert_status = as_details["alert_status"]
         remarks = as_details["remarks"]

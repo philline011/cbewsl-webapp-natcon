@@ -209,6 +209,10 @@ def update_profile():
             else:
                 file_name = None
                 if profile_pic:
+                    profile = UserProfile.query.filter(UserProfile.user_id == user_id).first()
+                    if profile.pic_path != "":
+                        os.remove(f"{UPLOAD_DIRECTORY}/{profile.pic_path}")
+
                     file_name = secure_filename(profile_pic.filename)
                     profile_pic.save(os.path.join(
                         UPLOAD_DIRECTORY,
