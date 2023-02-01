@@ -28,8 +28,17 @@ import Resources from './components/marirong/Resources';
 import Feedback from './components/marirong/Feedback';
 import ChangePassword from './components/utils/ChangePassword';
 import ProfileSettings from './components/utils/ProfileSettings';
+import './components/marirong/css/sandbox.css'
+import './components/marirong/css/embla.css'
+
+console.log(localStorage.getItem('credentials'))
+const OPTIONS = {}
+let SLIDE_COUNT = localStorage.getItem('credentials') != null ? JSON.parse(localStorage.getItem('credentials'))['img_length'] : 0
+
+const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
 
 const App = props => {
+
   const [nav, setNav] = useState(null);
   const Header = () => {
     let location = window.location.pathname;
@@ -75,7 +84,13 @@ const App = props => {
               <Route exact path="/assessment" element={<Assessment />} />
               <Route exact path="/cra" element={<CRA />} />
               <Route exact path="/ground_data" element={<GroundData />} />
-              <Route exact path="/hazard_mapping" element={<HazardMapping />} />
+              <Route exact path="/hazard_mapping" element={
+                <main className='sandbox'>
+                  <section className='sandbox__carousel'>
+                    <HazardMapping slides={SLIDES} options={OPTIONS} />
+                  </section>
+                </main> 
+                } />
               <Route exact path="/cav" element={<CaV />} />
               <Route exact path="/rainfall" element={<Rainfall />} />
               <Route exact path="/subsurface" element={<Subsurface />} />

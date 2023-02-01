@@ -15,6 +15,7 @@ import {SignInLogo} from '../../components/utils/SignInLogo';
 import UserProfileModal from '../marirong/modals/UserProfileModal';
 import PromptModal from '../marirong/modals/PromptModal';
 import {signIn, forgotPassword, verifyOTP} from '../../apis/UserManagement'
+import { getNumberOfFiles } from '../../apis/Misc';
 
 const imageDivider = makeStyles(theme => ({
   animated_divider: {
@@ -65,9 +66,23 @@ const Signin = () => {
   const [indicator, setIndicator] = useState("")
   const [otp, setOTP] = useState("")
 
+  const [fileCount, setFileCount] = useState();
+
   useEffect(() => {
     checkMatch()
+    numOfFiles()
   }, [newPassword, confirmPassword]);
+
+  const numOfFiles = () => {
+    getNumberOfFiles("assets", (data) => {
+      console.log(data.length)
+      setFileCount(data.length)
+    });
+  }
+
+  useEffect(() => {
+
+  })
 
   const checkMatch = () => {
     if(confirmPassword != ""){
@@ -87,7 +102,9 @@ const Signin = () => {
     if (username != "" && password != "") {
       signIn(submitData, (response) => {
         if(response.status == true){
-          localStorage.setItem('credentials', JSON.stringify(response.data))
+          let temp = {...response.data}
+          temp['img_length'] = fileCount
+          localStorage.setItem('credentials', JSON.stringify(temp))
           window.location = '/opcen';
         }
         else{
