@@ -9,6 +9,7 @@ import {SnackbarProvider} from 'notistack';
 import ChartRenderingContainer from './components/Chart_rendering/Container';
 import Signin from './components/authentication/Signin';
 import OpCen from './components/marirong/OpCen';
+import OpCen2 from './components/marirong/OpCen2';
 import Events from './components/marirong/Events';
 import Communication from './components/marirong/Communication';
 import Analysis from './components/marirong/Analysis';
@@ -68,7 +69,7 @@ const App = props => {
 
           {(localStorage.getItem('credentials') != null) ? 
             <Routes>
-              <Route exact path="/opcen" element={<OpCen />} /> 
+              <Route exact path="/opcen" element={<OpCen2 />} /> 
               <Route exact path="/events" element={<Events />} />
               <Route exact path="/communication" element={<Communication />} />
               <Route exact path="/analysis" element={<Analysis />} />

@@ -8,10 +8,12 @@ import {
   Typography,
   TextField,
   Grid,
+  CircularProgress,
+  Backdrop,
 } from '@mui/material';
 import React, {Fragment, useState, useEffect} from 'react';
-import { generateAlert } from "../../../apis/AlertGeneration";
 import moment from 'moment';
+import {releaseAlert} from '../../../apis/MoMs';
 
 function AlertReleaseFormModal(props) {
   const {
@@ -21,78 +23,129 @@ function AlertReleaseFormModal(props) {
     handleSubmitRelease,
     monitoringReleases,
     setMonitoringReleases,
-    candidateList,
     setTriggers,
     triggers,
+    generateDashboardData,
+    capitalizeFirstLetter,
   } = props;
 
-  const releaseAlert = () => {
-    setOpenModal(false);
-    handleSubmitRelease('Alert generation success!');
-    let temp = monitoringReleases;
-    let current_trigger = {...trigger};
-    current_trigger.release_id = current_trigger.id;
-    temp.push(current_trigger);
-    setMonitoringReleases(temp);
-    let current_triggers = triggers.filter(e => e.id !== current_trigger.id);
-    setTriggers(current_triggers);
-    let temp_alert = candidateList[0];
-    temp_alert.is_event_valid = true;
-    temp_alert.is_manually_lowered = false;
-
-    if (temp_alert.public_alert_level !== 0) {
-      temp_alert.release_details.release_time = moment().format('HH:mm');
-      temp_alert.release_details.with_retrigger_validation = false;
-      temp_alert.release_details.comments = '';
+  const {trigger_list_arr, public_alert_level} = trigger;
+  const [openBackdrop, setOpenBackdrop] = useState(false);
+  const releaseWarning = () => {
+    setOpenBackdrop(!openBackdrop);
+    // console.log(trigger)
+    if (public_alert_level !== 0) {
+      trigger.release_details.release_time = moment().format('HH:mm');
+      trigger.release_details.with_retrigger_validation = false;
+      trigger.release_details.comments = '';
     } else {
       try {
-        temp_alert.release_details.release_time = moment().format('HH:mm');
-        temp_alert.release_details.with_retrigger_validation = false;
-        temp_alert.release_details.comments = '';
+        trigger.release_details.release_time = moment().format('HH:mm');
+        trigger.release_details.with_retrigger_validation = false;
+        trigger.release_details.comments = '';
       } catch (e) {
         console.log(e);
-        temp_alert.release_time = moment().format('HH:mm');
-        temp_alert.with_retrigger_validation = false;
+        trigger.release_time = moment().format('HH:mm');
+        trigger.with_retrigger_validation = false;
       }
     }
-    generateAlert(temp_alert);
+    console.log(trigger);
+    releaseAlert(trigger, return_data => {
+      console.log(return_data);
+      const {status, message} = return_data;
+      if (status) {
+        generateDashboardData();
+        setOpenModal(false);
+        handleSubmitRelease(message, status);
+      } else {
+        handleSubmitRelease(message, status);
+      }
+      setOpenBackdrop(false);
+    });
+    // setOpenModal(false);
+    // handleSubmitRelease("Alert release success!");
+    // let temp = monitoringReleases;
+    // console.log(temp)
+    // let current_trigger = { ...trigger };
+    // console.log(current_trigger)
+    // current_trigger.release_id = current_trigger.id;
+    // temp.push(current_trigger);
+    // setMonitoringReleases(temp);
+    // let current_triggers = triggers.filter(e => e.id !== current_trigger.id);
+    // setTriggers(current_triggers);
+    // console.log(current_triggers);
   };
-
-
   return (
     <Dialog
       fullWidth
       fullScreen={false}
       open={isOpen}
       aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title">Generate Alert</DialogTitle>
+      <DialogTitle id="form-dialog-title">Release Warning</DialogTitle>
       <DialogContent>
-        <Grid container style={{textAlign: 'center'}}>
-          <Grid item md={12}>
-            <Typography variant="body1">
-              {trigger.trigger} - Alert level {trigger.alert_level}
-            </Typography>
-
-            <br />
+        {trigger_list_arr && trigger_list_arr.length > 0 ? (
+          trigger_list_arr.map((row, index) => {
+            const {tech_info, trigger_type, ts_updated, validating_status} =
+              row;
+            return (
+              <Grid container style={{textAlign: 'center'}}>
+                <Grid item md={12}>
+                  <Typography variant="h6">
+                    Alert level {public_alert_level} Triggers
+                  </Typography>
+                </Grid>
+                <Grid item md={2}>
+                  <Typography variant="body1">Trigger</Typography>
+                  <Typography variant="body2">
+                    {capitalizeFirstLetter(trigger_type)}
+                  </Typography>
+                </Grid>
+                <Grid item md={4}>
+                  <Typography variant="body1">Trigger timestamp</Typography>
+                  <Typography variant="body2">
+                    {moment(ts_updated).format('LLL')}
+                  </Typography>
+                </Grid>
+                <Grid item md={6}>
+                  <Typography variant="body1">Technical Information</Typography>
+                  <Typography variant="body2">{tech_info}</Typography>
+                </Grid>
+              </Grid>
+            );
+          })
+        ) : (
+          <Grid container style={{textAlign: 'center'}}>
+            <Grid item md={12}>
+              <Typography variant="body1" style={{textAlign: 'center'}}>
+                No new triggers
+              </Typography>
+            </Grid>
           </Grid>
-          <Grid item md={6}>
-            <Typography variant="subtitle2">Trigger timestamp</Typography>
-            <Typography variant="caption">{trigger.date_time}</Typography>
-          </Grid>
-          <Grid item md={6}>
-            <Typography variant="subtitle2">Technical Information</Typography>
-            <Typography variant="caption">{trigger.tech_info}</Typography>
-          </Grid>
-        </Grid>
+        )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={releaseAlert} color="primary">
-          Generate Alert
-        </Button>
-        <Button onClick={() => setOpenModal(false)} color="secondary">
+        <Button
+          variant="contained"
+          size="small"
+          onClick={() => setOpenModal(false)}
+          color="error">
           Cancel
         </Button>
+        <Button
+          variant="contained"
+          size="small"
+          onClick={releaseWarning}
+          color="primary">
+          Release Warning
+        </Button>
       </DialogActions>
+      <Grid>
+        <Backdrop
+          sx={{color: '#fff', zIndex: theme => theme.zIndex.drawer + 1}}
+          open={openBackdrop}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      </Grid>
     </Dialog>
   );
 }
