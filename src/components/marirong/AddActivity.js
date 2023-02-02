@@ -16,6 +16,8 @@ import {
   Stack,
   TextField,
   TextareaAutosize,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
 import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 import AddCircleOutlined from '@mui/icons-material/AddCircleOutlined';
@@ -25,6 +27,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { addEvent } from '../../apis/EventsManagement'
 import PromptModal from './modals/PromptModal';
 import { SentimentDissatisfied } from '@mui/icons-material';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
 const localizer = momentLocalizer(moment);
 const AddActivity = (props) => {
@@ -37,6 +40,8 @@ const AddActivity = (props) => {
     const [eventStartDate, setEventStartDate] =useState()
     const [eventEndDate, setEventEndDate] =useState()
     const [eventID, setEventID] = useState(0)
+    const [selectedImage, setSelectedImage] = useState(null)
+    const [imageUrl, setImageUrl] = useState(null)
       
     // const [openModal, setOpenModal] = useState(false);
     const [isConfirm, setIsConfirm] = useState(false);
@@ -48,9 +53,7 @@ const AddActivity = (props) => {
     useEffect(() => {
         console.log("eeeyy", action)
         if(action=="add"){
-            setEventStartDate(slotInfo.start)
-            setEventEndDate(slotInfo.start)
-            setEventID(0)
+            resetValues()
         }
         else if(action=="edit"){
             console.log(calendarEvent)
@@ -60,17 +63,36 @@ const AddActivity = (props) => {
             setEventStartDate(new Date(calendarEvent.start))
             setEventEndDate(new Date(calendarEvent.end))
             setEventID(calendarEvent.id)
+            setImageUrl(calendarEvent.file)
         }
         
     },[props])
+
+    useEffect(() => {
+        if (selectedImage) {
+          const file = URL.createObjectURL(selectedImage);
+          setImageUrl(file);
+        }
+      }, [selectedImage]);
 
     const handleOpen = () => {
         setOpenModal(true);
         setIsConfirm(false);
     };
 
+    const resetValues = () => {
+        setEventID(0);
+        setEventName('');
+        setEventPlace('');
+        setEventNote('');
+        setImageUrl(null);
+        setEventStartDate(slotInfo.start)
+        setEventEndDate(slotInfo.start)
+    }
+
     const handleClose = () => {
         setOpenModal(false);
+        resetValues();
     };
 
     const handleSubmit = () => {
@@ -78,16 +100,19 @@ const AddActivity = (props) => {
     };
 
     const handleActivity = () => {
-        let submitData = {
-            activity_id: action=="add" ? 0 : eventID,
-            start_date: moment(eventStartDate).format('YYYY-MM-DD HH:mm:ss'),
-            end_date: moment(eventEndDate).format('YYYY-MM-DD HH:mm:ss'),
-            activity_name: eventName,
-            activity_place: eventPlace,
-            activity_note: eventNote
-        }
-        addEvent(submitData, (response) => {
+
+        const formData = new FormData();
+        formData.append('activity_id', action === "add" ? 0 : eventID);
+        formData.append('start_date', moment(eventStartDate).format('YYYY-MM-DD HH:mm:ss'));
+        formData.append('end_date', moment(eventEndDate).format('YYYY-MM-DD HH:mm:ss'))
+        formData.append('activity_name', eventName);
+        formData.append('activity_place', eventPlace);
+        formData.append('activity_note', eventNote);
+        formData.append('file', selectedImage);
+
+        addEvent(formData, (response) => {
             if(response.status){
+                console.log(formData)
                 setOpenPrompt(true)
                 setErrorPrompt(false)
                 setNotifMessage(response.feedback)
@@ -121,13 +146,31 @@ const AddActivity = (props) => {
                 {!isConfirm ? (
                     <div>
                     <Box sx={modalStyle}>
-                        <Typography
-                        id="title"
-                        variant="h5"
-                        component="h4"
-                        marginBottom={2}>
-                        Activity for {moment(slotInfo.start).format('LL')}
-                        </Typography>
+                        <Stack
+                            direction="row"
+                            spacing={7}>
+                            <Typography
+                                id="title"
+                                variant="h5"
+                                component="h4">
+                                Activity for {action === "add" ? moment(slotInfo.start).format('LL')
+                                        : moment(calendarEvent.start).format('LL')}
+                            </Typography>
+                            <input
+                                accept="image/*"
+                                type="file"
+                                id="select-image"
+                                style={{display: 'none'}}
+                                onChange={e => setSelectedImage(e.target.files[0])}
+                            />
+                                <Tooltip title="Add a photo">
+                                    <IconButton color="primary">
+                                        <label htmlFor="select-image">
+                                            <AddPhotoAlternateIcon fontSize='medium'/>
+                                        </label> 
+                                    </IconButton>
+                                </Tooltip>
+                        </Stack>
                         <Divider />
                         <Stack spacing={1} paddingTop={2}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -179,6 +222,8 @@ const AddActivity = (props) => {
                             label="Description"
                             variant="outlined"
                             value={eventNote}
+                            multiline
+                            rows = {3}
                             // style={{width: '100%', paddingBottom: 10}}
                             onChange={e => {
                             setEventNote(e.target.value)
@@ -204,6 +249,19 @@ const AddActivity = (props) => {
                             {action=="add" ? "Add Activity" : "Edit Activity"}
                         </Button>
                         </Stack>
+                    
+                    <Divider sx={{marginTop: 2, marginBottom: 2}}/>
+                    {imageUrl && selectedImage && (
+                        <Box mt={2} textAlign="center">
+                            <div style={{marginBottom: 10}}>Preview:</div>
+                            <img
+                            src={imageUrl}
+                            alt={selectedImage.name}
+                            height="auto"
+                            width="50%"
+                            />
+                        </Box>
+                    )}
                     </Box>
                     </div>
                 ) : (

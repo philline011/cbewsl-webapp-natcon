@@ -1,4 +1,4 @@
-import React, {useMemo, div, useState, useEffect} from 'react';
+import React, {useMemo, div, useState, useEffect, Fragment} from 'react';
 import {Calendar, momentLocalizer, Views} from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -16,11 +16,13 @@ import {
   Stack,
   TextField,
   TextareaAutosize,
+  CardActionArea,
+  IconButton,
 } from '@mui/material';
 import CircleIcon from '@mui/icons-material/Circle';
 import MarirongHeader from '../utils/MarirongHeader';
 import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
-import AddCircleOutlined from '@mui/icons-material/AddCircleOutlined';
+import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FabMuiTable from '../utils/MuiTable';
@@ -34,6 +36,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import AddActivity from './AddActivity';
 import PromptModal from './modals/PromptModal';
 import { getEvents, deleteEvent } from '../../apis/EventsManagement'
+import { STORAGE_URL } from '../../config';
 
 const localizer = momentLocalizer(moment);
 
@@ -73,33 +76,6 @@ const Events = (props) => {
       // handleMuiTableBatchDelete(idsToDelete.sort());
     },
   };
-
-  // const eventsData = [
-  //   {
-  //     // id: 1,
-  //     start: '2023-01-08 08:05',
-  //     end: '2023-01-08 15:45',
-  //     title: 'LEWC training',
-  //     desc: 'Datalogger system maintenance training',
-  //     // action: 'click',
-  //   },
-  //   {
-  //     // id: 2,
-  //     start: '2023-01-15 09:10',
-  //     end: '2023-01-17 15:30',
-  //     title: 'Community Risk Assessment',
-  //     desc: 'CRA with the Brgy. Marirong Community',
-  //     action: 'click',
-  //   },
-  //   {
-  //     // id: 3,
-  //     start: '2023-01-20 09:30',
-  //     end: '2023-01-20 12:00',
-  //     title: 'Stakeholder meeting',
-  //     desc: 'Landslide preparedness drill',
-  //     action: 'click',
-  //   },
-  // ];
 
   const [calendarEvent, setCalendarEvent] = useState([]);
   const [slotInfo, setSlotInfo] = useState([]);
@@ -141,7 +117,7 @@ const Events = (props) => {
         setOpenPrompt(true)
         setErrorPrompt(false)
         setPromptTitle("Success")
-        setNotifMessage(response.message)
+        setNotifMessage("Activity successfully deleted!", response.message)
         setConfirmation(false)
         getAllEvents()
       }
@@ -158,6 +134,7 @@ const Events = (props) => {
 
   const ActivityCard = () => {
     const [editModal, setEditModal] = useState(false);
+    const [viewModal, setViewModal] = useState(false);
 
     const closeEditModal = () => {
       let id = calendarEvent.id;
@@ -180,51 +157,115 @@ const Events = (props) => {
       setCalendarEvent([]);
     };
 
+    const viewCardOpen = () => {
+      setViewModal(true)
+      console.log(calendarEvent.id)
+    };
+    const viewCardClose = () => setViewModal(false);
+
     return (
-      <Card sx={{mb: 1}}>
-        <CardContent sx={{pl: 0}}>
-          <Grid sx={{display: 'flex', flexDirection: 'row'}}>
-            <Grid>
-              <Container>
-                <CircleIcon color="warning" fontSize="large" />
-              </Container>
+      <div>
+        {calendarEvent.id !== undefined ? (
+          <Fragment>
+            <Card sx={{mb: 1}}>
+              <CardActionArea onClick={viewCardOpen}>
+                <CardContent sx={{pl: 0}}>
+                  <Grid sx={{display: 'flex', flexDirection: 'row'}}>
+                    <Grid>
+                      <Container>
+                        <CircleIcon color="warning" fontSize="large" />
+                      </Container>
+                    </Grid>
+                    <Grid>
+                      <Typography variant="h5" component="div">
+                        {calendarEvent.title}
+                      </Typography>
+                      <Typography sx={{mb: 1}} color="text.secondary">
+                        {moment(calendarEvent.start).format('LLL')} -{' '}
+                        {moment(calendarEvent.end).format('LLL')}
+                      </Typography>
+                      <Typography variant="body1">{calendarEvent.place}</Typography>
+                      <Typography variant="body1">{calendarEvent.note}</Typography>
+                      <Fragment>
+                            {calendarEvent.file && (
+                              <Box mt={2} textAlign="center">
+                                <div style={{marginBottom: 10}}>Uploaded Image:</div>
+                                <img
+                                  src={`${STORAGE_URL}/${calendarEvent.file}`}
+                                  alt={calendarEvent.file}
+                                  height="auto"
+                                  width="100%"
+                                />
+                              </Box>
+                            )}
+                      </Fragment>
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              </CardActionArea>
+              <CardActions>
+                <Grid container direction='row' justifyContent='center'>
+                  <Button
+                    startIcon={<DeleteIcon />}
+                    color="error"
+                    onClick={() => {
+                      confirmDelete()
+                    }}
+                    sx={{marginRight: 2}}>
+                    Delete
+                  </Button>
+                  <Button startIcon={<EditIcon />} 
+                    onClick={() => {
+                      setOpenAddActivityModal(true)
+                      setActivityAction("edit")
+                    }}
+                  >
+                    Edit
+                  </Button>
+                </Grid>
+              </CardActions>
+            </Card>
+        <Modal open={viewModal}>
+        <Box sx={modalStyle}>
+          <Grid container>
+            <Grid item xs={11}>
+              <Typography variant="h6" component="h2">
+                Activity for {moment(calendarEvent.start).format('LL')}
+              </Typography>
             </Grid>
-            <Grid>
-              <Typography variant="h5" component="div">
-                {calendarEvent.title}
-              </Typography>
-              <Typography sx={{mb: 1}} color="text.secondary">
-                {moment(calendarEvent.start).format('LLL')} -{' '}
-                {moment(calendarEvent.end).format('LLL')}
-              </Typography>
-              <Typography variant="body1">{calendarEvent.place}</Typography>
-              <Typography variant="body1">{calendarEvent.note}</Typography>
-              <Stack
-                direction="row"
-                spacing={2}
-                justifyContent="flex-end"
-                paddingTop={2}>
-                <Button
-                  startIcon={<DeleteIcon />}
-                  color="error"
-                  onClick={() => {
-                    confirmDelete()
-                  }}>
-                  Delete
-                </Button>
-                <Button startIcon={<EditIcon />} 
-                  onClick={() => {
-                    setOpenAddActivityModal(true)
-                    setActivityAction("edit")
-                  }}
-                >
-                  Edit
-                </Button>
-              </Stack>
+            <Grid item xs={1}>
+                <IconButton onClick={viewCardClose}>
+                    <CloseIcon/>
+                </IconButton>
             </Grid>
           </Grid>
-        </CardContent>
-      </Card>
+          <Typography sx={{ mt: 2 }}>
+            <b>Activity name:</b>&nbsp;{calendarEvent.title}<br/>
+            <b>Activity place:</b>&nbsp;{calendarEvent.place}<br/>
+            <b>Activity note:</b>&nbsp;{calendarEvent.note}<br/>
+          </Typography>
+        </Box>
+      </Modal>
+          </Fragment>
+      ): (
+        <Card>
+          <CardContent sx={{pl: 0}}>
+            <Grid sx={{display: 'flex', flexDirection: 'row'}}>
+              <Grid>
+                <Container>
+                  <CircleIcon color="primary" fontSize="large" />
+                </Container>
+              </Grid>
+              <Grid>
+                <Typography sx={{mb: 1}} color="text.secondary">
+                  {moment(calendarEvent.start).format('LL')}
+                </Typography>
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
+      )}
+       </div>
     );
   };
 
