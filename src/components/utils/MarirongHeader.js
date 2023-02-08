@@ -16,7 +16,6 @@ import DynaslopeSealMini from '../../assets/dynaslope_seal_mini.png';
 import ilolo_province_seal from '../../assets/iloilo_province_seal.png';
 import leon_municipal_seal from '../../assets/leon_municipal_seal.png';
 import leon_mdrrmc_responder from '../../assets/leon_mdrrmc_responder.png';
-import brgy_seal from '../../assets/brgy_seal.png';
 import mar_lewc_seal from '../../assets/mar_lewc_seal.png';
 
 import MenuIcon from '@mui/icons-material/Menu';
@@ -230,16 +229,6 @@ const MarirongHeader = () => {
             <img
               src={leon_mdrrmc_responder}
               alt="leon_mdrrmc_responder"
-              style={{
-                objectFit: 'contain',
-                height: 70,
-                width: 70,
-                marginRight: 8,
-              }}
-            />
-            <img
-              src={brgy_seal}
-              alt="brgy_seal"
               style={{
                 objectFit: 'contain',
                 height: 70,
