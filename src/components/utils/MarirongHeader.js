@@ -31,7 +31,7 @@ const MarirongHeader = () => {
   let navigate = useNavigate();
   const [value, setValue] = useState(0);
   const [server_time, setServerTime] = useState('');
-  const [profilePicture, setProfilePicture] = useState(null);
+  const [profilePicture] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
 
   const handleChange = (event, newValue) => {
@@ -145,11 +145,15 @@ const MarirongHeader = () => {
   };
 
   useEffect(() => {
+    handleCurrentTab()
+  })
+
+  useEffect(() => {
     setInterval(() => {
       let dt = moment().format('ddd DD-MMM-YYYY HH:mm:ss');
       setServerTime(dt);
     }, 1000);
-    handleCurrentTab()
+    
   }, []);
 
   return (

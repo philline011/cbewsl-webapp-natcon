@@ -64,6 +64,7 @@ const AddActivity = (props) => {
             setEventEndDate(new Date(calendarEvent.end))
             setEventID(calendarEvent.id)
             setImageUrl(calendarEvent.file)
+            setIsConfirm(false)
         }
         
     },[props])
