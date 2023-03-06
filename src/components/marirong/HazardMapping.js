@@ -108,7 +108,7 @@ const HazardMapping = (props) => {
                                                     {images.length > 0 && (
                                                         <img
                                                         className="embla__slide__img"
-                                                        src={`${STORAGE_URL}/${images[index].filename}${images[index].extension}`}
+                                                        src={`${directory}/${images[index].filename}${images[index].extension}`}
                                                         alt="Your alt text"
                                                         />
                                                     )}
@@ -129,7 +129,7 @@ const HazardMapping = (props) => {
                                                     }
                                                 selected={index === selectedIndex}
                                                 index={index}
-                                                imgSrc={`${STORAGE_URL}/${value.filename}${value.extension}`}
+                                                imgSrc={`${directory}/${value.filename}${value.extension}`}
                                                 key={index}
                                             />
                                             ))}

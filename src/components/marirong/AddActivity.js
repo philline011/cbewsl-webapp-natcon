@@ -66,7 +66,6 @@ const AddActivity = (props) => {
             setImageUrl(calendarEvent.file)
             setIsConfirm(false)
         }
-        
     },[props])
 
     useEffect(() => {
@@ -110,6 +109,8 @@ const AddActivity = (props) => {
         formData.append('activity_place', eventPlace);
         formData.append('activity_note', eventNote);
         formData.append('file', selectedImage);
+        console.log(formData)
+        setIsConfirm(false)
 
         addEvent(formData, (response) => {
             if(response.status){
