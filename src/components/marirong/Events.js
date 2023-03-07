@@ -62,7 +62,7 @@ const Events = (props) => {
     {name: 'desc', label: 'Activity details'},
     {name: 'start', label: 'Start date'},
     {name: 'end', label: 'End date'},
-    {name: 'actions', labek: 'Actions'},
+    {name: 'actions', label: 'Actions'},
   ];
 
   const options = {
@@ -108,11 +108,14 @@ const Events = (props) => {
     setPromptTitle("Are you sure you want to delete this event?")
     setNotifMessage("This event will be deleted immediately.")
     setConfirmation(true)
-    setDeleteID(response)
+    if(response != undefined) setDeleteID(response)
   }
 
   const handleDelete = () => {
-    deleteEvent({activity_id: calendarEvent.id}, (response) => {
+    let tempDelete = {
+      activity_id: deleteID != null ? deleteID.id : calendarEvent.id
+    }
+    deleteEvent(tempDelete, (response) => {
       if(response.status == true){
         setOpenPrompt(true)
         setErrorPrompt(false)
@@ -120,6 +123,7 @@ const Events = (props) => {
         setNotifMessage("Activity successfully deleted!", response.message)
         setConfirmation(false)
         getAllEvents()
+        setDeleteID(null)
       }
       else{
         setOpenPrompt(true)
@@ -127,9 +131,18 @@ const Events = (props) => {
         setPromptTitle("Fail")
         setNotifMessage(response.message)
         setConfirmation(false)
+        setDeleteID(null)
       }
       console.log(response)
     })
+  }
+
+  const [editElement, setEditElement] = useState(null)
+  const handleEdit = (response) => {
+    console.log(response)
+    if(response != undefined) setEditElement(response)
+    setOpenAddActivityModal(true)
+    setActivityAction("edit")
   }
 
   const ActivityCard = () => {
@@ -216,8 +229,9 @@ const Events = (props) => {
                   </Button>
                   <Button startIcon={<EditIcon />} 
                     onClick={() => {
-                      setOpenAddActivityModal(true)
-                      setActivityAction("edit")
+                      // setOpenAddActivityModal(true)
+                      // setActivityAction("edit")
+                      handleEdit()
                     }}
                   >
                     Edit
@@ -275,7 +289,8 @@ const Events = (props) => {
         slotInfo={slotInfo} 
         openModal={openAddActivityModal} 
         setOpenModal={setOpenAddActivityModal} 
-        calendarEvent={calendarEvent}
+        calendarEvent={editElement != null ? editElement : calendarEvent}
+        setEditElement={setEditElement}
         action={activityAction}
         getAllEvents={getAllEvents}
       />
@@ -367,7 +382,9 @@ const Events = (props) => {
             columns: columns,
             rows: activity,
           }}
-          options={options}
+            onEdit={handleEdit}
+            onDelete={confirmDelete}
+            buttons="update-delete"
         />
       </Grid>
     </Grid>
