@@ -361,7 +361,7 @@ const Signin = () => {
             component="h2"
             variant="h3"
             style={{paddingBottom: '5%', textAlign: 'center'}}>
-            Information for Landslides
+            Systems for Landslides
           </Typography>
           <Grid container spacing={4} textAlign="center">
             <Grid item xs={12} sm={12} md={12}>
