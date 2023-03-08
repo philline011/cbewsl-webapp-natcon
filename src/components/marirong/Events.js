@@ -88,6 +88,9 @@ const Events = (props) => {
   const [errorPrompt, setErrorPrompt] = useState(false)
   const [confirmation, setConfirmation] = useState(false)
 
+  useEffect(() => {
+    getAllEvents()
+  },[calendarEvent])
 
   const {views} = useMemo(
     () => ({
