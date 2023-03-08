@@ -6,14 +6,13 @@ Contains configuration variables to be used
 in initializing Flask App instance
 """
 # main
-# ROOT_HOST = "pysys_local:NaCAhztBgYZ3HwTkvHwwGVtJn5sVMFgg@192.168.150.112"
+# ROOT_HOST = "si:softwareinfra@192.168.150.112"
 
 # sandbox
 # ROOT_HOST = "root:senslope@192.168.150.253"
 
 # local
-
-ROOT_HOST = "softwareinfra:dynaslope2020@192.168.150.195"
+ROOT_HOST = "david:J0hnd@v!d1234@127.0.0.1"
 
 # ASTI Cloud
 # ROOT_HOST = "cbewsl:cb3wsls3rv3r@dynaslope.phivolcs.dost.gov.ph"
@@ -44,5 +43,5 @@ EMAILS = {
     "dev_email": "dynaslopeswat@gmail.com",
     "dev_password": "dynaslopeswat",
     "monitoring_email": "dewsl.monitoring2@gmail.com",
-    "monitoring_password": "zdpdbckxsveugmgq",
+    "monitoring_password": "landslides1234",
 }

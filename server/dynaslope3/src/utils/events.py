@@ -18,6 +18,7 @@ def save_activity(data, file):
     """
     Function that save activity
     """
+
     activity_id = data["activity_id"]
     start_date = data["start_date"]
     end_date = data["end_date"]
@@ -26,9 +27,11 @@ def save_activity(data, file):
     activity_note = data["activity_note"]
     status = None
     feedback = None
+
+
     try:
         ret_val = None
-        if activity_id == 0:
+        if activity_id == 0 or activity_id == "0":
             insert_activity = Activity(
                 start_date=start_date,
                 end_date=end_date,

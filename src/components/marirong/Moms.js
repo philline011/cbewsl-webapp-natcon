@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {Grid, Container, Button, Typography, FormControl} from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Grid, Container, Button, Typography, FormControl } from '@mui/material';
 import FabMuiTable from '../utils/MuiTable';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -38,10 +38,10 @@ const Moms = (props) => {
     instance_id: 0
   })
   const [featureNames, setFeatureNames] = useState([
-      {
-          name: "New Instance",
-          instance_id: 0
-      }
+    {
+      name: "New Instance",
+      instance_id: 0
+    }
   ])
 
   const [instances, setInstances] = useState([])
@@ -51,100 +51,110 @@ const Moms = (props) => {
 
   useEffect(() => {
     let check = featureNames.find((o) => o.name === featureName.name)
-    if(check) setExistingFeatureName(true)
+    if (check) setExistingFeatureName(true)
     else setExistingFeatureName(false)
-  },[featureName])
+  }, [featureName])
 
   const feature_list = [
     {
-        feature_id: 1,
-        feature: 'Crack',
-        details: 
-        'Ilang crack ang nakita?: '+
-        '\nGaano kahaba?: '+
-        '\nGaano kalapad?: '+
-        '\nAno ang lalim nito?: '+
-        '\nAno ang oryentasyon o direksyon?: '+
+      feature_id: 1,
+      feature: 'Crack',
+      details:
+        'Ilang crack ang nakita?: ' +
+        '\nGaano kahaba?: ' +
+        '\nGaano kalapad?: ' +
+        '\nAno ang lalim nito?: ' +
+        '\nAno ang oryentasyon o direksyon?: ' +
         '\nGaano kalaki ang pagbabago? (Kung luma): '
     },
     {
-        feature_id: 2,
-        feature: 'Scarp',
-        details: 
-        'Ilang scarp ang nakita?: '+
-        '\nGaano kahaba?: '+
-        '\nGaano kalapad?: '+
-        '\nAno ang taas nito?: '+
-        '\nAno ang oryentasyon o direksyon?: '+
+      feature_id: 2,
+      feature: 'Scarp',
+      details:
+        'Ilang scarp ang nakita?: ' +
+        '\nGaano kahaba?: ' +
+        '\nGaano kalapad?: ' +
+        '\nAno ang taas nito?: ' +
+        '\nAno ang oryentasyon o direksyon?: ' +
         '\nGaano kalaki ang pagbabago?(Kung luma): '
 
     },
     {
-        feature_id: 3,
-        feature: 'Seepage',
-        details: 
-        'Gaano kabilis/kalakas ang daloy ng tubig?: '+
-        '\nGaano karami ang tubig na umaagos?: '+
-        '\nAno ang kulay ng tubig?: '+
+      feature_id: 3,
+      feature: 'Seepage',
+      details:
+        'Gaano kabilis/kalakas ang daloy ng tubig?: ' +
+        '\nGaano karami ang tubig na umaagos?: ' +
+        '\nAno ang kulay ng tubig?: ' +
         '\nBagong seepage o dati na?: '
     },
     {
-        feature_id: 4,
-        feature: 'Ponding',
-        details: 
-        'Gaano kalaki ang ponding?: '+
-        '\nMayroon bang kalapit na iba pang landslide feature?: '+
+      feature_id: 4,
+      feature: 'Ponding',
+      details:
+        'Gaano kalaki ang ponding?: ' +
+        '\nMayroon bang kalapit na iba pang landslide feature?: ' +
         '\nBagong ponding o dati pa?: '
     },
     {
-        feature_id: 5,
-        feature: 'Tilted/Split Trees',
-        details: 
-        'Saang direksyon nakatagilid/nakatabingi/nahati ang puno?: '+
+      feature_id: 5,
+      feature: 'Tilted/Split Trees',
+      details:
+        'Saang direksyon nakatagilid/nakatabingi/nahati ang puno?: ' +
         '\nPara sa split trees, gaano kalaki ang hati?: '
     },
     {
-        feature_id: 6,
-        feature: 'Damaged Structures',
-        details:
-        'Mayroon bang mga paglubong sa sahig o pagtagilid nng mga dingding?: '+
+      feature_id: 6,
+      feature: 'Damaged Structures',
+      details:
+        'Mayroon bang mga paglubong sa sahig o pagtagilid nng mga dingding?: ' +
         '\nSaan nakita ang crack at ano ang oryentasyon nito?: '
     },
     {
-        feature_id: 7,
-        feature: 'Slope Failure',
-        details: 
-        'Saang bahagi ng slope ito na-obserbahan?: '+
-        '\nGaano kalayo ang narating ng pagguho ng lupa?: '+
-        '\nMayroon bang mga naapektuhang istruktura?: '+
+      feature_id: 7,
+      feature: 'Slope Failure',
+      details:
+        'Saang bahagi ng slope ito na-obserbahan?: ' +
+        '\nGaano kalayo ang narating ng pagguho ng lupa?: ' +
+        '\nMayroon bang mga naapektuhang istruktura?: ' +
         '\nGaano ito kataas at kalapad?: '
     },
     {
-        feature_id: 8,
-        feature: 'Bulging/Depression',
-        details: 
-        'Ilan ang nakitang pag-umbok o paglubog ng lupa?: '+
-        '\nGaano ito kalaki?: '+
+      feature_id: 8,
+      feature: 'Bulging/Depression',
+      details:
+        'Ilan ang nakitang pag-umbok o paglubog ng lupa?: ' +
+        '\nGaano ito kalaki?: ' +
         '\nMayroon bang kalapit na iba pang landslide feature?: '
     },
   ];
 
-  useEffect(()=> {
+  useEffect(() => {
     setFeatureName("")
 
     getFeatures((response) => {
-      console.log(response)
-      let tempData = response.data
+      let tempData = response.data;
+
+      // console.log(tempData);
+
+      // let tempFeatureNames = [];
+
       tempData.map(feature => {
-        if(feature.feature_id == selectedFeatureIndex){
+        // tempFeatureNames.push({
+        //   feature_id: feature.feature_id,
+        //   name: feature.feature_type
+        // })
+
+        if (feature.feature_id == selectedFeatureIndex) {
           let tempFeatureNames = [
             {
               name: "New Instance",
               instance_id: 0
             }
           ]
-          if(feature.instances.length>0){
 
+          console.log("feature:", feature)
+          if (feature.instances.length > 0) {
             feature.instances.map(instance => {
               tempFeatureNames.push({
                 instance_id: instance.instance_id,
@@ -152,26 +162,25 @@ const Moms = (props) => {
               })
             })
           }
-          
+
           setFeatureNames(tempFeatureNames)
         }
-      })
+      });
     })
-    
+
   }, [selectedFeatureIndex]);
 
   useEffect(() => {
     reloadTable()
-  },[props])
+  }, [props])
 
-  
+
   const reloadTable = () => {
     getInstances((response) => {
-      if(response.data){
+      if (response.data) {
         setInstances(response.data)
-      } 
+      }
     })
-    console.log("shkdhgfwuyebcviw", instances)
 
   }
 
@@ -187,112 +196,31 @@ const Moms = (props) => {
     setOpen(false);
   };
 
-  const columns = [
-    {name: 'date', label: 'Observance timestamp'},
-    {name: 'description', label: 'Description'},
-    {name: 'feature', label: 'Feature Name'},
-    {name: 'reporter', label: 'Reporter'},
-    {name: 'actions', label: 'Actions'},
-  ];
+  const handleSubmit = () => {
+    setOpen(false);
+    console.log("SuBmit me here?!");
 
-  const options = {
-    filter: true,
-    selectableRows: 'multiple',
-    selectableRowsOnClick: true,
-    filterType: 'checkbox',
-    responsive: 'vertical',
-    onRowsDelete: rowsDeleted => {
-      // const idsToDelete = rowsDeleted.data.map (item => item.dataIndex)
-      // handleMuiTableBatchDelete(idsToDelete.sort());
-    },
-  };
-  const dummyData = [
-    {
-      date: '2022-09-06 7:30AM',
-      description: 'Nagkaroon nang maliit na landslide',
-      feature: 'Slope failure',
-      reporter: 'Jek de Guzman',
-      actions: 'N/A',
-      history: [
-        {
-          date: 1,
-          name: "hello",
-          place: "world",
-          number: 12345
-        },
-        {
-          date: 2,
-          name: "hello",
-          place: "world",
-          number: 12345
-        },
-        {
-          date: 3,
-          name: "hello",
-          place: "world",
-          number: 12345
-        },
-
-      ]
-    },
-    {
-      date: '2022-09-06 8:30AM',
-      description: 'May bagong naipon na tubig',
-      feature: 'Ponding',
-      reporter: 'Edch Flores',
-      actions: 'N/A',
-      history: [
-        {
-          date: 1,
-          name: "hello",
-          place: "world",
-          number: 12345
-        },
-        {
-          date: 2,
-          name: "hello",
-          place: "world",
-          number: 12345
-        },
-        {
-          date: 3,
-          name: "hello",
-          place: "world",
-          number: 12345
-        },
-
-      ]
-
-    },
-    {
-      date: '2022-09-08 11:30AM',
-      description: 'Nagkaroon nang bagong crack',
-      feature: 'New crack',
-      reporter: 'Jek de Guzman',
-      actions: 'N/A',
-      history: [
-        {
-          date: 1,
-          name: "hello",
-          place: "world",
-          number: 12345
-        },
-        {
-          date: 2,
-          name: "hello",
-          place: "world",
-          number: 12345
-        },
-        {
-          date: 3,
-          name: "hello",
-          place: "world",
-          number: 12345
-        },
-
-      ]
-    },
-  ];
+    //   {
+    //     "site_code": "lpa",
+    //     "moms_list": [
+    //         {
+    //             "alert_level": 2,
+    //             "instance_id": 143,
+    //             "feature_name": "A",
+    //             "feature_type": "crack",
+    //             "report_narrative": "TEST",
+    //             "observance_ts": "2022-01-01 00:00:00",
+    //             "remarks": "TEST",
+    //             "reporter_id": 595,  
+    //             "validator_id": 76,
+    //             "location": "",
+    //             "iomp": 76,
+    //             "file_name": "test123.jpg"
+    //         }
+    //     ],
+    //     "uploads": []
+    // }
+  }
 
   return (
     <Container>
@@ -301,7 +229,7 @@ const Moms = (props) => {
           Enter new manifestation of movement
         </DialogTitle>
         <DialogContent>
-          <Grid item xs={12} style={{paddingTop: 10}}>
+          <Grid item xs={12} style={{ paddingTop: 10 }}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateTimePicker
                 label="Date"
@@ -309,33 +237,53 @@ const Moms = (props) => {
                 onChange={(e) => {
                   setDateTimestamp(e);
                 }}
-                renderInput={(params) => <TextField style={{width:'100%', paddingBottom: 10}} {...params} />}
+                renderInput={(params) => <TextField style={{ width: '100%', paddingBottom: 10 }} {...params} />}
               />
             </LocalizationProvider>
           </Grid>
           <Grid item xs={12}>
-            <FormControl fullWidth style={{width: '100%', paddingBottom: 15}}
+            <FormControl fullWidth style={{ width: '100%', paddingBottom: 15 }}
+            >
+              <InputLabel id="demo-simple-select-label">Alert Levels</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Alert level"
+                onChange={e => {
+                  console.log(e.target.value);
+                  // console.log((feature_list.find((o) => o.instance_id == selectedFeatureIndex)).name)
+                  // setSelectedFeatureIndex(e.target.value)
+                }}
+              >
+                <MenuItem key={1} value={1}>Alert level 1</MenuItem>
+                <MenuItem key={2} value={2}>Alert level 2</MenuItem>
+                <MenuItem key={3} value={3}>Alert level 3</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl fullWidth style={{ width: '100%', paddingBottom: 15 }}
             >
               <InputLabel id="demo-simple-select-label">Feature Type</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 label="Feature Type"
-                // value={selectedFeatureIndex != null ? (feature_list.find((o) => o.instance_id == selectedFeatureIndex)).name : ""}
+                value={selectedFeatureIndex != null ? (feature_list.find((o) => o.feature_id == selectedFeatureIndex)).feature : ""}
                 onChange={e => {
-                  console.log((feature_list.find((o) => o.instance_id == selectedFeatureIndex)).name)
-                  setSelectedFeatureIndex(e.target.value)
+                  setSelectedFeatureIndex(e.target.value);
                 }}
               >
-                  {
-                    feature_list.map((row, index)=> (
-                      <MenuItem key={index} value={row.feature_id}>{row.feature}</MenuItem>
-                    ))
-                  }
+                {
+                  console.log((feature_list.find((o) => o.feature_id == selectedFeatureIndex)).feature)
+                }
+                {
+                  feature_list && feature_list.map((row, index) => (
+                    <MenuItem key={index} value={row.feature_id}>{row.feature}</MenuItem>
+                  ))
+                }
               </Select>
             </FormControl>
             {selectedFeatureIndex != null &&
-              <FormControl fullWidth style={{width: '100%', paddingBottom: 15}}
+              <FormControl fullWidth style={{ width: '100%', paddingBottom: 15 }}
               >
                 <InputLabel id="demo-simple-select-label">Feature Name</InputLabel>
                 <Select
@@ -347,16 +295,16 @@ const Moms = (props) => {
                     setFeatureName(e.target.value)
                   }}
                 >
-                    {
-                      featureNames.map((row, index)=> (
-                        <MenuItem key={index} value={row}>{row.name}</MenuItem>
-                      ))
-                    }
+                  {
+                    featureNames.map((row, index) => (
+                      <MenuItem key={index} value={row}>{row.name}</MenuItem>
+                    ))
+                  }
                 </Select>
               </FormControl>
             }
           </Grid>
-          
+
           {featureName.instance_id == 0 &&
             <Grid item xs={12}>
               <TextField
@@ -365,7 +313,7 @@ const Moms = (props) => {
                 id="outlined-required"
                 label="Feature Name"
                 variant="outlined"
-                style={{width: '100%', paddingBottom: 10}}
+                style={{ width: '100%', paddingBottom: 10 }}
                 onChange={e => {
                   setFeatureName({
                     name: e.target.value,
@@ -380,7 +328,7 @@ const Moms = (props) => {
               id="outlined-required"
               label="Description"
               variant="outlined"
-              style={{width: '100%', paddingBottom: 10}}
+              style={{ width: '100%', paddingBottom: 10 }}
               value={featureDetails}
               onChange={e => {
                 setFeatureDetails(e.target.value)
@@ -392,7 +340,7 @@ const Moms = (props) => {
               id="outlined-required"
               label="Location"
               variant="outlined"
-              style={{width: '100%', paddingBottom: 10}}
+              style={{ width: '100%', paddingBottom: 10 }}
               value={featureLocation}
               onChange={e => {
                 setFeatureLocation(e.target.value)
@@ -404,7 +352,7 @@ const Moms = (props) => {
               id="outlined-required"
               label="Reporter"
               variant="outlined"
-              style={{width: '100%', paddingBottom: 10}}
+              style={{ width: '100%', paddingBottom: 10 }}
               value={reporter}
               onChange={e => {
                 setReporter(e.target.value)
@@ -415,36 +363,36 @@ const Moms = (props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Submit</Button>
+          <Button onClick={handleSubmit}>Submit</Button>
         </DialogActions>
       </Dialog>
 
 
-      <Grid container spacing={4} sx={{mt: 2, mb: 6, padding: '2%'}}>
+      <Grid container spacing={4} sx={{ mt: 2, mb: 6, padding: '2%' }}>
         <Grid item xs={12}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography variant="h4">Manifestations of Movement</Typography>
             </Grid>
             <Grid item xs={12}>
-            <Table aria-label="collapsible table">
-              <TableHead>
-                <TableRow>
-                  <TableCell />
-                  <TableCell>Feature Type</TableCell>
-                  <TableCell>Feature Name</TableCell>
-                  <TableCell>Location</TableCell>
-                  <TableCell>Last Observance Timestamp</TableCell>
-                  <TableCell>Alert Level</TableCell>
-                  <TableCell>Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {instances.map((row) => (
-                  <Row key={row.date} row={row} />
-                ))}
-              </TableBody>
-            </Table>
+              <Table aria-label="collapsible table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell />
+                    <TableCell>Feature Type</TableCell>
+                    <TableCell>Feature Name</TableCell>
+                    <TableCell>Location</TableCell>
+                    <TableCell>Last Observance Timestamp</TableCell>
+                    <TableCell>Alert Level</TableCell>
+                    <TableCell>Actions</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {instances.map((row) => (
+                    <Row key={row.date} row={row} />
+                  ))}
+                </TableBody>
+              </Table>
               {/* <FabMuiTable
                 data={{
                   columns: columns,
@@ -459,7 +407,7 @@ const Moms = (props) => {
                   <Button variant="contained" onClick={handleClickOpen}>
                     Add manifestations of movement
                   </Button>
-                  
+
                 </Grid>
               </Grid>
             </Grid>
@@ -503,7 +451,7 @@ function Row(props) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                  <TableCell>Observance Timestamp</TableCell>
+                    <TableCell>Observance Timestamp</TableCell>
                     <TableCell>Narrative</TableCell>
                     <TableCell>Report Timestamp</TableCell>
                     <TableCell>Reporter</TableCell>

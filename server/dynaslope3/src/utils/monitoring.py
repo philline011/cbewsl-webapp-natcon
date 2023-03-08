@@ -607,6 +607,7 @@ def get_ongoing_extended_overdue_events(run_ts=None):
             ]).dump(event_alert)
         public_alert_level = event_alert.public_alert_symbol.alert_level
         trigger_list = latest_release.trigger_list
+        print(event_alert_data)
         event_alert_data["internal_alert_level"] = build_internal_alert_level(
             public_alert_level, trigger_list)
         event_alert_data["event"]["validity"] = str(datetime.strptime(
@@ -1644,6 +1645,7 @@ def check_if_moms_ts_exists(timestamp):
 
 
 def write_monitoring_moms_to_db(moms_details, site_id, event_id=None):
+    print("moms_details", moms_details)
     """
     Insert a moms report to db regardless of attached to release
     or prior to release.

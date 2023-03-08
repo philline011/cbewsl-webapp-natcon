@@ -9,18 +9,22 @@ import {
   TextField,
   Grid,
 } from '@mui/material';
-import React, {Fragment, useState, useEffect} from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 
 function DisseminateModal(props) {
-    const { isOpen, trigger, setOpenModal, handleSendSMS, monitoringReleases, setMonitoringReleases, setTriggers, triggers } = props;
+  const { isOpen, trigger, setOpenModal, handleSendSMS, monitoringReleases, setMonitoringReleases, setTriggers, triggers } = props;
 
-    const releaseEWISms = () => {
-        handleSendSMS()
-    }
+  const releaseEWISms = () => {
+    handleSendSMS()
+  }
 
   const downloadEWISms = () => {
     handleSendSMS();
   };
+
+  useEffect(() => {
+    console.log("TRIGGERS:", trigger);
+  }, [isOpen]);
 
   return (
     <Dialog
@@ -29,7 +33,7 @@ function DisseminateModal(props) {
       open={isOpen}
       aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">Disseminate</DialogTitle>
-      <DialogContent>
+      {/* <DialogContent>
         <Grid container>
           <Grid item md={12}>
             <Typography variant="body1">
@@ -62,7 +66,7 @@ function DisseminateModal(props) {
             <br />
           </Grid>
         </Grid>
-      </DialogContent>
+      </DialogContent> */}
       <DialogActions>
         <Button onClick={downloadEWISms} color="primary">
           Download

@@ -180,16 +180,16 @@ function HeaderAlertInformation(props) {
         const { trigger_symbol } = internal_sym;
         const { trigger_hierarchy } = trigger_symbol;
         const { trigger_source } = trigger_hierarchy;
-        // const { on_demand } = trigger_misc; # COME BACK HERE 
         let template = ewiTemplates.find(e => e.trigger === trigger_source && e.alert_level === highest_event_alert_level);
-        // if (trigger_source === "on demand" && on_demand) {
-        //   const { eq_id } = on_demand;
-        //   if (eq_id) {
-        //     template = ewiTemplates.find(e => e.alert_level === highest_event_alert_level && e.trigger === "earthquake");
-        //   } else {
-        //     template = ewiTemplates.find(e => e.alert_level === highest_event_alert_level && e.trigger === "rainfall");
-        //   }
-        // }
+        if (trigger_source === "on demand") {
+          const { on_demand } = trigger_misc;
+          const { eq_id } = on_demand;
+          if (eq_id) {
+            template = ewiTemplates.find(e => e.alert_level === highest_event_alert_level && e.trigger === "earthquake");
+          } else {
+            template = ewiTemplates.find(e => e.alert_level === highest_event_alert_level && e.trigger === "rainfall");
+          }
+        }
         if (template) {
           return template
         }
@@ -211,50 +211,50 @@ function HeaderAlertInformation(props) {
   return (
 
     <Grid
-        container
-        justifyContent={'center'}
-        alignItems={'center'}
-        textAlign={'center'}>
-        <Grid item xs={12} style={{ width: '100%', margin: 10 }}>
+      container
+      justifyContent={'center'}
+      alignItems={'center'}
+      textAlign={'center'}>
+      <Grid item xs={12} style={{ width: '100%', margin: 10 }}>
         <Grid container spacing={1}>
-            <Grid
+          <Grid
             item
             xs={12}
             style={{
-                alignSelf: 'center',
-                marginTop: 8,
-                justifyItems: 'center',
+              alignSelf: 'center',
+              marginTop: 8,
+              justifyItems: 'center',
             }}>
             <Typography variant="h4">Current alert status</Typography>
             <Typography variant="h5">{data_timestamp}</Typography>
             <Divider variant="middle" style={{ padding: 10 }} />
             <div
-                style={{
+              style={{
                 display: 'flex',
                 justifyContent: 'center',
                 paddingTop: 20,
-                }}>
-                <Card
+              }}>
+              <Card
                 style={{
-                    backgroundColor: alert_level_colors.find(e => e.alert_level === alert_level).color ,
-                    width: 500,
+                  backgroundColor: alert_level_colors.find(e => e.alert_level === alert_level).color,
+                  width: 500,
                 }}>
                 <Typography variant="h3">ALERT LEVEL {alert_level}</Typography>
-                </Card>
+              </Card>
             </div>
             <Typography variant="h5">
-                {
+              {
                 validity ? `valid until ${validity}` : ""
-                }
-                
+              }
+
             </Typography>
             <h3>Response (MDRRMO): {reponses.municipyo_response ? reponses.municipyo_response : `N/A`}</h3>
             <h3>Response (LEWC at Barangay): {reponses.barangay_response ? reponses.barangay_response : `N/A`}</h3>
-            <h3>Response (Komunidad): {reponses.commmunity_response ? reponses.commmunity_response: `N/A`}</h3>
+            <h3>Response (Komunidad): {reponses.commmunity_response ? reponses.commmunity_response : `N/A`}</h3>
             <Divider variant="middle" style={{ paddingBottom: 10 }} />
-            </Grid>
+          </Grid>
         </Grid>
-        </Grid>
+      </Grid>
     </Grid>
   );
 }
@@ -575,7 +575,6 @@ function PendingAccordionPanel(props) {
 function LatestAccordionPanel(props) {
   const { data, key, expanded, handleChange, handleDisseminate, isRoutine } =
     props;
-  console.log(data);
   const [header_color, setHeaderColor] = useState(null);
   const [data_timestamp, setDataTimestamp] = useState(null);
   const [trig_source, setTriggerSource] = useState('');
@@ -1169,7 +1168,7 @@ function OpCen2(props) {
         notifMessage={notif_message}
         alertVariant={alert_variant}
       />
-      {/* <DisseminateModal
+      <DisseminateModal
         isOpen={is_open_disseminate_modal}
         setOpenModal={setIsOpenDisseminateModal}
         disseminateData={disseminate_data}
@@ -1181,7 +1180,7 @@ function OpCen2(props) {
         setMonitoringReleases={setMonitoringReleases}
         capitalizeFirstLetter={capitalizeFirstLetter}
         ewiTemplates={cbewsl_ewi_template}
-      /> */}
+      />
       <UpdateMomsModal
         isOpen={is_open_update_moms_modal}
         setOpenModal={setIsOpenUpdateMomsModal}
