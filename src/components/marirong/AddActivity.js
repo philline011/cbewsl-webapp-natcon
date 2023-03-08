@@ -32,7 +32,7 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 const localizer = momentLocalizer(moment);
 const AddActivity = (props) => {
 
-    const {slotInfo, openModal, setOpenModal, action, calendarEvent, getAllEvents} = props
+    const {slotInfo, openModal, setOpenModal, action, calendarEvent, getAllEvents, setEditElement} = props
 
     const [eventName, setEventName] = useState("")
     const [eventPlace, setEventPlace] = useState("")
@@ -51,7 +51,6 @@ const AddActivity = (props) => {
     const [errorPrompt, setErrorPrompt] = useState(false)
 
     useEffect(() => {
-        console.log("eeeyy", action)
         if(action=="add"){
             resetValues()
         }
@@ -94,6 +93,7 @@ const AddActivity = (props) => {
     const handleClose = () => {
         setOpenModal(false);
         resetValues();
+        setEditElement(null)
     };
 
     const handleSubmit = () => {
@@ -119,12 +119,14 @@ const AddActivity = (props) => {
                 setNotifMessage(response.feedback)
                 setOpenModal(false);
                 getAllEvents()
+                setEditElement(null)
             }
             else{
                 setOpenPrompt(true)
                 setErrorPrompt(true)
                 setNotifMessage(response.feedback)
                 setOpenModal(false);
+                setEditElement(null)
             }
         })
         
