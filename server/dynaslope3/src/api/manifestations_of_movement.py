@@ -50,8 +50,8 @@ def wrap_write_monitoring_moms_to_db(internal_json=None):
         for moms_obs in moms_list:
             write_monitoring_moms_to_db(moms_details=moms_obs, site_id=site_id)
 
-        update_temp_moms = MonitoringMomsTemp.query.get(json_data["temp_moms_id"])
-        update_temp_moms.is_updated = 1
+        # update_temp_moms = MonitoringMomsTemp.query.get(json_data["temp_moms_id"])
+        # update_temp_moms.is_updated = 1
         
         DB.session.commit()
     except Exception as err:

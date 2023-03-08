@@ -56,9 +56,13 @@ MAX_POSSIBLE_ALERT_LEVEL = get_max_possible_alert_level()
 RELEASE_INTERVAL_HOURS = retrieve_data_from_memcache(
     "dynamic_variables", {"var_name": "RELEASE_INTERVAL_HOURS"}, retrieve_attr="var_value")
 
-# Max hours total of 3 days
+# Max hours total of 2 days for alert 2 and 3
 ALERT_EXTENSION_LIMIT = retrieve_data_from_memcache(
     "dynamic_variables", {"var_name": "ALERT_EXTENSION_LIMIT"}, retrieve_attr="var_value")
+
+# Max hours total of 1 day for alert 1
+ALERT1_EXTENSION_LIMIT = retrieve_data_from_memcache(
+    "dynamic_variables", {"var_name": "ALERT1_EXTENSION_LIMIT"}, retrieve_attr="var_value")
 
 # Number of hours extended if no_data upon validity
 NO_DATA_HOURS_EXTENSION = retrieve_data_from_memcache(
@@ -236,7 +240,7 @@ def format_recent_retriggers(unique_positive_triggers_list, invalid_dicts, site_
             internal_sym_id = ots_row["internal_alert_symbol"]["internal_sym_id"]
             ts_updated = item.ts_updated
             site_id = item.site_id
-            
+
             # Form a dictionary that will hold all trigger details
             trigger_dict = {
                 "trigger_type": trigger_source,
@@ -300,9 +304,9 @@ def format_recent_retriggers(unique_positive_triggers_list, invalid_dicts, site_
                     }
 
                     trigger_dict.update(earthquake_special_details)
-                # else:
-                #     raise Exception(
-                #         "Reaching EQ event trigger WITHOUT any earthquake alerts!")
+                else:
+                    raise Exception(
+                        "Reaching EQ event trigger WITHOUT any earthquake alerts!")
             elif trigger_source == "on demand":
                 on_demand_alerts_list = get_on_demand(site_id, ts_updated)
                 if on_demand_alerts_list:
@@ -318,9 +322,9 @@ def format_recent_retriggers(unique_positive_triggers_list, invalid_dicts, site_
                     }
 
                     trigger_dict.update(on_demand_special_details)
-                # else:
-                    # raise Exception(
-                    #     "Reaching OD event trigger WITHOUT any on_demand alerts!")
+                else:
+                    raise Exception(
+                        "Reaching OD event trigger WITHOUT any on_demand alerts!")
             elif trigger_source == "rainfall":
                 trigger_tech_info = tech_info_maker.main(item)
                 rainfall = {
@@ -444,17 +448,14 @@ def get_ground_alert_level(highest_public_alert, current_trigger_alerts,
     Returns:
         ground_alert_data (int):    0 or -1 (0 if has data, -1 if no data)
     """
-    print("highest_public_alert", highest_public_alert)
+
     if highest_public_alert <= 1:
         ground_alert_level = -1
         for trigger_source in current_trigger_alerts:
-            print(trigger_source)
             trigger_alert = current_trigger_alerts[trigger_source]
-            print("trigger_alert[th_row][is_ground]", trigger_alert["th_row"]["is_ground"])
             if trigger_alert["th_row"]["is_ground"]:
                 if trigger_alert["alert_level"] != -1:
                     is_moms = trigger_alert["th_row"]["trigger_source"] == "moms"
-                    print("trigger_alert[th_row]", is_moms, trigger_alert["th_row"])
                     # Accept moms as ground data presence only if there is no
                     # active surficial markers
                     if not is_moms or (is_moms and not has_active_surficial_markers):
@@ -472,7 +473,7 @@ def get_ground_alert_level(highest_public_alert, current_trigger_alerts,
                 # Exclusive lowering logic
                 if cta_alert_level == -1:
                     ground_alert_level = -1
-    print("GROUND ALERT LEVEL", ground_alert_level)
+
     return ground_alert_level
 
 
@@ -681,7 +682,6 @@ def get_validity_variables(positive_triggers_list, highest_public_alert, query_t
 
     max_trigger_ts_updated = max(
         positive_triggers_list, key=lambda x: x.ts_updated).ts_updated
-    print("11111111", max_trigger_ts_updated)
     validity = compute_event_validity(
         max_trigger_ts_updated, highest_public_alert)
     is_end_of_validity = (validity - timedelta(minutes=30)) <= query_ts_end
@@ -1479,7 +1479,6 @@ def get_site_public_alerts(active_sites, query_ts_start, query_ts_end, s_g_a_t_d
 
         has_active_surficial_markers = check_if_site_has_active_surficial_markers(
             site_id=site_id)
-        print("has_active_surficial_markers", has_active_surficial_markers)
         # Identify the summarized ground alert level for all ground triggers [-1, 0]
         ground_alert_level = get_ground_alert_level(
             highest_public_alert, current_trigger_alerts,
@@ -1493,9 +1492,11 @@ def get_site_public_alerts(active_sites, query_ts_start, query_ts_end, s_g_a_t_d
         # PUBLIC ALERT #
         ################
         global ALERT_EXTENSION_LIMIT
+        global ALERT1_EXTENSION_LIMIT
         global NO_DATA_HOURS_EXTENSION
 
         alert_extension_limit = ALERT_EXTENSION_LIMIT
+        alert1_extension_limit = ALERT1_EXTENSION_LIMIT
         no_data_hours_extension = NO_DATA_HOURS_EXTENSION
 
         is_alert_for_lowering = False
@@ -1528,9 +1529,14 @@ def get_site_public_alerts(active_sites, query_ts_start, query_ts_end, s_g_a_t_d
             except Exception as err:
                 print(err)
                 raise
+                
+            if highest_public_alert == 1:
+                extension_hours = alert1_extension_limit
+            else:
+                extension_hours = alert_extension_limit
 
             is_within_alert_extension_limit = validity + \
-                timedelta(hours=alert_extension_limit) > query_ts_end + \
+                timedelta(hours=extension_hours) > query_ts_end + \
                 timedelta(minutes=30)
 
             # If has data, True, else, False
@@ -1696,9 +1702,6 @@ def get_site_public_alerts(active_sites, query_ts_start, query_ts_end, s_g_a_t_d
 
 
 def main(query_ts_end=None, query_ts_start=None, save_generated_alert_to_db=True, site_code=None):  # is_test=False
-    print("=======================")
-    print(query_ts_end, query_ts_start, save_generated_alert_to_db, site_code)
-    print("=======================")
     """
     """
     script_start = datetime.now()

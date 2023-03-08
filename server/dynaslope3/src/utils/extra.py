@@ -73,7 +73,7 @@ def retrieve_data_from_memcache(table_name, filters_dict=None, retrieve_one=True
     """
     Memcache getter
     """
-
+    print("table_name", table_name)
     return_data = []
     if filters_dict is None:
         filters_dict = []
@@ -104,6 +104,7 @@ def retrieve_data_from_memcache(table_name, filters_dict=None, retrieve_one=True
         return_data = data
 
     final_return_data = []
+    print("retrieve_attr", retrieve_attr)
     if retrieve_attr:
         if retrieve_one:
             final_return_data = return_data[retrieve_attr]

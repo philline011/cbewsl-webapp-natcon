@@ -20,6 +20,7 @@ def save_event_activity():
     """
 
     data = request.get_json()
+
     if data is None:
         data = request.form
     uploaded_file = None
@@ -28,6 +29,8 @@ def save_event_activity():
     except Exception:
         pass
 
+    print("----")
+    print(data['start_date'])
     feedback = save_activity(data, uploaded_file)
 
     return jsonify(feedback)

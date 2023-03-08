@@ -1754,12 +1754,12 @@ def save_earthquake_intensity():
         "message": message
     })
 
-@MONITORING_BLUEPRINT.route("/monitoring/public_alert_generator", methods=["GET"])
-def wrap_execute_public_alert_generator():
-    public_alert_generator(save_generated_alert_to_db=True, site_code="lpa")
-    gsm_alerts()
+# @MONITORING_BLUEPRINT.route("/monitoring/public_alert_generator", methods=["GET"])
+# def wrap_execute_public_alert_generator():
+#     public_alert_generator(save_generated_alert_to_db=True, site_code="lpa")
+#     gsm_alerts()
 
-    return jsonify(True)
+#     return jsonify(True)
     
 @MONITORING_BLUEPRINT.route("/monitoring/candidate_alerts", methods=["GET"])
 def get_candidate_alerts():
@@ -1767,6 +1767,7 @@ def get_candidate_alerts():
     Get candidate alerts
     """
     # run public alert generator first to get the update triggers and public alert
+    public_alert_generator(save_generated_alert_to_db=True, site_code="mar")
     generated_alerts = public_alert_generator(save_generated_alert_to_db=True, site_code="mar")
     alerts_from_db = wrap_get_ongoing_extended_overdue_events()
     gsm_alerts()
@@ -1778,6 +1779,14 @@ def get_candidate_alerts():
 
     return jsonify(data)
 
+
+@MONITORING_BLUEPRINT.route("/monitoring/public_alert_generator", methods=["GET"])
+def wrap_execute_public_alert_generator():
+    public_alert_generator(save_generated_alert_to_db=True, site_code="mar")
+    gsm_alerts()
+
+    return jsonify(True)
+    
 
 @MONITORING_BLUEPRINT.route("/monitoring/site_latest_alert/<user_id>", methods=["GET"])
 def site_latest_alert(user_id):
