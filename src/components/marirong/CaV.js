@@ -72,6 +72,8 @@ const CaV = () => {
       }
     })
 
+    console.log(households)
+
     getSummary((response)=>{
       if(response.status){
         tempVulnerableCount.pregnant = response.pregnant_count
@@ -235,6 +237,7 @@ const CaV = () => {
 
   const handleSubmit = () => {
     let tempMembers = []
+    console.log("household members",householdMembers)
     householdMembers.map((item) => {
       tempMembers.push({
         household_member: item.household_member,
@@ -242,7 +245,7 @@ const CaV = () => {
         gender: item.gender,
         pregnant: item.pregnant,
         disability: (item.disabled == true) ? item.disability : null,
-        comorbidity: (item.comorbid == true) ? item.comorbid : null
+        comorbidity: (item.comorbid == true) ? item.comorbidity : null
       })
     })
 
@@ -258,7 +261,7 @@ const CaV = () => {
       members: tempMembers
     }
 
-    console.log(submitData)
+    console.log("submit data uwu",submitData)
 
     if(action=="add"){
       addHousehold(submitData, (response) => {
@@ -562,7 +565,7 @@ const CaV = () => {
           aria-labelledby="form-dialog-title"
 
       >
-        <DialogTitle id="form-dialog-title">Add New Household</DialogTitle>
+        <DialogTitle id="form-dialog-title">{action=="add" ? "Add New Household" : "Edit Household"}</DialogTitle>
         <DialogContent style={{paddingTop: 10}}>
           <TextField
             id="filled-helperText"

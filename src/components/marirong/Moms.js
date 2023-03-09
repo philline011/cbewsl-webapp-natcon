@@ -272,9 +272,9 @@ const Moms = (props) => {
                   setSelectedFeatureIndex(e.target.value);
                 }}
               >
-                {
+                {/* {
                   console.log((feature_list.find((o) => o.feature_id == selectedFeatureIndex)).feature)
-                }
+                } */}
                 {
                   feature_list && feature_list.map((row, index) => (
                     <MenuItem key={index} value={row.feature_id}>{row.feature}</MenuItem>
