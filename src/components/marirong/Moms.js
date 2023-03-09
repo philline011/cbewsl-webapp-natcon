@@ -22,7 +22,8 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { getFeatures, getInstances } from '../../apis/MoMs';
+import { getFeatures, getInstances, insertMomsEntry, getMomsInstances, getMomsFeatures } from '../../apis/MoMs';
+import moment from 'moment';
 
 const Moms = (props) => {
   const [open, setOpen] = useState(false);
@@ -30,6 +31,8 @@ const Moms = (props) => {
 
   const [datetimestamp, setDateTimestamp] = useState(new Date());
   const [selectedFeatureIndex, setSelectedFeatureIndex] = useState(null);
+  const [selectedFeatureName, setSelectedFeatureName] = useState("");
+  const [selectedAlertLevel, setSelectedAlertLevel] = useState(0);
   const [featureDetails, setFeatureDetails] = useState("")
   const [featureLocation, setFeatureLocation] = useState("");
   const [reporter, setReporter] = useState("");
@@ -53,7 +56,21 @@ const Moms = (props) => {
     let check = featureNames.find((o) => o.name === featureName.name)
     if (check) setExistingFeatureName(true)
     else setExistingFeatureName(false)
-  }, [featureName])
+  }, [featureName]);
+
+
+  // useEffect(() => {
+  //   reloadDataTable();
+  // }, []);
+
+  // const reloadDataTable = () => {
+  //   getMomsInstances((response) => {
+  //     console.log("getMomsInstances repsonse:", response.data);
+  //   });
+  //   getMomsFeatures((response) => {
+  //     console.log("getMomsFeatures repsonse:", response.data);
+  //   });
+  // }
 
   const feature_list = [
     {
@@ -135,16 +152,7 @@ const Moms = (props) => {
     getFeatures((response) => {
       let tempData = response.data;
 
-      // console.log(tempData);
-
-      // let tempFeatureNames = [];
-
       tempData.map(feature => {
-        // tempFeatureNames.push({
-        //   feature_id: feature.feature_id,
-        //   name: feature.feature_type
-        // })
-
         if (feature.feature_id == selectedFeatureIndex) {
           let tempFeatureNames = [
             {
@@ -177,8 +185,8 @@ const Moms = (props) => {
 
   const reloadTable = () => {
     getInstances((response) => {
-      if (response.data) {
-        setInstances(response.data)
+      if (response) {
+        setInstances(response)
       }
     })
 
@@ -198,28 +206,33 @@ const Moms = (props) => {
 
   const handleSubmit = () => {
     setOpen(false);
-    console.log("SuBmit me here?!");
 
-    //   {
-    //     "site_code": "lpa",
-    //     "moms_list": [
-    //         {
-    //             "alert_level": 2,
-    //             "instance_id": 143,
-    //             "feature_name": "A",
-    //             "feature_type": "crack",
-    //             "report_narrative": "TEST",
-    //             "observance_ts": "2022-01-01 00:00:00",
-    //             "remarks": "TEST",
-    //             "reporter_id": 595,  
-    //             "validator_id": 76,
-    //             "location": "",
-    //             "iomp": 76,
-    //             "file_name": "test123.jpg"
-    //         }
-    //     ],
-    //     "uploads": []
-    // }
+    let moms_entry = {
+      site_code: "mar",
+      moms_list: [
+        {
+          alert_level: 2,
+          instance_id: featureName.instance_id,
+          feature_name: featureName.name,
+          feature_type: (feature_list.find((o) => o.feature_id == selectedFeatureIndex)).feature,
+          report_narrative: featureDetails,
+          observance_ts: moment(datetimestamp).format("YYYY-MM-DD HH:mm:ss"),
+          remarks: featureDetails,
+          reporter_id: 1,
+          validator_id: 1,
+          location: featureLocation,
+          iomp: 1,
+          file_name: ""
+        }
+      ],
+      uploads: []
+    };
+
+    console.log("moms_entry:", moms_entry);
+
+    insertMomsEntry(moms_entry, (response) => {
+      console.log("response:", response);
+    });
   }
 
   return (
@@ -250,12 +263,10 @@ const Moms = (props) => {
                 id="demo-simple-select"
                 label="Alert level"
                 onChange={e => {
-                  console.log(e.target.value);
-                  // console.log((feature_list.find((o) => o.instance_id == selectedFeatureIndex)).name)
-                  // setSelectedFeatureIndex(e.target.value)
+                  setSelectedAlertLevel(e.target.value);
                 }}
               >
-                <MenuItem key={1} value={1}>Alert level 1</MenuItem>
+                <MenuItem key={0} value={0}>Alert level 0</MenuItem>
                 <MenuItem key={2} value={2}>Alert level 2</MenuItem>
                 <MenuItem key={3} value={3}>Alert level 3</MenuItem>
               </Select>
@@ -267,14 +278,12 @@ const Moms = (props) => {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 label="Feature Type"
-                value={selectedFeatureIndex != null ? (feature_list.find((o) => o.feature_id == selectedFeatureIndex)).feature : ""}
+                value={selectedFeatureIndex}
                 onChange={e => {
                   setSelectedFeatureIndex(e.target.value);
+                  setSelectedFeatureName(selectedFeatureIndex != null ? (feature_list.find((o) => o.feature_id == selectedFeatureIndex)).feature : "");
                 }}
               >
-                {/* {
-                  console.log((feature_list.find((o) => o.feature_id == selectedFeatureIndex)).feature)
-                } */}
                 {
                   feature_list && feature_list.map((row, index) => (
                     <MenuItem key={index} value={row.feature_id}>{row.feature}</MenuItem>
@@ -292,6 +301,7 @@ const Moms = (props) => {
                   label="Feature Name"
                   value={featureName.name}
                   onChange={e => {
+                    console.log("e.target.value:", e.target.value);
                     setFeatureName(e.target.value)
                   }}
                 >
