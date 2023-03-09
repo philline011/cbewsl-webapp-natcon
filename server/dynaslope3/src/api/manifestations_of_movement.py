@@ -206,6 +206,7 @@ def get_moms_instances(site_code):
             "data": result
         }
     except Exception as err:
+        print(err)
         return_value = {
             "status": False,
             'message': "Failed to get unvalidated MoMs. Please check your network connection."

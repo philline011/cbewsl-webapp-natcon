@@ -10,10 +10,31 @@ export const getFeatures = (callback) => {
 }
 
 export const getInstances = (callback) => {
-    axios.get(`${API_URL}/api/manifestations_of_movement/get_moms_instances/mar`).then((response) => {
+    let temp = "http://192.168.150.110:5000";
+    axios.get(`${temp}/api/manifestations_of_movement/get_moms_instances/mar`).then((response) => {
         callback(response.data)
     }).catch((error) => {
 
+    });
+}
+
+export const insertMomsEntry = (data, callback) => {
+    axios.post(`${API_URL}/api/manifestations_of_movement/write_monitoring_moms_to_db`, data).then((response) => {
+        callback(response.data)
+    }).catch((error) => {
+
+    });
+}
+
+export const getMomsInstances = (callback) => {
+    axios.get(`http://192.168.150.110:5000/api/manifestations_of_movement/get_moms_instances/mar`).then((response) => {
+        callback(response);
+    });
+}
+
+export const getMomsFeatures = (callback) => {
+    axios.get(`http://192.168.150.110:5000/api/manifestations_of_movement/get_moms_features/mar`).then((response) => {
+        callback(response);
     });
 }
 

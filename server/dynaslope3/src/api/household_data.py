@@ -1,5 +1,6 @@
 import traceback
 from flask import Blueprint, jsonify, request
+import json
 from connection import DB
 from sqlalchemy import text
 from src.models.household_data import HouseholdData, HouseholdDataSchema
@@ -143,23 +144,30 @@ def get_summary():
         preg_count = 0
         dis_count = 0
         com_count = 0
-        preg = "'%\"pregnant\": true%'"
-        preg_query = text(f"SELECT COUNT(*) FROM commons_db.household_data WHERE pregnant = True or members like {preg};")
-        pregnant = DB.engine.execute(preg_query)
-        for row in pregnant:
-            preg_count = row['COUNT(*)']
+        query = "SELECT * FROM commons_db.household_data;"
+        entries = DB.engine.execute(query)
 
-        comor = "'%\"comorbidity\": null%'"
-        comorbidity_query = text(f"SELECT COUNT(*) FROM commons_db.household_data WHERE comorbidity IS NOT NULL or members not like {comor} and members not like '%[]%';")
-        comorbidity = DB.engine.execute(comorbidity_query)
-        for row in comorbidity:
-            com_count = row['COUNT(*)']
+        for row in entries:
+            if row['pregnant'] == True:
+                preg_count = preg_count + 1
 
-        disab = "'%\"disability\": null%'"
-        disability_query = text(f"SELECT COUNT(*) FROM commons_db.household_data WHERE disability IS NOT NULL or members not like {disab} and members not like '%[]%';")
-        disability = DB.engine.execute(disability_query)
-        for row in disability:
-            dis_count = row['COUNT(*)']
+            for member in json.loads(row['members']):
+                if member['pregnant'] == True:
+                    preg_count = preg_count+1
+            
+            if row['comorbidity'] != None:
+                com_count = com_count + 1
+
+            for member in json.loads(row['members']):
+                if member['comorbidity'] != None:
+                    com_count = com_count+1
+            
+            if row['disability'] != None:
+                dis_count = dis_count + 1
+
+            for member in json.loads(row['members']):
+                if member['disability'] != None:
+                    dis_count = dis_count+1
 
         return_obj = {
             "status": True,
