@@ -52,13 +52,21 @@ def save_event_photos():
 
 @EVENTS_BLUEPRINT.route("/events/get_all_events", methods=["GET"])
 def get_events():
-    """
-    Get all activities
-    """
+    try:
+    
+        data = get_all_activity()
 
-    data = get_all_activity()
-
-    return jsonify(data)
+        return_value = {
+            'status': True,
+            'data': data
+        }
+    except Exception as err:
+        return_value = {
+            'status': False,
+            'message': 'Failed to load event list.'
+        }
+    finally:
+        return jsonify(return_value)
 
 
 @EVENTS_BLUEPRINT.route("/events/delete_activity", methods=["GET", "POST"])

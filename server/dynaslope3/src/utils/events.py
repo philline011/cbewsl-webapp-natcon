@@ -144,7 +144,7 @@ def delete_activity(data):
 
     data = {
         "status": status,
-        "feedback": feedback
+        "message": feedback
     }
     return data
 
