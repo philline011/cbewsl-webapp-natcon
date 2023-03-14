@@ -102,9 +102,9 @@ function EarthquakeMap(props) {
     const { eqEvents } = props;
     const sites = require("./../data/sites.json")
     const state = {
-        lat: 11.786250,
-        lng: 125.019600,
-        zoom: 8
+        lat: 11.154057,
+        lng: 122.483825,
+        zoom: 9
     };
 
 
@@ -319,7 +319,7 @@ function EarthquakeChart(props) {
                     </AppBar>
                 </Grid>
             </Grid>
-            <Grid item md={12} container align="right">
+            {/* <Grid item md={12} container align="right">
                 <Grid container>
                     <Grid item md={12} align="right" style={{paddingTop: 20}}>
                         <Button
@@ -332,7 +332,7 @@ function EarthquakeChart(props) {
                         </Button>
                     </Grid>
                 </Grid>
-            </Grid>
+            </Grid> */}
         </Fragment>
     )
 }

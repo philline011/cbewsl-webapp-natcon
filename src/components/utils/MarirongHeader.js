@@ -128,8 +128,6 @@ const MarirongHeader = () => {
     } else if (
       path_name === '/analysis' ||
       path_name === '/rainfall' ||
-      path_name === '/surficial' ||
-      path_name === '/subsurface' ||
       path_name === '/earthquake'
     ) {
       setValue(2);
@@ -453,21 +451,7 @@ const MarirongHeader = () => {
               navigate('/rainfall');
               handleClose();
             }}>
-            Rainfall plot
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              navigate('/surficial');
-              handleClose();
-            }}>
-            Surficial Plot
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              navigate('/subsurface');
-              handleClose();
-            }}>
-            Subsurface plot
+            Rainfall Data
           </MenuItem>
           <MenuItem
             onClick={() => {

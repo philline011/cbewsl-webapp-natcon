@@ -558,6 +558,10 @@ function RainfallGraph(props) {
     };
 
     useEffect(() => {
+        console.log(rainfall_data)
+      }, [rainfall_data]);
+
+    useEffect(() => {
         const temp = [];
         rainfall_data.forEach(set => {
             const data = prepareRainfallData(set);
