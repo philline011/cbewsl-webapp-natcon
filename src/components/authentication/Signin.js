@@ -16,6 +16,7 @@ import UserProfileModal from '../marirong/modals/UserProfileModal';
 import PromptModal from '../marirong/modals/PromptModal';
 import {signIn, forgotPassword, verifyOTP} from '../../apis/UserManagement'
 import { getNumberOfFiles } from '../../apis/Misc';
+import umi_login_banner from '../../assets/umi_login_banner.png'
 
 const imageDivider = makeStyles(theme => ({
   animated_divider: {
@@ -355,13 +356,13 @@ const Signin = () => {
           <SignInLogo />
 
           <Typography component="h2" variant="h3" style={{textAlign: 'center'}}>
-            Community Based Early Warning
+            Community Based Early Warning 
           </Typography>
           <Typography
             component="h2"
             variant="h3"
             style={{paddingBottom: '5%', textAlign: 'center'}}>
-            Systems for Landslides
+             Systems for Landslides
           </Typography>
           <Grid container spacing={4} textAlign="center">
             <Grid item xs={12} sm={12} md={12}>
@@ -445,6 +446,23 @@ const Signin = () => {
                   No account yet? Register here!
                 </Link>
               </Grid>
+            </Grid>
+            <Grid item xs={12} sm={12} md={12}>
+              <div style={{
+                  textAlign: 'center',
+                  height: 'auto',
+                  width: '100%',
+                  padding: 5
+              }}>
+                <img src={umi_login_banner}
+                  alt="umi-login-banner"
+                  style={{
+                    objectFit: 'contain',
+                    height: 'auto',
+                    width: 600,
+                  }}
+                />
+              </div>
             </Grid>
           </Grid>
         </Grid>
