@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import {
   Grid, Typography, Button, Box, Modal, TextField,
-  Checkbox, FormLabel, FormControl, FormControlLabel, FormGroup, FormHelperText
+  Checkbox, FormLabel, FormControl, FormControlLabel, FormGroup, FormHelperText, Card
 } from '@mui/material';
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import RainfallGraph from '../analysis/RainfallGraph';
@@ -31,38 +31,45 @@ const Analysis = () => {
   const { rainfall, surficial, subsurface } = state;
   const error = [rainfall, surficial, subsurface].filter((v) => v).length === 0;
 
+  
 
   return (
     <Fragment>
       <Grid item xs={12} sx={{ padding: 8 }}>
         <Grid item xs={12} sm={12} md={12} lg={12}>
-          <Button variant="contained" onClick={handleOpen} sx={{ marginBottom: 4 }}>
-            Load Graph per needed timestamp
-          </Button>
+          {/* <Button variant="contained" onClick={handleOpen} sx={{ marginBottom: 4 }}>
+            Load Data per needed timestamp
+          </Button> */}
 
           <Box>
-            <Typography variant='h5' sx={{ marginBottom: 4 }}>
-              Rainfall Data
+            <Typography variant='h4' sx={{ marginBottom: 4 }}>
+              <b>Rainfall Data</b>
             </Typography>
           </Box>
-
+        </Grid>
+        <Grid item xs={12} sm={12} md={12} lg={12}>
+          <Card>
+            <Box>
+              <Typography variant='h5' sx={{ marginBottom: 2, marginLeft: 2 }}>
+                <b>Rainfall Status</b>
+              </Typography>
+              <Typography variant='h6' sx={{marginLeft: 4}}>
+                1-day threshold:
+              </Typography>
+              <Typography variant='h6' sx={{marginLeft: 4}}>
+                3-day threshold:
+              </Typography>
+            </Box>
+          </Card>
         </Grid>
         <RainfallGraph />
-        <Typography variant='h5' sx={{ marginBottom: 4, marginTop: 8 }}>
-          Surficial Data
-        </Typography>
-        <SurficialGraph />
-        <Typography variant='h5' sx={{ marginBottom: 4, marginTop: 8 }}>
-          Subsurface Data
-        </Typography>
-        <SubsurfaceGraph />
         <LandslideFeaturesTable />
-        <Typography variant='h5' sx={{ marginBottom: 4, marginTop: 8 }}>
-          Earthquake Proximity Map
-        </Typography>
+          <Typography variant='h4' sx={{ marginBottom: 4, marginTop: 5 }}>
+              <b>Earthquake Data</b>
+          </Typography>
         <EarthquakeChart />
       </Grid>
-      <Modal
+      {/* <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -74,7 +81,6 @@ const Analysis = () => {
           </Typography>
           <Box>
             <FormControl sx={{ m: 2 }} error={error} component="fieldset" variant="standard">
-              <FormLabel component="legend">Select data source</FormLabel>
               <FormGroup>
                 <FormControlLabel
                   control={
@@ -82,20 +88,7 @@ const Analysis = () => {
                   }
                   label="Rainfall"
                 />
-                <FormControlLabel
-                  control={
-                    <Checkbox checked={surficial} onChange={handleChange} name="surficial" />
-                  }
-                  label="Surficial Marker"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox checked={subsurface} onChange={handleChange} name="subsurface" />
-                  }
-                  label="Subsurface"
-                />
               </FormGroup>
-              <FormHelperText>Please select atleast 1 data source</FormHelperText>
             </FormControl>
           </Box>
 
@@ -103,7 +96,7 @@ const Analysis = () => {
             ......
           </Typography>
         </Box>
-      </Modal>
+      </Modal> */}
     </Fragment>
 
 

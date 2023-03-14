@@ -78,7 +78,7 @@ function LandslideFeaturesTable(props) {
       <Paper style={{marginTop: 30}}>
         <MUIDataTable
           key="landslide_features"
-          title={`Landslide Features of MAR`}
+          title={`Landslide Features of UMI`}
           columns={columns}
           options={{
             textLabels: {
