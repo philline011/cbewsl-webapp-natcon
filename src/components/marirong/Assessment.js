@@ -41,7 +41,7 @@ const Assessment = () => {
       </Grid>
       <Grid container sx={{mt: 2, mb: 6, padding: '2%'}}>
         <Grid item xs={12} sm={12} md={12} lg={6}>
-          <Button variant="outlined" sx={{mx: 1}}>
+          <Button variant="outlined" sx={{mx: 1, backgroundColor: '#2E2D77'}}>
             {' '}
             Add Household{' '}
           </Button>
