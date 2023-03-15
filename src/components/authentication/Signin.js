@@ -99,26 +99,26 @@ const Signin = () => {
       username: username,
       password: password
     }
-
-    if (username != "" && password != "") {
-      signIn(submitData, (response) => {
-        if(response.status == true){
-          let temp = {...response.data}
-          temp['img_length'] = fileCount
-          localStorage.setItem('credentials', JSON.stringify(temp))
-          window.location = '/opcen';
-        }
-        else{
-          setOpenPrompt(true)
-          setErrorPrompt(true)
-          setNotifMessage(response.message)
-        }
-      });
-    } else {
-      setOpenPrompt(true);
-      setErrorPrompt(true);
-      setNotifMessage("Username / Password not found.")
-    }
+    window.location = '/opcen';
+    // if (username != "" && password != "") {
+    //   signIn(submitData, (response) => {
+    //     if(response.status == true){
+    //       let temp = {...response.data}
+    //       temp['img_length'] = fileCount
+    //       localStorage.setItem('credentials', JSON.stringify(temp))
+    //       window.location = '/opcen';
+    //     }
+    //     else{
+    //       setOpenPrompt(true)
+    //       setErrorPrompt(true)
+    //       setNotifMessage(response.message)
+    //     }
+    //   });
+    // } else {
+    //   setOpenPrompt(true);
+    //   setErrorPrompt(true);
+    //   setNotifMessage("Username / Password not found.")
+    // }
   };
 
 

@@ -167,7 +167,8 @@ const HazardMapping = (props) => {
                         <label htmlFor="raised-button-file">
                             <Button variant="contained" 
                                     component="span" 
-                                    sx={{float: 'right', mx: 1}}
+                                    sx={{float: 'right', mx: 1,
+                                     backgroundColor: '#2E2D77'}}
                                     >
                                 Upload
                             </Button>

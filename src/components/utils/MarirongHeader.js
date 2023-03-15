@@ -17,6 +17,7 @@ import ilolo_province_seal from '../../assets/iloilo_province_seal.png';
 import leon_municipal_seal from '../../assets/leon_municipal_seal.png';
 import leon_mdrrmc_responder from '../../assets/leon_mdrrmc_responder.png';
 import mar_lewc_seal from '../../assets/mar_lewc_seal.png';
+import umi_header from '../../assets/umi_banner_1.png';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import Menu from '@mui/material/Menu';
@@ -155,8 +156,28 @@ const MarirongHeader = () => {
 
   return (
     <Fragment>
-      <Grid container style={{background: '#16526D'}}>
-        <Grid item xs={4} sm={4} md={4} lg={4}>
+      <Grid container style={{background: '#FFFFFF'}}>
+      <Grid item xs={4} sm={4} md={4} lg={9.7} sx={{marginTop: 2}}>
+          <div
+            style={{
+              textAlign: 'center',
+              height: 'auto',
+              width: '100%',
+              padding: 10,
+            }}>
+            <img
+              src={umi_header}
+              alt="umi_banner_1"
+              style={{
+                objectFit: 'contain',
+                height: 'auto',
+                width: window.innerWidth-300,
+                marginRight: 8,
+              }}
+            />
+          </div>
+      </Grid> 
+        {/* <Grid item xs={4} sm={4} md={4} lg={4}>
           <div
             style={{
               textAlign: 'left',
@@ -245,14 +266,14 @@ const MarirongHeader = () => {
               }}
             />
           </div>
-        </Grid>
+        </Grid> */}
         <Grid item xs={4} sm={4} md={4} lg={2}>
           <div style={{textAlign: 'end', padding: 5}}>
             <Tooltip title="Notification">
               <IconButton onClick={() => {}} sx={{p: 2, mt: 4}}>
                 <NotificationsNoneIcon
                   alt="Notification"
-                  style={{color: 'white'}}
+                  style={{color: 'black'}}
                 />
               </IconButton>
             </Tooltip>
@@ -293,7 +314,7 @@ const MarirongHeader = () => {
               aria-expanded={open ? 'true' : undefined}
               onClick={handleClick}
               sx={{p: 2, mt: 4}}>
-              <MenuIcon alt="Menu" style={{color: 'white'}} />
+              <MenuIcon alt="Menu" style={{color: 'black'}} />
             </IconButton>
             <Menu
               id="menu"
@@ -326,7 +347,7 @@ const MarirongHeader = () => {
               </MenuItem>
             </Menu>
             <Grid item md={12} style={{alignSelf: 'center'}}>
-              <Typography variant="body1" style={{color: 'white'}}>
+              <Typography variant="body1" style={{color: 'black'}}>
                 {server_time.toUpperCase()}
               </Typography>
             </Grid>
@@ -342,7 +363,7 @@ const MarirongHeader = () => {
             width: '100%',
           }}>
           <AppBar position="static" color="inherit">
-            <Grid container style={{backgroundColor: '#F8991D'}}>
+            <Grid container style={{backgroundColor: '#2E2D77'}}>
               <Grid item md={10}>
                 <Toolbar style={{justifyContent: 'center'}}>
                   <Tabs
@@ -382,7 +403,7 @@ const MarirongHeader = () => {
                     <Tab
                       label={
                         <span style={{color: 'white', fontWeight: 'bold'}}>
-                          GROUND DATA
+                          SURFICIAL DATA
                         </span>
                       }
                       onClick={e => {
@@ -469,13 +490,13 @@ const MarirongHeader = () => {
           MenuListProps={{
             'aria-labelledby': 'button',
           }}>
-          <MenuItem
+          {/* <MenuItem
             onClick={() => {
               navigate('/surficial_markers');
               handleClose();
             }}>
             Surficial Markers
-          </MenuItem>
+          </MenuItem> */}
           <MenuItem
             onClick={() => {
               navigate('/moms');
