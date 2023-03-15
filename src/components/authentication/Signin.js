@@ -422,7 +422,7 @@ const Signin = () => {
               <Button
                 variant="contained"
                 onClick={() => {
-                  handleLogin();
+                  window.location = '/opcen'
                 }}>
                 Sign in
               </Button>

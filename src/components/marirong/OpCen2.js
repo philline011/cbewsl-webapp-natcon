@@ -26,13 +26,13 @@ import DisseminateModal from './modals/DisseminateModal';
 import NotificationSoundFolder from '../../audio/notif_sound.mp3';
 import { useNavigate } from 'react-router-dom';
 
-import {
-  getCandidateAlert,
-  sendMessage,
-  getReleasedMessages,
-  getTempMoms,
-  getContacts,
-} from '../../apis/AlertGeneration';
+// import {
+//   getCandidateAlert,
+//   sendMessage,
+//   getReleasedMessages,
+//   getTempMoms,
+//   getContacts,
+// } from '../../apis/AlertGeneration';
 
 import { Cancel, Check, CheckCircle, Info, Landscape } from '@material-ui/icons';
 import UpdateMomsModal from './modals/UpdateMomsModal';
@@ -267,14 +267,14 @@ function ExtendedAccordionPanel(props) {
   const [ext_day, setExtDay] = useState(null);
   const [isMessageSend, setIsMessageSend] = useState(null);
 
-  const checkReleasedMessage = release_id => {
-    getReleasedMessages(release_id, response => {
-      const { status, data } = response;
-      if (status) {
-        setIsMessageSend(data ? true : false);
-      }
-    });
-  };
+  // const checkReleasedMessage = release_id => {
+  //   getReleasedMessages(release_id, response => {
+  //     const { status, data } = response;
+  //     if (status) {
+  //       setIsMessageSend(data ? true : false);
+  //     }
+  //   });
+  // };
   useEffect(() => {
     console.log('EXTENDED DATA', data);
     if (data) {
@@ -292,7 +292,7 @@ function ExtendedAccordionPanel(props) {
       } = data;
       setExtDay(day);
       const { data_ts, release_id } = releases[0];
-      checkReleasedMessage(release_id);
+      // checkReleasedMessage(release_id);
       console.log(releases);
       setDataTimestamp(data_ts);
       const { alert_level: alertLevel } = public_alert_symbol;
@@ -587,14 +587,14 @@ function LatestAccordionPanel(props) {
   const [isMessageSend, setIsMessageSend] = useState(null);
   const [alert_general_status, setAlertGeneralStatus] = useState('');
 
-  const checkReleasedMessage = release_id => {
-    getReleasedMessages(release_id, response => {
-      const { status, data } = response;
-      if (status) {
-        setIsMessageSend(data ? true : false);
-      }
-    });
-  };
+  // const checkReleasedMessage = release_id => {
+  //   getReleasedMessages(release_id, response => {
+  //     const { status, data } = response;
+  //     if (status) {
+  //       setIsMessageSend(data ? true : false);
+  //     }
+  //   });
+  // };
 
   useEffect(() => {
     if (isRoutine) {
@@ -606,7 +606,7 @@ function LatestAccordionPanel(props) {
       data.isRoutine = true;
       data.public_alert_level = 0;
       setAlertLevel(0);
-      checkReleasedMessage(release_id);
+      // checkReleasedMessage(release_id);
       setAlertGeneralStatus('Routine');
     } else {
       if (data) {
@@ -638,7 +638,7 @@ function LatestAccordionPanel(props) {
           } = trigger_symbol;
           const { release_time, data_ts, trigger_list, release_id } = releases[0];
           setAlertGeneralStatus(general_status);
-          checkReleasedMessage(release_id);
+          // checkReleasedMessage(release_id);
           if (releases.length === 1) {
             setDataTimestamp(moment(data_ts).format('LLL'));
           } else {
@@ -855,49 +855,49 @@ function OpCen2(props) {
     setIsOpenDisseminateModal(!is_open_disseminate_modal);
   };
 
-  const generateDashboardData = () => {
-    getCandidateAlert(data => {
-      console.log(data);
-      const { candidate_alerts, on_going, ewi_templates } = data;
+  // const generateDashboardData = () => {
+  //   getCandidateAlert(data => {
+  //     console.log(data);
+  //     const { candidate_alerts, on_going, ewi_templates } = data;
       // setCandidateAlerts([JSON.parse(candidate_alerts)[1]]);
 
-      const temp_candidate = JSON.parse(candidate_alerts);
-      const temp_on_going = JSON.parse(on_going);
-      const { latest, overdue, extended, routine: routine_data } = temp_on_going;
-      let temp = [];
-      temp.push(...latest);
-      temp.push(...overdue);
-      setOnGoingAlerts(temp);
-      if (!routine_data.released_sites) {
-        routine_data.released_sites = [];
-      }
-      setRoutine(routine_data);
-      setEwiTemplates(ewi_templates);
-      setExtendedAlerts(extended);
-      if (extended.length > 0) {
-        const extended_site = extended.find(e => e.event.site.site_id);
-        if (extended_site) {
-          setCandidateAlerts(
-            temp_candidate.filter(e => e.general_status === 'extended'),
-          );
-        }
-      } else {
-        setCandidateAlerts(temp_candidate);
-      }
-    });
-  };
+  //     const temp_candidate = JSON.parse(candidate_alerts);
+  //     const temp_on_going = JSON.parse(on_going);
+  //     const { latest, overdue, extended, routine: routine_data } = temp_on_going;
+  //     let temp = [];
+  //     temp.push(...latest);
+  //     temp.push(...overdue);
+  //     setOnGoingAlerts(temp);
+  //     if (!routine_data.released_sites) {
+  //       routine_data.released_sites = [];
+  //     }
+  //     setRoutine(routine_data);
+  //     setEwiTemplates(ewi_templates);
+  //     setExtendedAlerts(extended);
+  //     if (extended.length > 0) {
+  //       const extended_site = extended.find(e => e.event.site.site_id);
+  //       if (extended_site) {
+  //         setCandidateAlerts(
+  //           temp_candidate.filter(e => e.general_status === 'extended'),
+  //         );
+  //       }
+  //     } else {
+  //       setCandidateAlerts(temp_candidate);
+  //     }
+  //   });
+  // };
 
-  const generateMomsForValidation = () => {
-    getTempMoms(data => {
-      setMomsData(data);
-    });
-  };
+  // const generateMomsForValidation = () => {
+  //   getTempMoms(data => {
+  //     setMomsData(data);
+  //   });
+  // };
 
-  const getAllContacts = () => {
-    getContacts(data => {
-      setAllContacts(data);
-    });
-  };
+  // const getAllContacts = () => {
+  //   getContacts(data => {
+  //     setAllContacts(data);
+  //   });
+  // };
 
   const handleSendSMS = message => {
     setOpenBackdrop(!openBackdrop);
@@ -933,20 +933,20 @@ function OpCen2(props) {
 
     console.log(input);
 
-    sendMessage(input, callback => {
-      const { status, feedback } = callback;
-      setNotifMessage(feedback);
-      if (status) {
-        setIsOpenDisseminateModal(false);
-        setIsOpenPromptModal(true);
-        setAlertVariant('success');
-        generateDashboardData();
-      } else {
-        setAlertVariant('error');
-        setIsOpenPromptModal(true);
-      }
-      setOpenBackdrop(false);
-    });
+    // sendMessage(input, callback => {
+    //   const { status, feedback } = callback;
+    //   setNotifMessage(feedback);
+    //   if (status) {
+    //     setIsOpenDisseminateModal(false);
+    //     setIsOpenPromptModal(true);
+    //     setAlertVariant('success');
+    //     generateDashboardData();
+    //   } else {
+    //     setAlertVariant('error');
+    //     setIsOpenPromptModal(true);
+    //   }
+    //   setOpenBackdrop(false);
+    // });
   };
 
   const openOnDemandForm = () => {
@@ -970,13 +970,13 @@ function OpCen2(props) {
     }
   }, [is_open_new_alert_modal]);
 
-  useEffect(() => {
-    generateDashboardData();
-    generateMomsForValidation();
-    getAllContacts();
-    const data = localStorage.getItem('data');
-    setCurrentUser(JSON.parse(data));
-  }, []);
+  // useEffect(() => {
+  //   generateDashboardData();
+  //   generateMomsForValidation();
+  //   getAllContacts();
+  //   const data = localStorage.getItem('data');
+  //   setCurrentUser(JSON.parse(data));
+  // }, []);
 
   useEffect(() => {
     console.log('candidate_alerts', candidate_alerts);
@@ -1140,7 +1140,7 @@ function OpCen2(props) {
         setNotifMessage={setNotifMessage}
         capitalizeFirstLetter={capitalizeFirstLetter}
         setIsValidated={setIsValidated}
-        generateDashboardData={generateDashboardData}
+        // generateDashboardData={generateDashboardData}
       />
       <AlertReleaseFormModal
         isOpen={is_open_release_modal}
@@ -1151,7 +1151,7 @@ function OpCen2(props) {
         setNotifMessage={setNotifMessage}
         monitoringReleases={monitoring_releases}
         setMonitoringReleases={setMonitoringReleases}
-        generateDashboardData={generateDashboardData}
+        // generateDashboardData={generateDashboardData}
         capitalizeFirstLetter={capitalizeFirstLetter}
       />
       <NewAlertsModal
@@ -1187,7 +1187,7 @@ function OpCen2(props) {
         setOpenModal={setIsOpenUpdateMomsModal}
         selectedMomsData={selected_moms_data}
         setSelectedMomsData={setSelectedMomsData}
-        generateMomsForValidation={generateMomsForValidation}
+        // generateMomsForValidation={generateMomsForValidation}
         setNotifMessage={setNotifMessage}
         setAlertVariant={setAlertVariant}
         setIsOpenPromptModal={setIsOpenPromptModal}
@@ -1195,7 +1195,7 @@ function OpCen2(props) {
       <OnDemandModal
         isOpen={is_open_ondemand_modal}
         setOpenModal={setIsOpenOndemandModal}
-        generateDashboardData={generateDashboardData}
+        // generateDashboardData={generateDashboardData}
       />
     </Fragment>
   );

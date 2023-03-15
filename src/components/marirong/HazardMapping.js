@@ -4,100 +4,115 @@ import useEmblaCarousel from 'embla-carousel-react'
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { getFilesFromFolder, uploadHazardMaps } from '../../apis/Misc';
 import { STORAGE_URL } from '../../config';
+import hazard_map_umi from '../../assets/hazard_map_umi.jpg'
 
 
 const HazardMapping = (props) => {
 
-    const directory = `${STORAGE_URL}/assets`
-    const [images, setImages] = useState([]);
-    const handleOpenFolder = () => {
-        getFilesFromFolder("assets", (response)=> {
-            setImages(response)
-        });
-    }
+    // const directory = `${STORAGE_URL}/assets`
+    // const [images, setImages] = useState([]);
+    // const handleOpenFolder = () => {
+    //     getFilesFromFolder("assets", (response)=> {
+    //         setImages(response)
+    //     });
+    // }
 
-    useEffect(() => {
-       handleOpenFolder()
-      }, [])
+    // useEffect(() => {
+    //    handleOpenFolder()
+    //   }, [])
 
 
-    const {slides, options} = props
-    const [selectedIndex, setSelectedIndex] = useState(0)
-    const [emblaMainRef, emblaMainApi] = useEmblaCarousel(options)
-    const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel({
-        containScroll: 'keepSnaps',
-        dragFree: false,
-    })
+    // const {slides, options} = props
+    // const [selectedIndex, setSelectedIndex] = useState(0)
+    // const [emblaMainRef, emblaMainApi] = useEmblaCarousel(options)
+    // const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel({
+    //     containScroll: 'keepSnaps',
+    //     dragFree: false,
+    // })
     
-    const Thumb = (props) => {
-            const { selected, imgSrc, index, onClick, } = props
-            return (
-            <div
-                className={"embla-thumbs__slide".concat(
-                selected ? "embla-thumbs__slide--selected" : "",
-                )}
-            >
-                <button
-                onClick={onClick}
-                className="embla-thumbs__slide__button"
-                type="button"
-                >
-                <img
-                    className="embla-thumbs__slide__img"
-                    src={imgSrc}
-                    alt="Your alt text"
-                />
-                </button>
+    // const Thumb = (props) => {
+    //         const { selected, imgSrc, index, onClick, } = props
+    //         return (
+    //         <div
+    //             className={"embla-thumbs__slide".concat(
+    //             selected ? "embla-thumbs__slide--selected" : "",
+    //             )}
+    //         >
+    //             <button
+    //             onClick={onClick}
+    //             className="embla-thumbs__slide__button"
+    //             type="button"
+    //             >
+    //             <img
+    //                 className="embla-thumbs__slide__img"
+    //                 src={imgSrc}
+    //                 alt="Your alt text"
+    //             />
+    //             </button>
                 
-            </div>
-            )
-        }
+    //         </div>
+    //         )
+    //     }
 
-    const onThumbClick = useCallback(
-        (index) => {
-          if (!emblaMainApi || !emblaThumbsApi) return
-          if (emblaThumbsApi.clickAllowed()) emblaMainApi.scrollTo(index)
-        },
-        [emblaMainApi, emblaThumbsApi],
-      )
+    // const onThumbClick = useCallback(
+    //     (index) => {
+    //       if (!emblaMainApi || !emblaThumbsApi) return
+    //       if (emblaThumbsApi.clickAllowed()) emblaMainApi.scrollTo(index)
+    //     },
+    //     [emblaMainApi, emblaThumbsApi],
+    //   )
 
-    const onSelect = useCallback(() => {
-        if (!emblaMainApi || !emblaThumbsApi) return
-        setSelectedIndex(emblaMainApi.selectedScrollSnap())
-        emblaThumbsApi.scrollTo(emblaMainApi.selectedScrollSnap())
-      }, [emblaMainApi, emblaThumbsApi, setSelectedIndex])
+    // const onSelect = useCallback(() => {
+    //     if (!emblaMainApi || !emblaThumbsApi) return
+    //     setSelectedIndex(emblaMainApi.selectedScrollSnap())
+    //     emblaThumbsApi.scrollTo(emblaMainApi.selectedScrollSnap())
+    //   }, [emblaMainApi, emblaThumbsApi, setSelectedIndex])
 
-    useEffect(() => {
-        if (!emblaMainApi) return
-        onSelect()
-        emblaMainApi.on('select', onSelect)
-        emblaMainApi.on('reInit', onSelect)
-      }, [emblaMainApi, onSelect])
+    // useEffect(() => {
+    //     if (!emblaMainApi) return
+    //     onSelect()
+    //     emblaMainApi.on('select', onSelect)
+    //     emblaMainApi.on('reInit', onSelect)
+    //   }, [emblaMainApi, onSelect])
 
       
-    const handleUpload = (uploadImage) => {
-        const formData = new FormData();
-        formData.append('file', uploadImage);
+    // const handleUpload = (uploadImage) => {
+    //     const formData = new FormData();
+    //     formData.append('file', uploadImage);
 
-        uploadHazardMaps(formData, data => {
-            const {status, message} = data;
-            if (status) {
-                const credentials = localStorage.getItem('credentials')
-                const parsed_credentials = JSON.parse(credentials);
-                const updated_input = {...parsed_credentials, img_length: images.length + 1}
-                localStorage.setItem('credentials', JSON.stringify(updated_input))
-                window.location.reload(true)
-            } else {
-                console.log("Error upload", message)
-            }
-        })
-    }
+    //     uploadHazardMaps(formData, data => {
+    //         const {status, message} = data;
+    //         if (status) {
+    //             const credentials = localStorage.getItem('credentials')
+    //             const parsed_credentials = JSON.parse(credentials);
+    //             const updated_input = {...parsed_credentials, img_length: images.length + 1}
+    //             localStorage.setItem('credentials', JSON.stringify(updated_input))
+    //             window.location.reload(true)
+    //         } else {
+    //             console.log("Error upload", message)
+    //         }
+    //     })
+    // }
 
     return(
-        <Container>
             <Grid container>
                 <Grid item xs={12} sm={12} md={12} lg={12} sx={{textAlign: "center"}}>
-                    <div className="embla">
+                <div
+                    style={{
+                    height: 'auto',
+                    width: '100%',
+                }}>
+                    <img
+                        src={hazard_map_umi}
+                        alt="hazard-map-umi"
+                        style={{
+                            objectFit: 'contain',
+                            height: 1000,
+                            width: 1000,
+                        }}
+                    />
+                </div>
+                    {/* <div className="embla">
                         <div className="embla__viewport" ref={emblaMainRef}>
                             <div className="embla__container">
                                 { 
@@ -136,10 +151,10 @@ const HazardMapping = (props) => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                 </Grid>
-                <Grid container sx={{mt: 2, mb: 6, padding: '2%'}}>
-                    <Grid item xs={12} sm={12} md={12} lg={7}>
+                {/* <Grid container sx={{mt: 2, mb: 6, padding: '2%'}}> */}
+                    {/* <Grid item xs={12} sm={12} md={12} lg={7}>
                         <input
                             accept="image/*"
                             style={{ display: 'none' }}
@@ -171,10 +186,9 @@ const HazardMapping = (props) => {
                             </Button>
                         </a>
                         )} 
-                    </Grid>
-                </Grid>
+                    </Grid> */}
+                {/* </Grid> */}
             </Grid>
-        </Container>
     )
 }
 

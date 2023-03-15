@@ -58,19 +58,19 @@ const MarirongHeader = () => {
     }
   };
 
-  useEffect(() => {
-    const data = localStorage.getItem('credentials');
-    const parse_data = JSON.parse(data);
-    // const profile_picture = parse_data.profile.pic_path !== "" ? `${STORAGE_URL}/${parse_data.profile.pic_path}` : "";
-    // setImageUrl(profile_picture)
-  }, []);
+  // useEffect(() => {
+  //   const data = localStorage.getItem('credentials');
+  //   const parse_data = JSON.parse(data);
+  //   const profile_picture = parse_data.profile.pic_path !== "" ? `${STORAGE_URL}/${parse_data.profile.pic_path}` : "";
+  //   setImageUrl(profile_picture)
+  // }, []);
 
-  useEffect(() => {
-    if (profilePicture) {
-      const file = URL.createObjectURL(profilePicture);
-      setImageUrl(file);
-    }
-  }, [profilePicture]);
+  // useEffect(() => {
+  //   if (profilePicture) {
+  //     const file = URL.createObjectURL(profilePicture);
+  //     setImageUrl(file);
+  //   }
+  // }, [profilePicture]);
 
   const a11yProps = index => {
     return {
@@ -381,7 +381,7 @@ const MarirongHeader = () => {
                     <Tab
                       label={
                         <span style={{color: 'white', fontWeight: 'bold'}}>
-                          COMMUNITY RISK ASSESSMENT
+                          RISK ASSESSMENT
                         </span>
                       }
                       onClick={e => {
