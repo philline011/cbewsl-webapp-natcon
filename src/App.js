@@ -33,10 +33,10 @@ import './components/marirong/css/sandbox.css'
 import './components/marirong/css/embla.css'
 
 console.log(localStorage.getItem('credentials'))
-const OPTIONS = {}
-let SLIDE_COUNT = localStorage.getItem('credentials') != null ? JSON.parse(localStorage.getItem('credentials'))['img_length'] : 0
+// const OPTIONS = {}
+// let SLIDE_COUNT = localStorage.getItem('credentials') != null ? JSON.parse(localStorage.getItem('credentials'))['img_length'] : 0
 
-const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
+// const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
 
 const App = props => {
 
@@ -76,7 +76,6 @@ const App = props => {
             /> */}
           </Routes>
 
-          {(localStorage.getItem('credentials') != null) ? 
             <Routes>
               <Route exact path="/opcen" element={<OpCen2 />} /> 
               <Route exact path="/events" element={<Events />} />
@@ -85,13 +84,7 @@ const App = props => {
               <Route exact path="/assessment" element={<Assessment />} />
               <Route exact path="/cra" element={<CRA />} />
               <Route exact path="/ground_data" element={<GroundData />} />
-              <Route exact path="/hazard_mapping" element={
-                <main className='sandbox'>
-                  <section className='sandbox__carousel'>
-                    <HazardMapping slides={SLIDES} options={OPTIONS} />
-                  </section>
-                </main> 
-                } />
+              <Route exact path="/hazard_mapping" element={<HazardMapping/>} />
               <Route exact path="/cav" element={<CaV />} />
               <Route exact path="/rainfall" element={<Rainfall />} />
               <Route exact path="/subsurface" element={<Subsurface />} />
@@ -108,10 +101,6 @@ const App = props => {
               />
               <Route exact path="/moms" element={<Moms />} />
             </Routes>
-            : 
-            (window.location.pathname != "/" && window.location.pathname != "/signin" && window.location.pathname != "/feedback") &&
-              (window.location = "/")
-            }
             
         </Router>
       </SnackbarProvider>

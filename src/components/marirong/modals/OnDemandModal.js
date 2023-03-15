@@ -15,7 +15,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import React, { Fragment, useState, useEffect } from 'react';
 import moment from 'moment';
-import { sendMessage, insertOnDemandToDb, getEarthquakeEventsForLast24hrs, checkLatestSiteEventIfHasOnDemand } from '../../../apis/MoMs';
+// import { sendMessage, insertOnDemandToDb, getEarthquakeEventsForLast24hrs, checkLatestSiteEventIfHasOnDemand } from '../../../apis/MoMs';
 
 function OnDemandModal(props) {
     const { isOpen, setOpenModal, generateDashboardData } = props;
@@ -39,13 +39,13 @@ function OnDemandModal(props) {
             reporter_id: 1232,
             site_id: 29,
         }
-        console.log("input", input)
-        insertOnDemandToDb(input, response => {
-            const { status, message } = response;
-            if (status) {
-                generateDashboardData();
-            }
-        });
+        // console.log("input", input)
+        // insertOnDemandToDb(input, response => {
+        //     const { status, message } = response;
+        //     if (status) {
+        //         generateDashboardData();
+        //     }
+        // });
     }
 
     const handleChangeAlertLevel = event => {
@@ -62,21 +62,21 @@ function OnDemandModal(props) {
         setEarthquakeId("0");
     };
 
-    useEffect(() => {
-        const json_data = {
-            start_ts: moment().format("YYYY-MM-DD HH:mm:ss"),
-            end_ts: moment().subtract(1, "days")
-                .format("YYYY-MM-DD HH:mm:ss")
-        };
-        getEarthquakeEventsForLast24hrs(json_data, response => {
-            console.log(response);
-            const eq_alerts = response.find(e => e.eq_id === parseInt(earthquake_id) && e.eq_alerts.length > 0);
-            setEarthquakeEvents(response);
-        });
-        checkLatestSiteEventIfHasOnDemand(29, result => {
-            setHasOnDemand(result.has_on_demand);
-        });
-    }, []);
+    // useEffect(() => {
+    //     const json_data = {
+    //         start_ts: moment().format("YYYY-MM-DD HH:mm:ss"),
+    //         end_ts: moment().subtract(1, "days")
+    //             .format("YYYY-MM-DD HH:mm:ss")
+    //     };
+    //     getEarthquakeEventsForLast24hrs(json_data, response => {
+    //         console.log(response);
+    //         const eq_alerts = response.find(e => e.eq_id === parseInt(earthquake_id) && e.eq_alerts.length > 0);
+    //         setEarthquakeEvents(response);
+    //     });
+    //     checkLatestSiteEventIfHasOnDemand(29, result => {
+    //         setHasOnDemand(result.has_on_demand);
+    //     });
+    // }, []);
 
     useEffect(() => {
 
