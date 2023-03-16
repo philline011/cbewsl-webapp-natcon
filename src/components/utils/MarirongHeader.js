@@ -157,7 +157,7 @@ const MarirongHeader = () => {
   return (
     <Fragment>
       <Grid container style={{background: '#FFFFFF'}}>
-      <Grid item xs={4} sm={4} md={4} lg={9.7} sx={{marginTop: 2}}>
+      <Grid item xs={8} sm={8} md={8} lg={10} sx={{marginTop: 2}}>
           <div
             style={{
               textAlign: 'center',
