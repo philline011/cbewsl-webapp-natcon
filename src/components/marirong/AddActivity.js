@@ -168,7 +168,7 @@ const AddActivity = (props) => {
                                 onChange={e => setSelectedImage(e.target.files[0])}
                             />
                                 <Tooltip title="Add a photo">
-                                    <IconButton color="primary">
+                                    <IconButton style={{color:'#2E2D77'}}>
                                         <label htmlFor="select-image">
                                             <AddPhotoAlternateIcon fontSize='medium'/>
                                         </label> 
@@ -249,7 +249,8 @@ const AddActivity = (props) => {
                         <Button
                             variant="contained"
                             endIcon={<AddCircleOutlined />}
-                            onClick={handleSubmit}>
+                            onClick={handleSubmit}
+                            style={{backgroundColor: '#2E2D77'}}>
                             {action=="add" ? "Add Activity" : "Edit Activity"}
                         </Button>
                         </Stack>

@@ -275,15 +275,15 @@ function EarthquakeChart(props) {
                 <Grid item md={6} container>
                     <EarthquakeMap eqEvents={eqEvents} />
                 </Grid>
-                <Grid item md={6} container>
-                    <AppBar position="static">
+                <Grid item md={6} container >
+                    <AppBar position="static" style={{backgroundColor: '#2E2D77'}}>
                         <Tabs
                             value={tab_value}
                             onChange={change_tab_value}
                             variant="fullWidth"
                         >
-                            <Tab style={{ color: "white" }} label="EQ Events" />
-                            <Tab style={{ color: "white" }} label="EQ Alerts" />
+                            <Tab style={{ color: "white", backgroundColor: '#2E2D77' }} label="EQ Events" />
+                            <Tab style={{ color: "white", backgroundColor: '#2E2D77' }} label="EQ Alerts" />
                         </Tabs>
                         {
                             tab_value === 0 && (

@@ -826,6 +826,7 @@ const CaV = () => {
             onClick={e => {
               handleAddMember()
             }} 
+            style={{ backgroundColor: '#2E2D77'}}
           >
             Add Member
           </Button>
@@ -847,7 +848,8 @@ const CaV = () => {
           <Button variant="contained"
             onClick={e => {
               handleSubmit()
-            }} 
+            }}
+            style={{ backgroundColor: '#2E2D77'}}
           >
             {action=="add" ? "Add Household" : "Edit Household"}
           </Button>
