@@ -69,16 +69,16 @@ function Feedback() {
     });
   };
 
-  useEffect(() => {
-    const data = localStorage.getItem('credentials');
-    const parse_data = JSON.parse(data);
-    const first_name = parse_data.user.first_name;
-    const last_name = parse_data.user.last_name;
-    const designation = parse_data.profile.designation_details.designation;
-    setCurrentUser(first_name);
-    setCurrentUserLast(last_name);
-    setDesignation(designation);
-  }, []);
+  // useEffect(() => {
+  //   const data = localStorage.getItem('credentials');
+  //   const parse_data = JSON.parse(data);
+  //   const first_name = parse_data.user.first_name;
+  //   const last_name = parse_data.user.last_name;
+  //   const designation = parse_data.profile.designation_details.designation;
+  //   setCurrentUser(first_name);
+  //   setCurrentUserLast(last_name);
+  //   setDesignation(designation);
+  // }, []);
 
   useEffect(() => {
     if (selectedImage) {
