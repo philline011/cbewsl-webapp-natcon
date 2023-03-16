@@ -73,7 +73,7 @@ const Resources = () => {
                     </Typography>
                     <Button
                         variant="contained"
-                        sx={{ float: 'right', mx: 1 }}
+                        style={{ float: 'right', mx: 1, backgroundColor: '#2E2D77'}}
                         onClick={e => {
 
                         }}>
