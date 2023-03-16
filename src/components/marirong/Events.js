@@ -360,13 +360,13 @@ const Events = (props) => {
           <Box>
             <Card sx={{mb: 1}}>
               <CardContent sx={{alignItems: 'center', mt: 1}}>
-                  <Button variant="outlined" sx={{}} 
+                  <Button variant="contained" style={{backgroundColor: '#2E2D77'}} 
                     onClick={() => {
                       setOpenAddActivityModal(true)
                       setActivityAction("add")
                     }}
                   >
-                    <Typography style={{fontWeight: 'bold'}}>
+                    <Typography style={{color: 'white'}}>
                       Add Activity for {moment(slotInfo.start).format('LL')}
                     </Typography>
                   </Button>
