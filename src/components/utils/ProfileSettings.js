@@ -3,7 +3,7 @@ import {FormControl, IconButton, Avatar, Button,
         Container, Grid, Typography, Card, TextField,
         CardActions, CardContent, CardMedia, InputLabel, 
         MenuItem, Select, Tooltip} from '@mui/material'
-import MarDrone from '../../assets/mar_drone2.jpg';
+import UMIDrone from '../../assets/umi_drone.png';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {DesktopDatePicker} from '@mui/x-date-pickers/DesktopDatePicker';
@@ -51,32 +51,32 @@ const ProfileSettings = () => {
        }
      }, [profilePicture]);
 
-    useEffect(() => {
-        const data = localStorage.getItem('credentials');
-        const parse_data = JSON.parse(data);
-        const first_name = parse_data.user.first_name ? parse_data.user.first_name : parse_data.user.firstname;
-        const last_name = parse_data.user.last_name ? parse_data.user.last_name : parse_data.user.lastname;
-        const middle_name = parse_data.user.middle_name ? parse_data.user.middle_name : parse_data.user.middlename;
-        const suffix = parse_data.user.suffix;
-        const gender = parse_data.user.sex ? parse_data.user.sex : parse_data.user.gender;
-        const address = parse_data.profile.address ? parse_data.profile.address : parse_data.user.address;
-        const designation = parse_data.profile.designation_details.id;
-        const birthday = parse_data.user.birthday ? parse_data.user.birthday : parse_data.user.kaarawan;
-        const mobile_no = parse_data.mobile_no ? parse_data.mobile_no : parse_data.user.mobile_number;
-        const user_id = parse_data.profile.user_id;
-        const profile_picture = parse_data.profile.pic_path !== "" ? `${STORAGE_URL}/${parse_data.profile.pic_path}` : "";
-        setFirstName(first_name);
-        setLastName(last_name);
-        setMiddleName(middle_name);
-        setSuffix(suffix);
-        setGender(gender);
-        setAddress(address);
-        setDesignation(designation);
-        setBirthdate(birthday);
-        setMobileNum(mobile_no);
-        setUserID(user_id);
-        setImageUrl(profile_picture)
-      }, []);
+    // useEffect(() => {
+    //     const data = localStorage.getItem('credentials');
+    //     const parse_data = JSON.parse(data);
+    //     const first_name = parse_data.user.first_name ? parse_data.user.first_name : parse_data.user.firstname;
+    //     const last_name = parse_data.user.last_name ? parse_data.user.last_name : parse_data.user.lastname;
+    //     const middle_name = parse_data.user.middle_name ? parse_data.user.middle_name : parse_data.user.middlename;
+    //     const suffix = parse_data.user.suffix;
+    //     const gender = parse_data.user.sex ? parse_data.user.sex : parse_data.user.gender;
+    //     const address = parse_data.profile.address ? parse_data.profile.address : parse_data.user.address;
+    //     const designation = parse_data.profile.designation_details.id;
+    //     const birthday = parse_data.user.birthday ? parse_data.user.birthday : parse_data.user.kaarawan;
+    //     const mobile_no = parse_data.mobile_no ? parse_data.mobile_no : parse_data.user.mobile_number;
+    //     const user_id = parse_data.profile.user_id;
+    //     const profile_picture = parse_data.profile.pic_path !== "" ? `${STORAGE_URL}/${parse_data.profile.pic_path}` : "";
+    //     setFirstName(first_name);
+    //     setLastName(last_name);
+    //     setMiddleName(middle_name);
+    //     setSuffix(suffix);
+    //     setGender(gender);
+    //     setAddress(address);
+    //     setDesignation(designation);
+    //     setBirthdate(birthday);
+    //     setMobileNum(mobile_no);
+    //     setUserID(user_id);
+    //     setImageUrl(profile_picture)
+    //   }, []);
 
     const designation_list = [
         {id: 1, designation: 'LEWC'},
@@ -119,25 +119,25 @@ const ProfileSettings = () => {
             pic_path: profilePicture.name,
         }
         
-        updateProfile(form_data, data => {
-            const {status, message} = data;
-            if (status) {
-                const credentials = localStorage.getItem('credentials')
-                const parsed_credentials = JSON.parse(credentials);
-                const updated_input = {
-                    ...parsed_credentials
-                }
-                console.log(parsed_credentials)
-                updated_input.user = {...updated_input.user, ...input}
-                updated_input.profile = {...updated_input.profile, ...prof_input}
-                localStorage.setItem('credentials', JSON.stringify(updated_input))
-                window.location.reload(true)
-                console.log("Success!", message)
-            } else {
-                console.log("Failed!", message)
-            }
+        // updateProfile(form_data, data => {
+        //     const {status, message} = data;
+        //     if (status) {
+        //         const credentials = localStorage.getItem('credentials')
+        //         const parsed_credentials = JSON.parse(credentials);
+        //         const updated_input = {
+        //             ...parsed_credentials
+        //         }
+        //         console.log(parsed_credentials)
+        //         updated_input.user = {...updated_input.user, ...input}
+        //         updated_input.profile = {...updated_input.profile, ...prof_input}
+        //         localStorage.setItem('credentials', JSON.stringify(updated_input))
+        //         window.location.reload(true)
+        //         console.log("Success!", message)
+        //     } else {
+        //         console.log("Failed!", message)
+        //     }
 
-        })
+        // })
       }
 
     return (
@@ -148,7 +148,7 @@ const ProfileSettings = () => {
                             <CardMedia
                                 component="img"
                                 alt="lewc"
-                                image={MarDrone}
+                                image={UMIDrone}
                                 height="200"
                             />
                             <CardContent>
