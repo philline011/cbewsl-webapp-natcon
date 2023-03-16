@@ -268,7 +268,7 @@ const MarirongHeader = () => {
           </div>
         </Grid> */}
         <Grid item xs={4} sm={4} md={4} lg={2}>
-          <div style={{textAlign: 'end', padding: 5}}>
+          <div style={{textAlign: 'end', padding: 20}}>
             <Tooltip title="Notification">
               <IconButton onClick={() => {}} sx={{p: 2, mt: 4}}>
                 <NotificationsNoneIcon
@@ -346,11 +346,6 @@ const MarirongHeader = () => {
                 Logout
               </MenuItem>
             </Menu>
-            <Grid item md={12} style={{alignSelf: 'center'}}>
-              <Typography variant="body1" style={{color: 'black'}}>
-                {server_time.toUpperCase()}
-              </Typography>
-            </Grid>
           </div>
         </Grid>
         <Grid
@@ -422,6 +417,11 @@ const MarirongHeader = () => {
                   </Tabs>
                 </Toolbar>
               </Grid>
+              <Grid item md={2} style={{alignSelf: 'center'}}>
+              <Typography variant="body1" style={{color: 'white'}}>
+                {server_time.toUpperCase()}
+              </Typography>
+            </Grid>
             </Grid>
           </AppBar>
         </Grid>
