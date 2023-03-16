@@ -114,7 +114,7 @@ const ChangePassword = () => {
                             sx={{width: '50vh'}}/>
                     </Grid>
                     <Grid item xs={12}>
-                        <Button variant="contained" sx={{width: '20vh'}} onClick={handleSave}>Save</Button>
+                        <Button variant="contained" style={{width: '20vh', backgroundColor: '#2E2D77'}} onClick={handleSave}>Save</Button>
                     </Grid>
                 </Grid>
             </Container>

@@ -96,22 +96,46 @@ const HazardMapping = (props) => {
 
     return(
             <Grid container>
-                <Grid item xs={12} sm={12} md={12} lg={12} sx={{textAlign: "center"}}>
+                {/* <TransformWrapper> */}
+                <Grid item xs={12} sm={12} md={12} lg={12} sx={{textAlign: "center", marginTop: 1}}>
+                {/* <TransformComponent> */}
                 <div
                     style={{
                     height: 'auto',
                     width: '100%',
-                }}>
+                }}
+                >
+                                       
                     <img
                         src={hazard_map_umi}
                         alt="hazard-map-umi"
                         style={{
                             objectFit: 'contain',
-                            height: 1000,
+                            height: 'auto',
                             width: 1000,
                         }}
                     />
+                                     
                 </div>
+               
+                {/* </TransformComponent> */}
+                </Grid>
+                {/* </TransformWrapper> */}
+                <Grid item xs={12} sm={12} md={12} lg={12} sx={{textAlign: "center", marginTop: 1, marginBottom: 1}}>
+                
+                <a href={hazard_map_umi} 
+                                download
+                                >
+                            <Button
+                                variant="contained"
+                                style={{ backgroundColor: '#2E2D77'}}
+                                    >
+                                Download
+                            </Button>
+                </a>
+                
+
+
                     {/* <div className="embla">
                         <div className="embla__viewport" ref={emblaMainRef}>
                             <div className="embla__container">

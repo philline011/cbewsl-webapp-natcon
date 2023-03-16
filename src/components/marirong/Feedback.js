@@ -207,6 +207,7 @@ function Feedback() {
           </CardContent>
           <CardActions sx={{justifyContent: 'flex-end'}}>
             <Button
+              style={{ backgroundColor: '#2E2D77'}}
               size="small"
               variant="contained"
               onClick={() => handleSend()}

@@ -425,7 +425,7 @@ const CaV = () => {
           <Grid item xs={12} sm={12} md={12} lg={7}>
               <Button
                   variant="contained"
-                  sx={{float: 'right', mx: 1, backgroundColor: '#2E2D77'}}
+                  style={{float: 'right', mx: 1, backgroundColor: '#2E2D77'}}
                   onClick={e => {
 
                       setAction("add")
