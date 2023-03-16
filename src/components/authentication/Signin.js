@@ -17,6 +17,7 @@ import PromptModal from '../marirong/modals/PromptModal';
 import {signIn, forgotPassword, verifyOTP} from '../../apis/UserManagement'
 import { getNumberOfFiles } from '../../apis/Misc';
 import umi_login_banner from '../../assets/umi_login_banner.png'
+import test from '../../assets/signin_img.png'
 
 const imageDivider = makeStyles(theme => ({
   animated_divider: {
@@ -301,68 +302,28 @@ const Signin = () => {
         notifMessage={notifMessage}
         title={promptTitle}
       />
-
-      <Grid container>
-        <Grid
-          className={imageDiv.animated_divider}
-          item
-          xs={0}
-          sm={0}
-          md={7}>
-          <div>
-            <img
-              src={tile_1}
-              style={{
-                position: 'fixed',
-                width: '58.3%',
-                height: '100%',
-              }}
-            />
-            <img
-              src={tile_2}
-              style={{
-                position: 'fixed',
-                width: '58.3%',
-                height: '100%',
-              }}
-            />
-            <img
-              src={tile_3}
-              style={{
-                position: 'fixed',
-                width: '58.3%',
-                height: '100%',
-              }}
-            />
-            <img
-              src={tile_4}
-              style={{
-                position: 'fixed',
-                width: '58.3%',
-                height: '100%',
-              }}
-            />
-          </div>
-        </Grid>
-
+      <Grid style={{backgroundImage: `url(${test})`, backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              height: '100%',}}>
+      <Grid container justifyContent='center' marginTop= '5%'>
         <Grid
           item
           xs={12}
           sm={12}
-          md={5}
+          md={7}
           elevation={6}
-          alignContents="center">
+          alignContents="center" >
 
           <SignInLogo />
 
-          <Typography component="h2" variant="h3" style={{textAlign: 'center'}}>
-            Community Based Early Warning 
+          <Typography component="h2" variant="h2" style={{textAlign: 'center'}}>
+            Community Based Early Warning Systems
           </Typography>
           <Typography
             component="h2"
-            variant="h3"
+            variant="h2"
             style={{paddingBottom: '5%', textAlign: 'center'}}>
-             Systems for Landslides
+             for Landslides
           </Typography>
           <Grid container spacing={4} textAlign="center">
             <Grid item xs={12} sm={12} md={12}>
@@ -427,7 +388,7 @@ const Signin = () => {
                 Sign in
               </Button>
             </Grid>
-            <Grid item xs={12} sm={12} md={12}>
+            <Grid item xs={12} sm={12} md={12} style={{marginBottom: 10}}>
               <Grid>
                 <Link
                   component="button" 
@@ -447,7 +408,7 @@ const Signin = () => {
                 </Link>
               </Grid>
             </Grid>
-            <Grid item xs={12} sm={12} md={12}>
+            {/* <Grid item xs={12} sm={12} md={12}>
               <div style={{
                   textAlign: 'center',
                   height: 'auto',
@@ -463,10 +424,12 @@ const Signin = () => {
                   }}
                 />
               </div>
-            </Grid>
+            </Grid> */}
           </Grid>
         </Grid>
       </Grid>
+      </Grid>
+     
     </Fragment>
   );
 };
