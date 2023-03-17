@@ -19,6 +19,7 @@ import { getNumberOfFiles } from '../../apis/Misc';
 import umi_login_banner from '../../assets/umi_login_banner.png'
 import test from '../../assets/signin_img.png'
 
+
 const imageDivider = makeStyles(theme => ({
   animated_divider: {
     display: 'none',
@@ -316,14 +317,14 @@ const Signin = () => {
 
           <SignInLogo />
 
-          <Typography component="h2" variant="h2" style={{textAlign: 'center'}}>
+          <Typography component="h2" variant="h2" style={{textAlign: 'center', color: '#2E2D77'}}>
             Community Based Early Warning Systems
           </Typography>
           <Typography
             component="h2"
             variant="h2"
-            style={{paddingBottom: '5%', textAlign: 'center'}}>
-             for Landslides
+            style={{paddingBottom: '5%', textAlign: 'center', color: '#2E2D77'}}>
+             for Deep-seated Landslides
           </Typography>
           <Grid container spacing={4} textAlign="center">
             <Grid item xs={12} sm={12} md={12}>
@@ -339,8 +340,9 @@ const Signin = () => {
                     Username
                   </Typography>
                 }
-                variant="standard"
-                style={{width: '80%'}}
+                variant="outlined"
+                sx={{fieldset: {borderColor: '#2E2D77'}}}
+                style={{width: '50%'}}
                 onChange={e => {
                   setUsername(e.target.value)
                 }}
@@ -365,8 +367,9 @@ const Signin = () => {
                     Password
                   </Typography>
                 }
-                variant="standard"
-                style={{width: '80%'}}
+                variant="outlined"
+                sx={{fieldset: {borderColor: '#2E2D77'}}}
+                style={{width: '50%'}}
                 onChange={e => {
                   setPassword(e.target.value)
                 }}
@@ -382,6 +385,7 @@ const Signin = () => {
             <Grid item xs={12} sm={12} md={12}>
               <Button
                 variant="contained"
+                style={{backgroundColor: '#2E2D77'}}
                 onClick={() => {
                   window.location = '/opcen'
                 }}>
@@ -392,7 +396,7 @@ const Signin = () => {
               <Grid>
                 <Link
                   component="button" 
-                  style={{fontStyle: 'italic', fontSize: 16}}
+                  style={{fontStyle: 'italic', fontSize: 16, color: '#2E2D77'}}
                   onClick={e => {setOpenModal(true)}}
                 >
                   Forgot Password?
@@ -401,7 +405,7 @@ const Signin = () => {
               <Grid>
                 <Link
                   component="button" 
-                  style={{fontStyle: 'italic', fontSize: 16}}
+                  style={{fontStyle: 'italic', fontSize: 16, color: '#2E2D77'}}
                   onClick={e => {setCreateAccountModal(true)}}
                 >
                   No account yet? Register here!
