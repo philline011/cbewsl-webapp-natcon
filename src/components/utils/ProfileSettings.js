@@ -83,6 +83,7 @@ const ProfileSettings = () => {
         {id: 2, designation: 'BLGU'},
         {id: 3, designation: 'MLGU'},
         {id: 4, designation: 'PLGU'},
+        {id: 5, designation: 'Dynaslope'},
       ];
 
     const handleUpdate = () => {
@@ -239,10 +240,11 @@ const ProfileSettings = () => {
                                                 labelId="demo-simple-select-label"
                                                 value={designation}
                                                 onChange={handleDesignation}>
-                                                    <MenuItem value={'1'}>LEWC</MenuItem>
-                                                    <MenuItem value={'2'}>BLGU</MenuItem>
+                                                    {/* <MenuItem value={'1'}>LEWC</MenuItem> */}
+                                                    {/* <MenuItem value={'2'}>BLGU</MenuItem> */}
                                                     <MenuItem value={'3'}>MLGU</MenuItem>
                                                     <MenuItem value={'4'}>PLGU</MenuItem>
+                                                    <MenuItem value={'5'}>Dynaslope</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </Grid>
