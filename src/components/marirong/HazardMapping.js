@@ -1,217 +1,150 @@
 import React, {useState, useCallback, useEffect} from 'react';
-import {Grid, Container, Button} from '@mui/material';
+import {Grid, Container, Button, Typography} from '@mui/material';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import ImageListItemBar from '@mui/material/ImageListItemBar';
+import ListSubheader from '@mui/material/ListSubheader';
+import IconButton from '@mui/material/IconButton';
+import InfoIcon from '@mui/icons-material/Info';
 import useEmblaCarousel from 'embla-carousel-react'
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { getFilesFromFolder, uploadHazardMaps } from '../../apis/Misc';
 import { STORAGE_URL } from '../../config';
 import hazard_map_umi from '../../assets/hazard_map_umi.jpg'
-
+const itemData = [
+    {
+      img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
+      title: 'Hazard Map 10',
+      author: 'January 1, 2023',
+      rows: 2,
+      cols: 2,
+      featured: true,
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
+        title: 'Hazard Map 10',
+        author: 'January 1, 2023',
+        rows: 2,
+        cols: 2,
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
+        title: 'Hazard Map 10',
+        author: 'January 1, 2023',
+        rows: 2,
+        cols: 2,
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
+        title: 'Hazard Map 10',
+        author: 'January 1, 2023',
+        rows: 2,
+        cols: 2,
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
+        title: 'Hazard Map 10',
+        author: 'January 1, 2023',
+        rows: 2,
+        cols: 2,
+    },
+    {
+      img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
+      title: 'Hazard Map 10',
+      author: 'January 1, 2023',
+      rows: 2,
+      cols: 2,
+    },
+    {
+      img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
+      title: 'Basketball',
+      author: '@tjdragotta',
+    },
+    {
+      img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
+      title: 'Fern',
+      author: '@katie_wasserman',
+    },
+    {
+      img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
+      title: 'Mushrooms',
+      author: '@silverdalex',
+      rows: 2,
+      cols: 2,
+    },
+    {
+      img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
+      title: 'Tomato basil',
+      author: '@shelleypauls',
+    },
+    {
+      img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
+      title: 'Sea star',
+      author: '@peterlaster',
+    },
+    {
+      img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
+      title: 'Bike',
+      author: '@southside_customs',
+      cols: 2,
+    },
+  ];
 
 const HazardMapping = (props) => {
 
-    // const directory = `${STORAGE_URL}/assets`
-    // const [images, setImages] = useState([]);
-    // const handleOpenFolder = () => {
-    //     getFilesFromFolder("assets", (response)=> {
-    //         setImages(response)
-    //     });
-    // }
-
-    // useEffect(() => {
-    //    handleOpenFolder()
-    //   }, [])
-
-
-    // const {slides, options} = props
-    // const [selectedIndex, setSelectedIndex] = useState(0)
-    // const [emblaMainRef, emblaMainApi] = useEmblaCarousel(options)
-    // const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel({
-    //     containScroll: 'keepSnaps',
-    //     dragFree: false,
-    // })
-    
-    // const Thumb = (props) => {
-    //         const { selected, imgSrc, index, onClick, } = props
-    //         return (
-    //         <div
-    //             className={"embla-thumbs__slide".concat(
-    //             selected ? "embla-thumbs__slide--selected" : "",
-    //             )}
-    //         >
-    //             <button
-    //             onClick={onClick}
-    //             className="embla-thumbs__slide__button"
-    //             type="button"
-    //             >
-    //             <img
-    //                 className="embla-thumbs__slide__img"
-    //                 src={imgSrc}
-    //                 alt="Your alt text"
-    //             />
-    //             </button>
-                
-    //         </div>
-    //         )
-    //     }
-
-    // const onThumbClick = useCallback(
-    //     (index) => {
-    //       if (!emblaMainApi || !emblaThumbsApi) return
-    //       if (emblaThumbsApi.clickAllowed()) emblaMainApi.scrollTo(index)
-    //     },
-    //     [emblaMainApi, emblaThumbsApi],
-    //   )
-
-    // const onSelect = useCallback(() => {
-    //     if (!emblaMainApi || !emblaThumbsApi) return
-    //     setSelectedIndex(emblaMainApi.selectedScrollSnap())
-    //     emblaThumbsApi.scrollTo(emblaMainApi.selectedScrollSnap())
-    //   }, [emblaMainApi, emblaThumbsApi, setSelectedIndex])
-
-    // useEffect(() => {
-    //     if (!emblaMainApi) return
-    //     onSelect()
-    //     emblaMainApi.on('select', onSelect)
-    //     emblaMainApi.on('reInit', onSelect)
-    //   }, [emblaMainApi, onSelect])
-
-      
-    // const handleUpload = (uploadImage) => {
-    //     const formData = new FormData();
-    //     formData.append('file', uploadImage);
-
-    //     uploadHazardMaps(formData, data => {
-    //         const {status, message} = data;
-    //         if (status) {
-    //             const credentials = localStorage.getItem('credentials')
-    //             const parsed_credentials = JSON.parse(credentials);
-    //             const updated_input = {...parsed_credentials, img_length: images.length + 1}
-    //             localStorage.setItem('credentials', JSON.stringify(updated_input))
-    //             window.location.reload(true)
-    //         } else {
-    //             console.log("Error upload", message)
-    //         }
-    //     })
-    // }
 
     return(
-            <Grid container>
-                {/* <TransformWrapper> */}
-                <Grid item xs={12} sm={12} md={12} lg={12} sx={{textAlign: "center", marginTop: 1}}>
-                {/* <TransformComponent> */}
-                <div
-                    style={{
-                    height: 'auto',
-                    width: '100%',
-                }}
-                >
-                                       
-                    <img
-                        src={hazard_map_umi}
-                        alt="hazard-map-umi"
-                        style={{
-                            objectFit: 'contain',
-                            height: 'auto',
-                            width: 1000,
-                        }}
-                    />
-                                     
-                </div>
-               
-                {/* </TransformComponent> */}
-                </Grid>
-                {/* </TransformWrapper> */}
-                <Grid item xs={12} sm={12} md={12} lg={12} sx={{textAlign: "center", marginTop: 1, marginBottom: 1}}>
-                
-                <a href={hazard_map_umi} 
-                                download
+            <Grid container style={{padding: "20px"}}>
+                <Grid item xs={4} md={4}>
+                    <Typography style={{marginTop: "34px"}}>Uploaded hazard maps</Typography>
+                    <ImageList sx={{ height: 650 }}>
+                        {itemData.map((item) => (
+                            <ImageListItem key={item.img}>
+                            <img
+                                src={hazard_map_umi}
+                                alt="hazard-map-umi"
+                                loading="lazy"
+                            />
+                            <ImageListItemBar
+                                title={item.title}
+                                subtitle={item.author}
+                                actionIcon={
+                                <IconButton
+                                    sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                                    aria-label={`info about ${item.title}`}
                                 >
+                                    <InfoIcon />
+                                </IconButton>
+                                }
+                            />
+                            </ImageListItem>
+                        ))}
+                    </ImageList>
+                    <div style={{textAlign: "center"}}>
+                        <a href={hazard_map_umi} style={{textDecoration: "none"}} download>
                             <Button
                                 variant="contained"
                                 style={{ backgroundColor: '#2E2D77'}}
                                     >
                                 Download
                             </Button>
-                </a>
-                
-
-
-                    {/* <div className="embla">
-                        <div className="embla__viewport" ref={emblaMainRef}>
-                            <div className="embla__container">
-                                { 
-                                    slides.map((index) => (
-                                        <div className="embla__slide" key={index}>
-                                            <TransformWrapper>
-                                                <TransformComponent>
-                                                    {images.length > 0 && (
-                                                        <img
-                                                        className="embla__slide__img"
-                                                        src={`${directory}/${images[index].filename}${images[index].extension}`}
-                                                        alt="Your alt text"
-                                                        />
-                                                    )}
-                                                </TransformComponent>
-                                            </TransformWrapper>    
-                                        </div>
-                                    ))
-                                }
-                            </div>
-                        </div>
-                            <div className="embla-thumbs">
-                                <div className="embla-thumbs__viewport" ref={emblaThumbsRef}>
-                                    <div className="embla-thumbs__container">
-                                        {images.map((value, index) => (
-                                            <Thumb
-                                                onClick={() => 
-                                                    onThumbClick(index)
-                                                    }
-                                                selected={index === selectedIndex}
-                                                index={index}
-                                                imgSrc={`${directory}/${value.filename}${value.extension}`}
-                                                key={index}
-                                            />
-                                            ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </div> */}
-                </Grid>
-                {/* <Grid container sx={{mt: 2, mb: 6, padding: '2%'}}> */}
-                    {/* <Grid item xs={12} sm={12} md={12} lg={7}>
-                        <input
-                            accept="image/*"
-                            style={{ display: 'none' }}
-                            id="raised-button-file"
-                            type="file"
-                            onChange={e => {
-                                handleUpload(e.target.files[0])
-                            }}
-                        />
-                        <label htmlFor="raised-button-file">
-                            <Button variant="contained" 
-                                    component="span" 
-                                    sx={{float: 'right', mx: 1,
-                                     backgroundColor: '#2E2D77'}}
-                                    >
-                                Upload
-                            </Button>
-                        </label>
-                        {images.length > 0 && (
-                            <a href={`${STORAGE_URL}/${images[selectedIndex].filename}${images[selectedIndex].extension}`} 
-                                target="_blank" 
-                                rel="noreferrer"
-                                >
-                            <Button
-                                variant="contained"
-                                sx={{float: 'right', mx: 1}}
-                                >
-                                Download
-                            </Button>
                         </a>
-                        )} 
-                    </Grid> */}
-                {/* </Grid> */}
+                    </div>
+
+                </Grid>
+                <Grid item xs={8} md={8}>
+                    <img
+                        src={hazard_map_umi}
+                        alt="hazard-map-umi"
+                        style={{
+                            objectFit: 'contain',
+                            height: 'auto',
+                            width: '100%',
+                        }}
+                    />
+                </Grid>
+                
+                
             </Grid>
     )
 }

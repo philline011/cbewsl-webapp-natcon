@@ -67,12 +67,6 @@ const eq_al_tbl_columns = [
             viewColumns: false,
             filter: false
         }
-    },
-    {
-        name: "Sites",
-        options: {
-            filter: false
-        }
     }
 ];
 
