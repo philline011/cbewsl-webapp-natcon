@@ -123,8 +123,10 @@ const HazardMapping = (props) => {
                 {/* </TransformWrapper> */}
                 <Grid item xs={12} sm={12} md={12} lg={12} sx={{textAlign: "center", marginTop: 1, marginBottom: 1}}>
                 
-                <a href={hazard_map_umi} 
+                <a style={{textDecoration: 'none'}} href={hazard_map_umi} 
                                 download
+                                target="_blank" 
+                                rel="noreferrer"
                                 >
                             <Button
                                 variant="contained"

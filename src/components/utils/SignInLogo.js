@@ -5,8 +5,8 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import phivolcs_seal from "../../assets/phivolcs_seal.png";
 import dynaslope_seal from "../../assets/dynaslope_seal.png";
 import ilolo_province_seal from "../../assets/iloilo_province_seal.png";
-import umi_mlgu from '../../assets/umi_mlgu.png';
-import umi_mddrmo from '../../assets/umi_mddrrmo.png'
+import umi_mlgu from '../../assets/umi_mlgu2.png';
+import umi_mddrmo from '../../assets/umi_mddrrmo2.png'
 import leon_municipal_seal from "../../assets/leon_municipal_seal.png";
 import leon_mdrrmc_responder from "../../assets/leon_mdrrmc_responder.png";
 import mar_lewc_seal from "../../assets/mar_lewc_seal.png";
