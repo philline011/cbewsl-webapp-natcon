@@ -47,21 +47,6 @@ const Analysis = () => {
             </Typography>
           </Box>
         </Grid>
-        <Grid item xs={12} sm={12} md={12} lg={12}>
-          <Card>
-            <Box>
-              <Typography variant='h5' sx={{ marginBottom: 2, marginLeft: 2 }}>
-                <b>Rainfall Status</b>
-              </Typography>
-              <Typography variant='h6' sx={{marginLeft: 4}}>
-                1-day threshold:
-              </Typography>
-              <Typography variant='h6' sx={{marginLeft: 4}}>
-                3-day threshold:
-              </Typography>
-            </Box>
-          </Card>
-        </Grid>
         <RainfallGraph />
         <LandslideFeaturesTable />
           <Typography variant='h4' sx={{ marginBottom: 4, marginTop: 5 }}>

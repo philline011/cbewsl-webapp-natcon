@@ -34,6 +34,7 @@ const Moms = (props) => {
   const [selectedFeatureName, setSelectedFeatureName] = useState("");
   const [selectedAlertLevel, setSelectedAlertLevel] = useState(0);
   const [featureDetails, setFeatureDetails] = useState("")
+  const [narrative, setNarrative] = useState("")
   const [featureLocation, setFeatureLocation] = useState("");
   const [reporter, setReporter] = useState("");
   const [featureName, setFeatureName] = useState({
@@ -176,6 +177,8 @@ const Moms = (props) => {
       });
     })
 
+    setFeatureDetails(selectedFeatureIndex != null ? (feature_list.find((o) => o.feature_id == selectedFeatureIndex)).details : "")
+
   }, [selectedFeatureIndex]);
 
   useEffect(() => {
@@ -217,7 +220,7 @@ const Moms = (props) => {
           feature_type: (feature_list.find((o) => o.feature_id == selectedFeatureIndex)).feature,
           report_narrative: featureDetails,
           observance_ts: moment(datetimestamp).format("YYYY-MM-DD HH:mm:ss"),
-          remarks: featureDetails,
+          remarks: narrative,
           reporter_id: 1,
           validator_id: 1,
           location: featureLocation,
@@ -237,7 +240,7 @@ const Moms = (props) => {
 
   return (
     <Container>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClose} fullWidth>
         <DialogTitle>
           Enter new manifestation of movement
         </DialogTitle>
@@ -343,6 +346,22 @@ const Moms = (props) => {
               onChange={e => {
                 setFeatureDetails(e.target.value)
               }}
+              multiline
+              minRows={5}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              id="outlined-required"
+              label="Narrative"
+              variant="outlined"
+              style={{ width: '100%', paddingBottom: 10 }}
+              value={narrative}
+              onChange={e => {
+                setNarrative(e.target.value)
+              }}
+              multiline
+              minRows={5}
             />
           </Grid>
           <Grid item xs={12}>

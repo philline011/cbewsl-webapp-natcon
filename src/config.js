@@ -1,2 +1,2 @@
-export const API_URL = "http://192.168.150.169:5000"
-export const STORAGE_URL = "http://192.168.150.169:7000"
+export const API_URL = "https://dynaslope.phivolcs.dost.gov.ph:5000"
+export const STORAGE_URL = "https://dynaslope.phivolcs.dost.gov.ph:7000"
