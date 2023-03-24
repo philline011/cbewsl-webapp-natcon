@@ -317,14 +317,14 @@ const Signin = () => {
 
           <SignInLogo />
 
-          <Typography component="h2" variant="h2" style={{textAlign: 'center', color: '#2E2D77'}}>
-            Community Based Early Warning Systems
+          <Typography component="h2" variant="h2" style={{textAlign: 'center', color: '#2E2D77', fontFamily: 'Times New Roman'}}>
+            Alimodian Community-based Early Warning
           </Typography>
           <Typography
             component="h2"
             variant="h2"
-            style={{paddingBottom: '5%', textAlign: 'center', color: '#2E2D77'}}>
-             for Deep-seated Landslides
+            style={{paddingBottom: '5%', textAlign: 'center', color: '#2E2D77', fontFamily: 'Times New Roman'}}>
+            Deep-seated Systems for Landslides
           </Typography>
           <Grid container spacing={4} textAlign="center">
             <Grid item xs={12} sm={12} md={12}>

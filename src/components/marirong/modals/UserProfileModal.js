@@ -60,7 +60,7 @@ function UserProfileModal(props){
   const [filledRequired, setFilledRequired] = useState()
 
   const checkRequired = () => {
-    if(firstName != "" && lastName != "" && gender != "" && birthday != "" && designation != "" && mobileNo != "" && username != ""){
+    if(firstName != "" && lastName != "" && gender != "" && birthday != "" && mobileNo != "" && username != ""){
       console.log("qwe")
       // setFilledRequired(true)
       return true
@@ -302,12 +302,12 @@ function UserProfileModal(props){
                 setDesignation(e.target.value)
               }}
             >
-              <MenuItem value={1}>LEWC</MenuItem>
-              <MenuItem value={2}>BLGU</MenuItem>
+              {/* <MenuItem value={1}>LEWC</MenuItem>
+              <MenuItem value={2}>BLGU</MenuItem> */}
               <MenuItem value={3}>MLGU</MenuItem>
               <MenuItem value={4}>PLGU</MenuItem>
               <MenuItem value={5}>Dynaslope</MenuItem>
-              <MenuItem value={6}>Community</MenuItem>
+              {/* <MenuItem value={6}>Community</MenuItem> */}
             </Select>
           </FormControl>
 

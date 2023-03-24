@@ -17,7 +17,7 @@ import ilolo_province_seal from '../../assets/iloilo_province_seal.png';
 import leon_municipal_seal from '../../assets/leon_municipal_seal.png';
 import leon_mdrrmc_responder from '../../assets/leon_mdrrmc_responder.png';
 import mar_lewc_seal from '../../assets/mar_lewc_seal.png';
-import umi_header from '../../assets/umi_banner_1.png';
+import umi_header from '../../assets/umi_banner_8.png';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import Menu from '@mui/material/Menu';
@@ -167,7 +167,7 @@ const MarirongHeader = () => {
             }}>
             <img
               src={umi_header}
-              alt="umi_banner_1"
+              alt="umi_banner_8"
               style={{
                 objectFit: 'contain',
                 height: 'auto',
