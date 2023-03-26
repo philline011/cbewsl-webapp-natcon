@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import {
     Grid,
     Typography,
@@ -28,17 +28,28 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
 import { getFilesFromFolder } from '../../apis/Misc';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const Resources = () => {
 
     const FOLDER_LIST = ['advisories', 'communications', 'iec materials', 'plans', 'reports', 'resource capabilities', 'risk assessments', 'other'];
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [directory, setDirectory] = React.useState([]);
-    const [isList, setList] = React.useState(false);
-    const [files, setFiles] = React.useState([]);
+    const [directory, setDirectory] = useState([]);
+    const [isList, setList] = useState(false);
+    const [files, setFiles] = useState([]);
+    const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
 
     const handleOpenFolder = (folder) => {
         getFilesFromFolder(folder, (response)=> {
@@ -49,6 +60,10 @@ const Resources = () => {
     const handleDownload = (folder, filename) => {
         console.log(folder);
         console.log(filename);
+    }
+
+    const handleDelete = () => {
+        setOpenConfirmDelete(!openConfirmDelete)
     }
 
     return (
@@ -227,6 +242,7 @@ const Resources = () => {
                                             </CardContent>
                                             <CardActions>
                                                 <Button size="small" onClick={()=> { handleDownload(data.folder, `${data.filename}${data.extension}`) }}>Download</Button>
+                                                <Button size="small" color="secondary" onClick={handleDelete}>Delete</Button>
                                             </CardActions>
                                         </Card>
                                     </Grid>
@@ -262,6 +278,24 @@ const Resources = () => {
                         }
                     </Grid>
             }
+            <Dialog
+                open={openConfirmDelete}
+                TransitionComponent={Transition}
+                keepMounted
+                onClose={() => setOpenConfirmDelete(false)}
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogTitle>{"Confirmation"}</DialogTitle>
+                <DialogContent>
+                <DialogContentText id="alert-dialog-slide-description">
+                    Are you sure do you want to delete this file ?
+                </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                <Button color="secondary" onClick={handleDelete}>No</Button>
+                <Button color="primary" onClick={handleDelete}>Yes</Button>
+                </DialogActions>
+            </Dialog>
         </Grid>
     );
 };

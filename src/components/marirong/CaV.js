@@ -517,6 +517,81 @@ const CaV = () => {
                 </CardActions>
               </Card>
             </Grid>
+            <Grid item xs={4}>
+              <Card sx={{minWidth: '100%'}}>
+                <CardContent>
+                  <Typography
+                    sx={{fontSize: 14}}
+                    color="text.secondary"
+                    gutterBottom>
+                    Senior Citizens
+                  </Typography>
+                  <Typography variant="h5" component="div"></Typography>
+                  <Typography variant="body2">
+                    No. of Senior Citizen: 0
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                <Button size="small" 
+                    onClick={()=>{
+                      setListDisplay("disabled")
+                      handleOpen()
+                    }}>
+                    View details
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+            <Grid item xs={4}>
+              <Card sx={{minWidth: '100%'}}>
+                <CardContent>
+                  <Typography
+                    sx={{fontSize: 14}}
+                    color="text.secondary"
+                    gutterBottom>
+                    Childrens
+                  </Typography>
+                  <Typography variant="h5" component="div"></Typography>
+                  <Typography variant="body2">
+                    No. of Children (Ages 6 to 12): 0
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                <Button size="small" 
+                    onClick={()=>{
+                      setListDisplay("disabled")
+                      handleOpen()
+                    }}>
+                    View details
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+            <Grid item xs={4}>
+              <Card sx={{minWidth: '100%'}}>
+                <CardContent>
+                  <Typography
+                    sx={{fontSize: 14}}
+                    color="text.secondary"
+                    gutterBottom>
+                    Childrens
+                  </Typography>
+                  <Typography variant="h5" component="div"></Typography>
+                  <Typography variant="body2">
+                    No. of Children (Ages 0 to 5): 2
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                <Button size="small" 
+                    onClick={()=>{
+                      setListDisplay("disabled")
+                      handleOpen()
+                    }}>
+                    View details
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

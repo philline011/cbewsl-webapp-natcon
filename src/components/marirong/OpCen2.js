@@ -25,6 +25,10 @@ import AlertReleaseFormModal from './modals/AlertReleaseModal';
 import DisseminateModal from './modals/DisseminateModal';
 import NotificationSoundFolder from '../../audio/notif_sound.mp3';
 import { useNavigate } from 'react-router-dom';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
+import PropTypes from 'prop-types';
 
 // import {
 //   getCandidateAlert,
@@ -37,6 +41,38 @@ import { useNavigate } from 'react-router-dom';
 import { Cancel, Check, CheckCircle, Info, Landscape } from '@material-ui/icons';
 import UpdateMomsModal from './modals/UpdateMomsModal';
 import OnDemandModal from './modals/OnDemandModal';
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
 
 const alert_level_colors = [
   { alert_level: 0, color: '#c5e0b4' },
@@ -164,6 +200,11 @@ function HeaderAlertInformation(props) {
     community_reponse: '',
   });
   const [validity, setValidity] = useState(null);
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
 
   useEffect(() => {
     console.log('ON GOING', onGoingData);
@@ -248,9 +289,28 @@ function HeaderAlertInformation(props) {
               }
 
             </Typography>
-            <h3>Response (MDRRMO): {reponses.municipyo_response ? reponses.municipyo_response : `N/A`}</h3>
-            <h3>Response (LEWC at Barangay): {reponses.barangay_response ? reponses.barangay_response : `N/A`}</h3>
-            <h3>Response (Komunidad): {reponses.commmunity_response ? reponses.commmunity_response : `N/A`}</h3>
+            <Box sx={{ width: '100%', marginTop: "20px" }}>
+              <Box>
+                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered>
+                  <Tab label="Response (MDRRMO)" {...a11yProps(0)}  style={{textTransform: "none"}}/>
+                  <Tab label="Response (BDC)" {...a11yProps(1)}  style={{textTransform: "none"}}/>
+                  <Tab label="Response (LEWC)" {...a11yProps(2)}  style={{textTransform: "none"}}/>
+                  <Tab label="Response (Komunidad)" {...a11yProps(3)}  style={{textTransform: "none"}}/>
+                </Tabs>
+              </Box>
+              <TabPanel value={value} index={0}>
+                {reponses.municipyo_response ? reponses.municipyo_response : `N/A`}
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                {reponses.barangay_response ? reponses.barangay_response : `N/A`}
+              </TabPanel>
+              <TabPanel value={value} index={2}>
+                {reponses.barangay_response ? reponses.barangay_response : `N/A`}
+              </TabPanel>
+              <TabPanel value={value} index={3}>
+                {reponses.commmunity_response ? reponses.commmunity_response : `N/A`}
+              </TabPanel>
+            </Box>
             <Divider variant="middle" style={{ paddingBottom: 10 }} />
           </Grid>
         </Grid>

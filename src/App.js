@@ -91,7 +91,6 @@ const App = props => {
               <Route exact path="/surficial" element={<Surficial />} />
               <Route exact path="/earthquake" element={<Earthquake />} />
               <Route exact path="/resources" element={<Resources />} />
-              <Route exact path="/resources" element={<Resources />} />
               <Route exact path="/change-password" element={<ChangePassword />} />
               <Route exact path="/profile-settings" element={<ProfileSettings />} />
               <Route
